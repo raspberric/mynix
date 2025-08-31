@@ -1,1 +1,1 @@
-print("hello nixCats7")
+vim.opt.relativenumber = true

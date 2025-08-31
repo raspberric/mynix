@@ -14,6 +14,7 @@
       packages.${system}.default = pkgs.symlinkJoin {
         name = "mySystem";
         paths = with pkgs; [
+	  tldr
 	  tmux
 	  lazygit
 	  mvim.packages.${system}.default
