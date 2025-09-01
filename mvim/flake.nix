@@ -33,6 +33,8 @@
       # Will be available to PATH within neovim terminal
       lspsAndRuntimeDeps = {
         general = with pkgs; [
+		curl
+		gnutar
         ];
       };
 
@@ -41,7 +43,10 @@
         gitPlugins = with pkgs.vimPlugins; [
 		gitsigns-nvim
 	];
-        general = with pkgs.vimPlugins; [ ];
+        general = with pkgs.vimPlugins; [
+		nvim-treesitter
+		mini-nvim	
+	];
       };
 
       # use with packadd and an autocommand in config to achieve lazy loading
