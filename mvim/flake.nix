@@ -33,6 +33,7 @@
       # Will be available to PATH within neovim terminal
       lspsAndRuntimeDeps = {
         general = with pkgs; [
+		# mini deps
 		curl
 		gnutar
         ];
@@ -46,6 +47,8 @@
         general = with pkgs.vimPlugins; [
 		nvim-treesitter
 		mini-nvim	
+		which-key-nvim
+		snacks-nvim
 	];
       };
 
