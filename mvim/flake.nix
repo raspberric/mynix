@@ -36,7 +36,13 @@
 		# mini deps
 		curl
 		gnutar
+		typescript-language-server
         ];
+	# lua = [
+	# 	lua-language-server
+	# ];
+	# frontend = with pkgs; [
+	# ];
       };
 
       # This is for plugins that will load at startup without using packadd:
@@ -45,7 +51,14 @@
 		gitsigns-nvim
 	];
         general = with pkgs.vimPlugins; [
+		blink-cmp
+		nvim-lspconfig
+		nvim-treesitter-textobjects
 		nvim-treesitter
+		nvim-treesitter-parsers.javascript
+		nvim-treesitter-parsers.typescript
+		nvim-treesitter-parsers.nix
+		nvim-treesitter-parsers.lua
 		mini-nvim	
 		which-key-nvim
 		snacks-nvim
@@ -111,16 +124,6 @@
           general = true;
           gitPlugins = true;
           customPlugins = true;
-          test = true;
-          example = {
-            youCan = "add more than just booleans";
-            toThisSet = [
-              "and the contents of this categories set"
-              "will be accessible to your lua with"
-              "nixCats('path.to.value')"
-              "see :help nixCats"
-            ];
-          };
         };
       };
     };

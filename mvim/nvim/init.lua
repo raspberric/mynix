@@ -6,6 +6,6 @@ vim.g.mapleader = ' '
 require('which-key').setup()
 require('mini_config').setup()
 require('snacks_config').setup()
-
+require('lsp').setup()
 
 -- local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later

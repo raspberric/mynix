@@ -18,6 +18,7 @@
 	  tmux
 	  lazygit
 	  mvim.packages.${system}.default
+	  nodejs_24
 	];
 
       };
