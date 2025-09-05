@@ -111,14 +111,19 @@ function M.setup ()
 	}
 	})
 
-	require('conform').setup({
-		formatters_by_fy = {
-			lua = {'stylelua'},
+	local conform = require('conform')
+	conform.setup({
+		formatters_by_ft = {
+			lua = {'stylua'},
 			nix = {'alejandra'},
 			javascript = {'prettier'},
 			typescript = {'prettier'},
 		}
 	})
+	vim.keymap.set({ 'n' }, '<leader>cf', function()
+	  conform.format()
+	  vim.notify("Formatted!", "info")
+	end, { desc = "Format file" })
 end
 
 return M

@@ -36,9 +36,14 @@
 		# mini deps
 		curl
 		gnutar
+		# lsps
 		typescript-language-server
 		lua-language-server
 		nixd
+		# formatters
+		stylua
+		prettier
+		alejandra
         ];
 	# lua = [
 	# 	lua-language-server
