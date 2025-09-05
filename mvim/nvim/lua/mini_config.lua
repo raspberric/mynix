@@ -40,6 +40,7 @@ function M.setup ()
 		}
 	})
 	require('mini.statusline').setup()
+	require('mini.tabline').setup()
 	require('mini.surround').setup()
 	require('mini.icons').setup()
 end

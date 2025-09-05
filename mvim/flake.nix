@@ -37,6 +37,8 @@
 		curl
 		gnutar
 		typescript-language-server
+		lua-language-server
+		nixd
         ];
 	# lua = [
 	# 	lua-language-server
@@ -53,15 +55,16 @@
         general = with pkgs.vimPlugins; [
 		blink-cmp
 		nvim-lspconfig
+		(nvim-treesitter.withPlugins (p:[
+			p.typescript
+			p.nix
+			p.lua
+		]))
 		nvim-treesitter-textobjects
-		nvim-treesitter
-		nvim-treesitter-parsers.javascript
-		nvim-treesitter-parsers.typescript
-		nvim-treesitter-parsers.nix
-		nvim-treesitter-parsers.lua
 		mini-nvim	
 		which-key-nvim
 		snacks-nvim
+		conform-nvim
 	];
       };
 
