@@ -42,6 +42,14 @@ function M.setup()
 			style = "sign",
 		},
 	})
+	vim.keymap.set("n", "<leader>gd", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
+	vim.keymap.set("n", "<leader>gn", function()
+		MiniDiff.goto_hunk("next")
+	end, { desc = "Go to next hunk" })
+	vim.keymap.set("n", "<leader>gN", function()
+		MiniDiff.goto_hunk("prev")
+	end, { desc = "Go to prev hunk" })
+
 	require("mini.statusline").setup()
 	require("mini.tabline").setup()
 	require("mini.surround").setup()
