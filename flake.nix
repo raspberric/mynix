@@ -2,14 +2,16 @@
   description = "";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    mvim.url = "path:./mvim";
     nixgl.url = "github:nix-community/nixGL";
+    mvim.url = "path:./mvim";
+    myTmux.url = "path:./tmux";
   };
   outputs = {
     self,
     nixpkgs,
-    mvim,
     nixgl,
+    mvim,
+    myTmux,
   }: let
     system = "x86_64-linux";
     wrapWithNixGL = final: prev: {
@@ -26,7 +28,7 @@
       name = "mySystem";
       paths = with pkgs; [
         tldr
-        tmux
+        myTmux.packages.${system}.default
         lazygit
         mvim.packages.${system}.default
         nixgl
