@@ -13,5 +13,8 @@ vim.diagnostic.config({
 	signs = true,
 })
 vim.keymap.set('n', '<leader>a', vim.lsp.buf.code_action, { desc = 'Code Action' })
+vim.keymap.set('n', '<S-Tab>', '<cmd>bprevious<CR>', { desc = 'Previous buffer' })
+vim.keymap.set('n', '<Tab>', '<cmd>bnext<CR>', { desc = 'Next buffer' })
+vim.keymap.set('n', '<leader>bd', '<cmd>bdelete<CR>', { desc = 'Delete buffer' })
 
 -- local add, now, later = MiniDeps.add, MiniDeps.now, MiniDeps.later

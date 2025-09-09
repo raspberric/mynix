@@ -2,7 +2,6 @@ local M = {}
 
 function M.setup()
 	require("nvim-treesitter.configs").setup({
-
 		sync_install = false,
 		auto_install = false,
 		ensure_installed = {},
@@ -31,12 +30,20 @@ function M.setup()
 
 	local blink = require("blink.cmp")
 	local lspconfig = require("lspconfig")
+	vim.lsp.enable("astro")
 	lspconfig.nixd.setup({
 		capabilities = blink.get_lsp_capabilities(),
 	})
 	lspconfig.ts_ls.setup({
 		capabilities = blink.get_lsp_capabilities(),
 	})
+	lspconfig.html.setup({
+		cmd = { "vscode-html-language-server" },
+	})
+	lspconfig.jsonls.setup({
+		cmd = { "vscode-json-language-server" },
+	})
+
 	lspconfig.lua_ls.setup({
 		capabilities = blink.get_lsp_capabilities(),
 		settings = {
@@ -116,6 +123,7 @@ function M.setup()
 			nix = { "alejandra" },
 			javascript = { "prettier" },
 			typescript = { "prettier" },
+			astro = { "prettier" },
 		},
 	})
 	vim.keymap.set({ "n" }, "<leader>cf", function()

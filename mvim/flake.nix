@@ -57,6 +57,8 @@
           typescript-language-server
           lua-language-server
           nixd
+          astro-language-server
+          vscode-langservers-extracted
           # formatters
           stylua
           prettier
@@ -81,6 +83,9 @@
             p.typescript
             p.nix
             p.lua
+            p.astro
+            p.css
+            p.html
           ]))
           nvim-treesitter-textobjects
           mini-nvim
