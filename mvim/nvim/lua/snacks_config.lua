@@ -1,7 +1,7 @@
 local M = {}
 
 
-function setup_keybinds ()
+local function setup_keybinds ()
 	local keymaps = {
 	    -- Top Pickers & Explorer
 	    { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
@@ -56,6 +56,8 @@ function setup_keybinds ()
 	    { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
 	    { "<leader>ss", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
 	    { "<leader>sS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+	    { "<leader>.", function() Snacks.scratch() end, desc = "Scratch buffer" },
+	    { "<leader>S", function() Snacks.scratch.select() end, desc = "Select scratch buffer" },
 	}
 	for _, keymap in ipairs(keymaps) do
 		local opts = keymap[4] or {}
@@ -76,6 +78,9 @@ function M.setup ()
 			notifier = {
 				enabled = true
 			}, 
+			scratch = {
+				enabled = true
+			},
 		}
 	})
 	setup_keybinds()
