@@ -92,6 +92,7 @@
           which-key-nvim
           snacks-nvim
           conform-nvim
+          tokyonight-nvim
         ];
       };
 
