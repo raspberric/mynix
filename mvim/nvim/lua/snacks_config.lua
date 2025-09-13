@@ -11,7 +11,6 @@ local function setup_keybinds ()
 	    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
 	    { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
 	    -- find
-	    { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
 	    { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
 	    { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
 	    { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
@@ -65,26 +64,21 @@ local function setup_keybinds ()
 	end
 end
 
-function M.setup () 
+function M.setup ()
 	require('snacks').setup({
 		opts = {
-			explorer = {
-				enabled = true,
-				replace_netrw = true,
-			},
 			picker = {
 				enabled = true
 			},
 			notifier = {
 				enabled = true
-			}, 
+			},
 			scratch = {
 				enabled = true
 			},
 		}
-	})
-	setup_keybinds()
-
+	});
+	setup_keybinds();
 end
 
 return M
