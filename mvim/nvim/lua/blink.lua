@@ -23,11 +23,6 @@ function M.setup()
 
       ["<C-h>"] = { "scroll_documentation_up" },
       ["<C-l>"] = { "scroll_documentation_down" },
-
-      ["<C-S-l>"] = { "snippet_forward", "fallback" },
-      ["<C-S-h>"] = { "snippet_backward", "fallback" },
-
-      ["<C-S-K>"] = { "show_signature" },
     },
     completion = {
       menu = {

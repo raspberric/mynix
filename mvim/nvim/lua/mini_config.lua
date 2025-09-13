@@ -34,7 +34,7 @@ function M.setup()
   require("mini.move").setup()
   require("mini.jump").setup({
     delay = {
-      idle_stop = 1000,
+      idle_stop = 2000,
     },
   })
   require("mini.indentscope").setup()
