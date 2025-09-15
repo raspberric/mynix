@@ -34,6 +34,7 @@
         nixgl
         alacritty
         nodejs_24
+        pnpm
       ];
     };
   };
