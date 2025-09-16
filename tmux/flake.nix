@@ -17,7 +17,10 @@
   in {
     packages.${system}.default = pkgs.writeShellApplication {
       name = "tmux";
-      runtimeInputs = [pkgs.tmux];
+      runtimeInputs = [
+        pkgs.tmux
+        pkgs.tmuxPlugins.yank
+      ];
       text = ''
         exec tmux -f "${tmuxConfigPath}" "$@"
       '';
