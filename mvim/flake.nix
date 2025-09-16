@@ -59,6 +59,7 @@
           nixd
           astro-language-server
           vscode-langservers-extracted
+          tailwindcss-language-server
           # formatters
           stylua
           prettier

@@ -1,25 +1,24 @@
 return {
   setup = function()
     local blink = require("blink.cmp")
-    local lspconfig = require("lspconfig")
-    -- vim.lsp.enable("astro")
+    local lspCapabilities = blink.get_lsp_capabilities()
 
-    lspconfig.nixd.setup({
-      capabilities = blink.get_lsp_capabilities(),
-    })
-    lspconfig.ts_ls.setup({
-      capabilities = blink.get_lsp_capabilities(),
-    })
-    lspconfig.html.setup({
-      cmd = { "vscode-html-language-server" },
-    })
-    lspconfig.jsonls.setup({
-      cmd = { "vscode-json-language-server" },
-    })
-    lspconfig.astro.setup({})
+    vim.lsp.config("nixd", { capabilities = lspCapabilities })
+    vim.lsp.enable("nixd")
 
-    lspconfig.lua_ls.setup({
-      capabilities = blink.get_lsp_capabilities(),
+    vim.lsp.config("ts_ls", { capabilities = lspCapabilities })
+    vim.lsp.enable("ts_ls")
+
+    vim.lsp.config("jsonls", { capabilities = lspCapabilities })
+    vim.lsp.enable("jsonls")
+
+    vim.lsp.config("html", { capabilities = lspCapabilities })
+    vim.lsp.enable("html")
+
+    vim.lsp.enable("astro")
+
+    vim.lsp.config("lua_ls", {
+      capabilities = lspCapabilities,
       settings = {
         Lua = {
           workspace = {
@@ -33,5 +32,6 @@ return {
         },
       },
     })
+    vim.lsp.enable("lua_ls")
   end,
 }
