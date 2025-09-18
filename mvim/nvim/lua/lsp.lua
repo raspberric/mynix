@@ -15,7 +15,20 @@ return {
     vim.lsp.config("html", { capabilities = lspCapabilities })
     vim.lsp.enable("html")
 
+    vim.lsp.config("astro", {
+      init_options = {
+        typescript = {
+          autoImports = true,
+          suggest = {
+            autoImports = true,
+          },
+        },
+      },
+    })
     vim.lsp.enable("astro")
+
+    vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
+    vim.lsp.enable("tailwindcss")
 
     vim.lsp.config("lua_ls", {
       capabilities = lspCapabilities,
