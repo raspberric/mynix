@@ -93,6 +93,7 @@
           which-key-nvim
           snacks-nvim
           conform-nvim
+          nvim-ts-autotag
           tokyonight-nvim
         ];
       };

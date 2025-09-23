@@ -46,5 +46,7 @@ return {
       },
     })
     vim.lsp.enable("lua_ls")
+
+    require("nvim-ts-autotag").setup()
   end,
 }
