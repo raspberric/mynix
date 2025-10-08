@@ -40,15 +40,14 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1759841793,
-        "narHash": "sha256-iY2F9qOpYLPfk0fOB765iF1SmFEsNZGAeqtbF7CfwJI=",
-        "path": "/home/nixos/Projects/mynix",
+        "path": "./software",
         "type": "path"
       },
       "original": {
-        "path": "/home/nixos/Projects/mynix",
+        "path": "./software",
         "type": "path"
-      }
+      },
+      "parent": []
     },
     "myTmux": {
       "inputs": {
