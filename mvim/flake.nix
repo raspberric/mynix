@@ -153,7 +153,7 @@
           suffix-path = true;
           suffix-LD = true;
           wrapRc = false;
-          unwrappedCfgPath = "/home/xpo/Projects/flakes/mvim/nvim";
+          unwrappedCfgPath = "/home/nixos/Projects/mynix/mvim/nvim";
           # IMPORTANT:
           # your alias may not conflict with your other packages.
           aliases = ["vim"];
