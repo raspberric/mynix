@@ -26,3 +26,5 @@ vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "new tab" })
 vim.keymap.set("n", "<leader>tl", "<cmd>tabnext<CR>", { desc = "new tab" })
 vim.keymap.set("n", "<leader>th", "<cmd>tabprev<CR>", { desc = "previous tab" })
 vim.keymap.set('n', '<C-space>', vim.lsp.buf.hover, { desc = 'Show hover documentation' })
+
+require("ccc").setup({})

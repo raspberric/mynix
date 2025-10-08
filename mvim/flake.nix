@@ -95,6 +95,7 @@
           conform-nvim
           nvim-ts-autotag
           tokyonight-nvim
+          ccc-nvim
         ];
       };
 
