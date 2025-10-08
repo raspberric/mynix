@@ -66,17 +66,22 @@ end
 
 function M.setup ()
 	require('snacks').setup({
-		opts = {
-			picker = {
-				enabled = true
+		picker = {
+			enabled = true,
+			file = {
+				ignored_dirs = { ".git", "node_modules", "build", "dist", "vendor" }
 			},
-			notifier = {
-				enabled = true
-			},
-			scratch = {
-				enabled = true
-			},
-		}
+		},
+		notifier = {
+			enabled = true
+		},
+		scratch = {
+			enabled = true
+		},
+		explorer = {
+			enabled = true,
+			replace_netrw = true,
+		},
 	});
 	setup_keybinds();
 end

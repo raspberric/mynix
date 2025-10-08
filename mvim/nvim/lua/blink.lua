@@ -24,6 +24,10 @@ function M.setup()
       ["<C-h>"] = { "scroll_documentation_up" },
       ["<C-l>"] = { "scroll_documentation_down" },
     },
+    cmdline = {
+      keymap = { preset = "inherit" },
+      completion = { menu = { auto_show = true } },
+    },
     completion = {
       menu = {
         draw = {
