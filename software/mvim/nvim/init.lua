@@ -11,6 +11,7 @@ require("snacks_config").setup()
 require("formatter").setup()
 require("lsp").setup()
 require("treesitter").setup()
+require("persistence_config").setup()
 
 vim.diagnostic.config({
   virtual_text = true,
