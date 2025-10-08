@@ -4,7 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    mySystem.url = "path:./software";
+    mySystem = {
+      url = "path:./software";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {

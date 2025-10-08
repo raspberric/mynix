@@ -4,7 +4,10 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     # nixgl.url = "github:nix-community/nixGL";
     mvim.url = "path:./mvim";
-    myTmux.url = "path:./tmux";
+    myTmux = {
+      url = "path:./tmux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     self,
