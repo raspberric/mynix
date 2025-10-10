@@ -44,6 +44,10 @@ function M.setup()
     view = {
       style = "sign",
     },
+    mappings = {
+      apply = "<leader>ga",
+      reset = "<leader>gr",
+    },
   })
   vim.keymap.set("n", "<leader>gd", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
   vim.keymap.set("n", "<leader>gn", function()
