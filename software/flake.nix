@@ -39,6 +39,7 @@
         nodejs_24
         pnpm
         xclip
+        ripgrep
       ];
     };
   };
