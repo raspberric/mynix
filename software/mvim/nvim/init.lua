@@ -28,5 +28,7 @@ vim.keymap.set("n", "<leader>td", "<cmd>tabclose<CR>", { desc = "close tab" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "new tab" })
 vim.keymap.set("n", "<leader>tl", "<cmd>tabnext<CR>", { desc = "new tab" })
 vim.keymap.set("n", "<leader>th", "<cmd>tabprev<CR>", { desc = "previous tab" })
-vim.keymap.set('n', '<C-space>', vim.lsp.buf.hover, { desc = 'Show hover documentation' })
 
+vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
+-- escape terminal on esc
+vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })

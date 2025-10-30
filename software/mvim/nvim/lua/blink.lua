@@ -14,18 +14,20 @@ function M.setup()
       enabled = true,
     },
     keymap = {
-      ["<C-space>"] = { "show", "show_documentation", "hide_documentation" },
-      ["<C-Esc>"] = { "hide" },
-      ["<CR>"] = { "accept", "fallback" },
+      ["<C-n>"] = { "show", "show_documentation", "hide_documentation" },
+      ["<C-q>"] = { "hide" },
+      ["<C-y>"] = { "accept", "fallback" },
 
-      ["<C-k>"] = { "select_prev" },
       ["<C-j>"] = { "select_next" },
+      ["<C-k>"] = { "select_prev" },
 
       ["<C-h>"] = { "scroll_documentation_up" },
       ["<C-l>"] = { "scroll_documentation_down" },
     },
     cmdline = {
-      keymap = { preset = "inherit" },
+      keymap = {
+        preset = "inherit",
+      },
       completion = { menu = { auto_show = true } },
     },
     completion = {
