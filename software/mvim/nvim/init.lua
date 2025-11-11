@@ -13,6 +13,8 @@ require("lsp").setup()
 require("treesitter").setup()
 require("persistence_config").setup()
 require("ccc_config").setup()
+require("debug_config").setup()
+require("trouble_config").setup()
 
 vim.diagnostic.config({
   virtual_text = true,
@@ -28,7 +30,6 @@ vim.keymap.set("n", "<leader>td", "<cmd>tabclose<CR>", { desc = "close tab" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "new tab" })
 vim.keymap.set("n", "<leader>tl", "<cmd>tabnext<CR>", { desc = "new tab" })
 vim.keymap.set("n", "<leader>th", "<cmd>tabprev<CR>", { desc = "previous tab" })
-
 vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
 -- escape terminal on esc
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
