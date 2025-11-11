@@ -30,20 +30,10 @@ return {
     vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
     vim.lsp.enable("tailwindcss")
 
+    local lazydev = require("lazydev")
+    lazydev.setup()
     vim.lsp.config("lua_ls", {
       capabilities = lspCapabilities,
-      settings = {
-        Lua = {
-          workspace = {
-            -- Tell the language server to scan for plugin files
-            library = vim.api.nvim_get_runtime_file("", true),
-          },
-          diagnostics = {
-            -- Make the server aware of the 'vim' global and other globals
-            globals = { "vim", "opts" },
-          },
-        },
-      },
     })
     vim.lsp.enable("lua_ls")
 
