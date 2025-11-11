@@ -60,6 +60,7 @@
           astro-language-server
           vscode-langservers-extracted
           tailwindcss-language-server
+          vscode-js-debug
           # formatters
           stylua
           prettier
@@ -97,6 +98,10 @@
           tokyonight-nvim
           ccc-nvim
           persistence-nvim
+          nvim-dap
+          nvim-dap-ui
+          trouble-nvim
+          lazydev-nvim
         ];
       };
 
@@ -114,9 +119,6 @@
 
       # available at RUN TIME for plugins. Will be available to path within neovim terminal
       environmentVariables = {
-        test = {
-          CATTESTVAR = "It worked!";
-        };
       };
 
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
@@ -163,6 +165,9 @@
           general = true;
           gitPlugins = true;
           customPlugins = true;
+          # test1 = builtins.toString pkgs.lspsAndRuntimeDeps.vscode-js-debug;
+          # test2 = builtins.toString pkgs.vscode-js-debug;
+          vscode_debug_path = pkgs.vscode-js-debug;
         };
       };
     };
