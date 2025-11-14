@@ -102,6 +102,7 @@
           nvim-dap-ui
           trouble-nvim
           lazydev-nvim
+          flash-nvim
         ];
       };
 
