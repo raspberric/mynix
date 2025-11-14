@@ -91,7 +91,6 @@
           ]))
           nvim-treesitter-textobjects
           mini-nvim
-          which-key-nvim
           snacks-nvim
           conform-nvim
           nvim-ts-autotag
