@@ -118,6 +118,7 @@
       };
 
       # available at RUN TIME for plugins. Will be available to path within neovim terminal
+
       environmentVariables = {
       };
 
@@ -212,19 +213,6 @@
           nixpkgs
           ;
       };
-      # and the same for home manager
-      homeModule = utils.mkHomeModules {
-        moduleNamespace = [defaultPackageName];
-        inherit
-          defaultPackageName
-          dependencyOverlays
-          luaPath
-          categoryDefinitions
-          packageDefinitions
-          extra_pkg_config
-          nixpkgs
-          ;
-      };
     in {
       # these outputs will be NOT wrapped with ${system}
 
@@ -239,9 +227,8 @@
         defaultPackageName;
 
       nixosModules.default = nixosModule;
-      homeModules.default = homeModule;
 
-      inherit utils nixosModule homeModule;
+      inherit utils nixosModule;
       inherit (utils) templates;
     });
 }
