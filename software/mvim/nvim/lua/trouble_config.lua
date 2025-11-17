@@ -1,8 +1,6 @@
 return {
   setup = function()
-    require("trouble").setup({
-      win = { size = { width = 100 } },
-    })
+    require("trouble").setup({})
 
     local keys = {
       {
@@ -17,7 +15,7 @@ return {
       },
       {
         "<leader>ll",
-        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        "<cmd>Trouble lsp toggle focus=false win.position=right win.size=100<cr>",
         desc = "LSP Definitions / references / ... (Trouble)",
       },
       {
