@@ -63,7 +63,6 @@
           vscode-js-debug
           # formatters
           stylua
-          prettier
           alejandra
         ];
         # lua = [
