@@ -3,7 +3,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     # nixgl.url = "github:nix-community/nixGL";
-    mvim.url = "path:./mvim";
+    mvim = {
+      url = "path:./mvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     myTmux = {
       url = "path:./tmux";
       inputs.nixpkgs.follows = "nixpkgs";
