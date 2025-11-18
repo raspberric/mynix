@@ -21,7 +21,14 @@
     pkgs = import nixpkgs {
       inherit system;
       config = {
-        allowUnfree = true;
+        allowUnfreePredicate = pkg:
+          builtins.elem (pkgs.lib.getName pkg) [
+            "steam"
+            "steam-original"
+            "steam-unwrapped"
+            "steam-run"
+            "google-chrome"
+          ];
       };
     };
   in {

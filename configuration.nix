@@ -88,6 +88,7 @@
       core.editor = "neovim";
     };
   };
+  programs.steam.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
