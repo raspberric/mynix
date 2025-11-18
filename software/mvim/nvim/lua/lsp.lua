@@ -1,20 +1,12 @@
 return {
   setup = function()
-    local blink = require("blink.cmp")
-    local lspCapabilities = blink.get_lsp_capabilities()
-
+    require("lazydev").setup()
+    local lspCapabilities = require("blink.cmp").get_lsp_capabilities()
     vim.lsp.config("nixd", { capabilities = lspCapabilities })
-    vim.lsp.enable("nixd")
-
     vim.lsp.config("ts_ls", { capabilities = lspCapabilities })
-    vim.lsp.enable("ts_ls")
-
     vim.lsp.config("jsonls", { capabilities = lspCapabilities })
-    vim.lsp.enable("jsonls")
-
     vim.lsp.config("html", { capabilities = lspCapabilities })
-    vim.lsp.enable("html")
-
+    vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
     vim.lsp.config("astro", {
       init_options = {
         typescript = {
@@ -25,17 +17,17 @@ return {
         },
       },
     })
-    vim.lsp.enable("astro")
-
-    vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
-    vim.lsp.enable("tailwindcss")
-
-    local lazydev = require("lazydev")
-    lazydev.setup()
     vim.lsp.config("lua_ls", {
       capabilities = lspCapabilities,
     })
+
     vim.lsp.enable("lua_ls")
+    vim.lsp.enable("nixd")
+    vim.lsp.enable("ts_ls")
+    vim.lsp.enable("jsonls")
+    vim.lsp.enable("html")
+    vim.lsp.enable("astro")
+    vim.lsp.enable("tailwindcss")
 
     require("nvim-ts-autotag").setup()
   end,
