@@ -20,9 +20,26 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
+      config = {
+        allowUnfree = true;
+      };
     };
   in {
     nixosConfigurations = {
+      nixos = nixpkgs.lib.nixosSystem {
+        modules = [
+          ./configuration.nix
+          {
+            environment = {
+              variables.EDITOR = "neovim";
+              systemPackages = [
+                pkgs.google-chrome
+                mySystem.packages.${system}.default
+              ];
+            };
+          }
+        ];
+      };
       wsl = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
