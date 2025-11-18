@@ -4,6 +4,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
+    "plugins-dev-tools" = {
+      url = "github:yarospace/dev-tools.nvim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -101,6 +105,9 @@
           trouble-nvim
           lazydev-nvim
           flash-nvim
+          nvim-lspconfig
+          pkgs.neovimPlugins.dev-tools
+          refactoring-nvim
         ];
       };
 
