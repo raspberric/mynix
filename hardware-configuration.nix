@@ -43,4 +43,26 @@
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
+  hardware.graphics.enable = true;
+
+  services.xserver.videoDrivers = ["nvidia"];
+  hardware.nvidia = {
+    modesetting.enable = true;
+
+    # if bugging after lock / sleep
+    # powerManagement.enable = false;
+    # powerManagement.finegrained = false;
+
+    # recommended by nvidia for gpus after turin arch (RTX 20xx)
+    open = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+
+    prime = {
+      nvidiaBusId = "PCI:0:1:0";
+      intelBusId = "PCI:0:0:2";
+
+      sync.enable = true;
+    };
+  };
 }
