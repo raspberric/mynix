@@ -28,6 +28,7 @@
             "steam-unwrapped"
             "steam-run"
             "google-chrome"
+            "discord"
           ];
       };
     };
@@ -42,6 +43,7 @@
               systemPackages = [
                 pkgs.google-chrome
                 mySystem.packages.${system}.default
+                pkgs.discord
               ];
             };
           }
