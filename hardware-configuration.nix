@@ -50,8 +50,8 @@
     modesetting.enable = true;
 
     # if bugging after lock / sleep
-    # powerManagement.enable = false;
-    # powerManagement.finegrained = false;
+    powerManagement.enable = true;
+    powerManagement.finegrained = false;
 
     # recommended by nvidia for gpus after turin arch (RTX 20xx)
     open = true;
