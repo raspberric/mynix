@@ -11,6 +11,10 @@
       url = "path:./tmux";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lazygit = {
+      url = "path:./lazygit";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     self,
@@ -18,6 +22,7 @@
     # nixgl,
     mvim,
     myTmux,
+    lazygit,
   }: let
     system = "x86_64-linux";
     # wrapWithNixGL = final: prev: {
@@ -35,7 +40,7 @@
       paths = with pkgs; [
         tldr
         myTmux.packages.${system}.default
-        lazygit
+        lazygit.packages.${system}.default
         mvim.packages.${system}.default
         # nixgl
         # alacritty
