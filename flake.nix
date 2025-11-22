@@ -44,6 +44,7 @@
                 pkgs.google-chrome
                 mySystem.packages.${system}.default
                 pkgs.discord
+                pkgs.heroic
               ];
             };
           }
