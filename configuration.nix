@@ -87,6 +87,9 @@
         user.name = "Raspberric";
         user.email = "nikolamalinovic42@gmail.com";
         core.editor = "neovim";
+        merge = {
+          ff = false;
+        };
       };
     };
     steam.enable = true;
