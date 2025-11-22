@@ -79,16 +79,18 @@
   };
 
   # Install firefox.
-  programs.firefox.enable = true;
-  programs.git = {
-    enable = true;
-    config = {
-      user.name = "Raspberric";
-      user.email = "nikolamalinovic42@gmail.com";
-      core.editor = "neovim";
+  programs = {
+    firefox.enable = true;
+    git = {
+      enable = true;
+      config = {
+        user.name = "Raspberric";
+        user.email = "nikolamalinovic42@gmail.com";
+        core.editor = "neovim";
+      };
     };
+    steam.enable = true;
   };
-  programs.steam.enable = true;
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
