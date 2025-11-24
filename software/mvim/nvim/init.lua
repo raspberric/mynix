@@ -4,7 +4,7 @@ vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = " "
 vim.g.netrw_liststyle = 3
 
-vim.cmd("colorscheme tokyonight")
+vim.cmd("colorscheme tokyonight-storm")
 require("blink").setup()
 require("mini_config").setup()
 require("snacks_config").setup()
