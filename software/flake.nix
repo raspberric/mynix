@@ -15,6 +15,10 @@
       url = "path:./lazygit";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ghostty = {
+      url = "path:./ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
   outputs = {
     self,
@@ -23,6 +27,7 @@
     mvim,
     myTmux,
     lazygit,
+    ghostty,
   }: let
     system = "x86_64-linux";
     # wrapWithNixGL = final: prev: {
@@ -32,7 +37,7 @@
     # };
     pkgs = import nixpkgs {
       inherit system;
-      # overlays = [wrapWithNixGL];
+      overlays = [ghostty.overlays.default];
     };
   in {
     packages.${system}.default = pkgs.symlinkJoin {
@@ -42,6 +47,7 @@
         myTmux.packages.${system}.default
         lazygit.packages.${system}.default
         mvim.packages.${system}.default
+        ghosttyDesktopItem
         # nixgl
         # alacritty
         nodejs_24
