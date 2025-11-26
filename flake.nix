@@ -39,7 +39,7 @@
           ./configuration.nix
           {
             environment = {
-              variables.EDITOR = "neovim";
+              variables.EDITOR = "nvim";
               systemPackages = [
                 pkgs.google-chrome
                 mySystem.packages.${system}.default
@@ -59,7 +59,7 @@
             wsl.enable = true;
             nix.settings.experimental-features = ["nix-command" "flakes"];
             environment = {
-              variables.EDITOR = "vim";
+              variables.EDITOR = "nvim";
               systemPackages = [
                 pkgs.git
                 mySystem.packages.${system}.default

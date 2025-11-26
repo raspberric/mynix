@@ -165,7 +165,7 @@
           unwrappedCfgPath = "/home/xpo/config/software/mvim/nvim";
           # IMPORTANT:
           # your alias may not conflict with your other packages.
-          aliases = ["vim"];
+          aliases = ["nvim"];
           # neovim-unwrapped = inputs.neovim-nightly-overlay.packages.${pkgs.system}.neovim;
         };
         categories = {
