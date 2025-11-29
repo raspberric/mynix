@@ -8,6 +8,10 @@
       url = "github:yarospace/dev-tools.nvim";
       flake = false;
     };
+    "plugins-opencode" = {
+      url = "github:sudo-tee/opencode.nvim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -108,6 +112,7 @@
           nvim-lspconfig
           pkgs.neovimPlugins.dev-tools
           refactoring-nvim
+          pkgs.neovimPlugins.opencode
         ];
       };
 

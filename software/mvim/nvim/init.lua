@@ -17,6 +17,7 @@ require("debug_config").setup()
 require("trouble_config").setup()
 require("flash_config").setup()
 require("refactor_config").setup()
+require("opencode").setup()
 
 vim.diagnostic.config({
   virtual_text = true,

@@ -18,6 +18,9 @@
       url = "path:./ghostty";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    openCodeSrc = {
+      url = "github:sst/opencode";
+    };
   };
   outputs = {
     self,
@@ -26,6 +29,7 @@
     myTmux,
     lazygit,
     ghostty,
+    openCodeSrc,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -45,6 +49,7 @@
         pnpm
         xclip
         ripgrep
+        openCodeSrc.packages.${system}.default
       ];
     };
   };
