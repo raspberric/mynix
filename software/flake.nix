@@ -2,7 +2,6 @@
   description = "";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
-    # nixgl.url = "github:nix-community/nixGL";
     mvim = {
       url = "path:./mvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -15,24 +14,27 @@
       url = "path:./lazygit";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    ghostty = {
+      url = "path:./ghostty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    openCodeSrc = {
+      url = "github:sst/opencode";
+    };
   };
   outputs = {
     self,
     nixpkgs,
-    # nixgl,
     mvim,
     myTmux,
     lazygit,
+    ghostty,
+    openCodeSrc,
   }: let
     system = "x86_64-linux";
-    # wrapWithNixGL = final: prev: {
-    #   alacritty = final.writeShellScriptBin "alacritty" ''
-    #     exec ${nixgl.packages.x86_64-linux.nixGLDefault}/bin/nixGL ${prev.alacritty}/bin/alacritty "$@"
-    #   '';
-    # };
     pkgs = import nixpkgs {
       inherit system;
-      # overlays = [wrapWithNixGL];
+      overlays = [ghostty.overlays.default];
     };
   in {
     packages.${system}.default = pkgs.symlinkJoin {
@@ -42,12 +44,12 @@
         myTmux.packages.${system}.default
         lazygit.packages.${system}.default
         mvim.packages.${system}.default
-        # nixgl
-        # alacritty
+        ghosttyDesktopItem
         nodejs_24
         pnpm
         xclip
         ripgrep
+        openCodeSrc.packages.${system}.default
       ];
     };
   };
