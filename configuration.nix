@@ -102,11 +102,29 @@
     on-the-go.configuration = {
       system.nixos.tags = ["on-the-go"];
 
-      hardware.nvidia = {
-        prime.offload.enable = pkgs.lib.mkForce true;
-        prime.offload.enableOffloadCmd = pkgs.lib.mkForce true;
-        prime.sync.enable = pkgs.lib.mkForce false;
-      };
+      boot.blacklistedKernelModules = pkgs.lib.mkForce [
+        "nouveau"
+        "nvidia"
+        "nvidia_drm"
+        "nvidia_modeset"
+        "nvidia_uvm"
+      ];
+      services.xserver.videoDrivers = pkgs.lib.mkForce [
+        "modesetting" # Use modesetting for Intel/AMD iGPU
+      ];
+      # 3. Add a udev rule to automatically remove the NVIDIA GPU
+      # from the device tree and manage its power state
+      services.udev.extraRules = pkgs.lib.mkForce ''
+        # Replace 0x10de with the vendor ID if needed,
+        # but 0x10de is standard for NVIDIA
+        ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{remove}="1", ATTR{power/control}="auto"
+      '';
+
+      # hardware.nvidia = {
+      #   prime.offload.enable = pkgs.lib.mkForce true;
+      #   prime.offload.enableOffloadCmd = pkgs.lib.mkForce true;
+      #   prime.sync.enable = pkgs.lib.mkForce false;
+      # };
     };
   };
 
