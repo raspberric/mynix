@@ -13,7 +13,7 @@ return {
     })
     vim.keymap.set({ "n" }, "<leader>cf", function()
       conform.format()
-      vim.notify("Formatted!", "info")
+      vim.notify("Formatted!", 2)
     end, { desc = "Format file" })
   end,
 }
