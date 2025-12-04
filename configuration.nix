@@ -86,7 +86,7 @@
       config = {
         user.name = "Raspberric";
         user.email = "nikolamalinovic42@gmail.com";
-        core.editor = "neovim";
+        core.editor = "nvim";
         merge = {
           ff = false;
         };
