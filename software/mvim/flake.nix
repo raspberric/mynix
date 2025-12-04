@@ -113,6 +113,7 @@
           pkgs.neovimPlugins.dev-tools
           refactoring-nvim
           pkgs.neovimPlugins.opencode
+          markview-nvim
         ];
       };
 
