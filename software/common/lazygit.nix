@@ -1,0 +1,8 @@
+{...}: {
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      git.branchLogCmd = "git log --graph --all --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --";
+    };
+  };
+}
