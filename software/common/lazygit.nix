@@ -10,9 +10,8 @@ in
       pkgs.lazygit
     ];
     text = ''
-      exec ${pkgs.lazygit}/bin/lazygit --config "${configFile}" "$@"
+      exec ${pkgs.lazygit}/bin/lazygit -ucf "${configFile}" "$@"
     '';
 
     meta = pkgs.lazygit.meta;
   }
-
