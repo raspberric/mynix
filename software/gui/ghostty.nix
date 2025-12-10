@@ -1,7 +1,7 @@
 {pkgs}: let
   ghosttyIcon = pkgs.fetchurl {
     url = "https://github.com/ghostty-org/ghostty/blob/main/images/icons/icon_256.png?raw=true";
-    sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # REPLACE WITH ACTUAL SHA256
+    sha256 = "sha256-KGGKqKHiOHbF7gX3a5NjV8O9dA40RprB05qjitUNKNg="; 
   };
 
   ghosttyWrapper = pkgs.writeShellApplication {
@@ -17,6 +17,7 @@
 
   desktopFile = pkgs.makeDesktopItem {
     name = "Ghostty";
+    desktopName = "Ghostty";
     exec = "${ghosttyWrapper}/bin/ghostty";
     icon = ghosttyIcon;
     categories = ["Utility" "TerminalEmulator"];
