@@ -60,8 +60,10 @@
       paths = with pkgs; [
         ghosttyConfigured
         google-chrome
-        steam
-        discord
+        (discord.override {
+          withOpenASAR = true;
+          withVencord = true;
+        })
         heroic
       ];
     };

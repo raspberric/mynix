@@ -24,6 +24,7 @@
         modules = [
           ./machines/laptop/configuration.nix
           ./machines/laptop/hardware.nix
+          ./software/gui/gaming.nix
           {
             environment = {
               systemPackages = [
