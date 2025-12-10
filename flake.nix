@@ -67,6 +67,8 @@
       };
     };
 
+    devShells.${system}.default = mySystem.devShells.${system}.default;
+
     packages.${system}.raspEnv = {
       default = mySystem.packages.${system}.default;
     };
