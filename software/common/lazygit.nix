@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  configFile = pkgs.writeText "lazygit-config.yml" ''
+  configFile = builtins.toFile "lazygit-config.yml" ''
     git:
         branchLogCmd: "git log --graph --all --color=always --abbrev-commit --decorate --date=relative --pretty=medium {{branchName}} --";
   '';

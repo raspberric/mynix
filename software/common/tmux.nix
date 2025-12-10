@@ -1,5 +1,5 @@
 {pkgs, ...}: let
-  tmuxConfigContent = pkgs.writeText "tmux.conf" ''
+  tmuxConfigContent = builtins.toFile "tmux.conf" ''
     setw -g mode-keys vi
 
     # copy tmux-yank contents to clipboard

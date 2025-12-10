@@ -1,5 +1,5 @@
 {pkgs}: let
-  configFile = pkgs.writeText "gitconfig-custom" ''
+  configFile = builtins.toFile "gitconfig-custom" ''
     [user]
       name = "Raspberric"
       email = "nikolamalinovic42@gmail.com"
@@ -20,4 +20,3 @@ in
     '';
     meta = pkgs.git.meta;
   }
-
