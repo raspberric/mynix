@@ -19,6 +19,20 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
+      config = {
+        permittedInsecurePackages = [
+          "electron-36.9.5"
+        ];
+        allowUnfreePredicate = pkg:
+          builtins.elem (pkgs.lib.getName pkg) [
+            "steam"
+            "steam-original"
+            "steam-unwrapped"
+            "steam-run"
+            "google-chrome"
+            "discord"
+          ];
+      };
     };
     gitConfigured = import ./common/git.nix {inherit pkgs;};
     lazygitConfigured = import ./common/lazygit.nix {inherit pkgs;};

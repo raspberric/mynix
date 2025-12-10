@@ -18,21 +18,6 @@
     ...
   }: let
     system = "x86_64-linux";
-    pkgs = import nixpkgs {
-      inherit system;
-      # TODO: move this to a module
-      config = {
-        allowUnfreePredicate = pkg:
-          builtins.elem (pkgs.lib.getName pkg) [
-            "steam"
-            "steam-original"
-            "steam-unwrapped"
-            "steam-run"
-            "google-chrome"
-            "discord"
-          ];
-      };
-    };
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
