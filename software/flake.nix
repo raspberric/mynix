@@ -3,19 +3,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     mvim = {
-      url = "path:./mvim";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    myTmux = {
-      url = "path:./tmux";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    lazygit = {
-      url = "path:./lazygit";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    ghostty = {
-      url = "path:./ghostty";
+      url = "path:./common/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     openCodeSrc = {
@@ -26,31 +14,61 @@
     self,
     nixpkgs,
     mvim,
-    myTmux,
-    lazygit,
-    ghostty,
     openCodeSrc,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      overlays = [ghostty.overlays.default];
     };
-  in {
-    packages.${system}.default = pkgs.symlinkJoin {
-      name = "mySystem";
+    gitConfigured = import ./common/git.nix {inherit pkgs;};
+    lazygitConfigured = import ./common/lazygit.nix {inherit pkgs;};
+    tmuxConfigured = import ./common/tmux.nix {inherit pkgs;};
+    ghosttyConfigured = import ./gui/ghostty.nix {inherit pkgs;};
+
+    standardApps = pkgs.symlinkJoin {
+      name = "standard apps";
       paths = with pkgs; [
+        gitConfigured
+        lazygitConfigured
+        tmuxConfigured
         tldr
-        myTmux.packages.${system}.default
-        lazygit.packages.${system}.default
-        mvim.packages.${system}.default
-        ghosttyDesktopItem
         nodejs_24
         pnpm
         xclip
         ripgrep
+        mvim.packages.${system}.default
         openCodeSrc.packages.${system}.default
       ];
+    };
+
+    guiApps = pkgs.symlinkJoin {
+      name = "gui apps";
+      paths = with pkgs; [
+        ghosttyConfigured
+        google-chrome
+        steam
+        discord
+        heroic
+      ];
+    };
+  in {
+    packages.${system} = {
+      inherit standardApps;
+
+      default = pkgs.symlinkJoin {
+        name = "mySystem";
+        paths = [
+          standardApps
+          guiApps
+        ];
+      };
+    };
+
+    devShells.${system}.default = pkgs.mkShell {
+      buildInputs = [standardApps];
+      shellHook = ''
+        echo "Welcome to the rice fields MF!"
+      '';
     };
   };
 }

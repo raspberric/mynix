@@ -1,20 +1,31 @@
-{pkgs, ...}: {
-  nixpkgs.overlays = [
-    (final: prev: {
-      ghosttyDesktopItem = prev.makeDesktopItem {
-        name = "ghostty";
-        genericName = "terminal emulator";
-        desktopName = "ghostty (themed)";
-        comment = prev.ghostty.meta.description;
-        exec = "${prev.ghostty}/bin/ghostty --theme=tokyonight-storm";
-        icon = "utilities-terminal";
-        categories = ["Utility"];
-      };
-    })
-  ];
+{pkgs}: let
+  ghosttyIcon = pkgs.fetchurl {
+    url = "https://github.com/ghostty-org/ghostty/blob/main/images/icons/icon_256.png?raw=true";
+    sha256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="; # REPLACE WITH ACTUAL SHA256
+  };
 
-  environment.systemPackages = with pkgs; [
-    ghostty
-    ghosttyDesktopItem
-  ];
-}
+  ghosttyWrapper = pkgs.writeShellApplication {
+    name = "ghostty";
+    runtimeInputs = [
+      pkgs.ghostty
+    ];
+    text = ''
+      exec ${pkgs.ghostty}/bin/ghostty --theme=tokyonight-storm "$@"
+    '';
+    meta = pkgs.ghostty.meta;
+  };
+
+  desktopFile = pkgs.makeDesktopItem {
+    name = "Ghostty";
+    exec = "${ghosttyWrapper}/bin/ghostty";
+    icon = ghosttyIcon;
+    categories = ["Utility" "TerminalEmulator"];
+    comment = "Terminal emulator with custom theme";
+  };
+in
+  pkgs.symlinkJoin {
+    name = "ghostty-themed";
+    paths = [ghosttyWrapper desktopFile];
+
+    meta = pkgs.ghostty.meta;
+  }

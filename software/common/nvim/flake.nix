@@ -168,7 +168,7 @@
           suffix-path = true;
           suffix-LD = true;
           wrapRc = false;
-          unwrappedCfgPath = "/home/xpo/config/software/mvim/nvim";
+          unwrappedCfgPath = "/home/xpo/config/software/common/nvim/nvim";
           # IMPORTANT:
           # your alias may not conflict with your other packages.
           aliases = ["nvim"];
