@@ -20,6 +20,7 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
+      # TODO: move this to a module
       config = {
         allowUnfreePredicate = pkg:
           builtins.elem (pkgs.lib.getName pkg) [
@@ -36,15 +37,12 @@
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         modules = [
-          ./configuration.nix
+          ./machines/laptop/configuration.nix
+          ./machines/laptop/hardware.nix
           {
             environment = {
-              variables.EDITOR = "nvim";
               systemPackages = [
-                pkgs.google-chrome
                 mySystem.packages.${system}.default
-                pkgs.discord
-                pkgs.heroic
               ];
             };
           }
@@ -61,8 +59,7 @@
             environment = {
               variables.EDITOR = "nvim";
               systemPackages = [
-                pkgs.git
-                mySystem.packages.${system}.default
+                mySystem.packages.${system}.standardApps
               ];
             };
           }
