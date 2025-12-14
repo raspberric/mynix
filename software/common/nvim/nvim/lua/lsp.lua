@@ -6,7 +6,9 @@ return {
     vim.lsp.config("ts_ls", { capabilities = lspCapabilities })
     vim.lsp.config("jsonls", { capabilities = lspCapabilities })
     vim.lsp.config("html", { capabilities = lspCapabilities })
+    vim.lsp.config("cssls", { capabilities = lspCapabilities })
     vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
+    vim.lsp.config("angularls", { capabilities = lspCapabilities })
     vim.lsp.config("astro", {
       init_options = {
         typescript = {
@@ -26,7 +28,9 @@ return {
     vim.lsp.enable("ts_ls")
     vim.lsp.enable("jsonls")
     vim.lsp.enable("html")
+    vim.lsp.enable("cssls")
     vim.lsp.enable("astro")
+    vim.lsp.enable("angularls")
     vim.lsp.enable("tailwindcss")
 
     require("nvim-ts-autotag").setup()

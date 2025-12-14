@@ -66,6 +66,7 @@
           lua-language-server
           nixd
           astro-language-server
+          angular-language-server
           vscode-langservers-extracted
           tailwindcss-language-server
           vscode-js-debug
