@@ -97,6 +97,7 @@
             p.css
             p.html
           ]))
+          nvim-treesitter-parsers.angular
           nvim-treesitter-textobjects
           mini-nvim
           snacks-nvim
