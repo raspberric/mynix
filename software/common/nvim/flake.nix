@@ -4,10 +4,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
-    "plugins-dev-tools" = {
-      url = "github:yarospace/dev-tools.nvim";
-      flake = false;
-    };
     "plugins-opencode" = {
       url = "github:sudo-tee/opencode.nvim";
       flake = false;
@@ -112,7 +108,6 @@
           lazydev-nvim
           flash-nvim
           nvim-lspconfig
-          pkgs.neovimPlugins.dev-tools
           refactoring-nvim
           pkgs.neovimPlugins.opencode
           markview-nvim
