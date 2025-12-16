@@ -15,7 +15,6 @@ end
 vim.cmd("colorscheme tokyonight-storm")
 require("mini_config").setup()
 require("snacks_config").setup()
-require("formatter").setup()
 require("treesitter").setup()
 require("persistence_config").setup()
 require("trouble_config").setup()
@@ -31,6 +30,8 @@ if nixCats("runtimeChecks.IS_FRONTEND") then
 else
   require("blink").setup()
   require("lsp").setup()
+  require("formatter").setup()
+
   vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
   vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
 end
