@@ -8,6 +8,10 @@
       url = "github:sudo-tee/opencode.nvim";
       flake = false;
     };
+    "plugins-coc-angular" = {
+      url = "github:iamcco/coc-angular";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -98,11 +102,12 @@
             p.html
           ]))
           pkgs.neovimPlugins.opencode
+          pkgs.neovimPlugins.coc-angular
           coc-nvim
-          # coc-css
-          # coc-html
+          coc-css
+          coc-html
+          coc-tsserver
           # coc-pairs
-          # coc-tsserver
           # coc-lists
           # coc-diagnostics
           # coc-explorer
