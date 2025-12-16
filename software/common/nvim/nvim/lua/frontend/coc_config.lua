@@ -9,9 +9,9 @@ function M.setup()
   end
 
   local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-  keyset("i", "<TAB>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-  keyset("i", "<S-TAB>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-  keyset("i", "<CR>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
+  keyset("i", "<C-j>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
+  keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
+  keyset("i", "<TAB>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
 
   -- Navigation
   keyset("n", "gd", "<Plug>(coc-definition)", { silent = true, remap = true })
@@ -30,28 +30,26 @@ function M.setup()
       vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
     end
   end
-  keyset("n", "K", "<CMD>lua _G.show_docs()<CR>", { silent = true })
+  keyset("n", "<C-n>", "<CMD>lua _G.show_docs()<CR>", { silent = true })
 
   -- Rename
-  keyset("n", "<leader>rn", "<Plug>(coc-rename)", { silent = true, remap = true })
+  keyset("n", "<leader>cr", "<Plug>(coc-rename)", { silent = true, remap = true })
 
   -- Formatting
-  keyset("n", "<leader>f", "<Plug>(coc-format-selected)", { silent = true, remap = true })
-  keyset("x", "<leader>f", "<Plug>(coc-format-selected)", { silent = true, remap = true })
+  keyset("n", "<leader>cf", "<Plug>(coc-format-selected)", { silent = true, remap = true })
+  keyset("x", "<leader>cf", "<Plug>(coc-format-selected)", { silent = true, remap = true })
 
   -- Code Action
   keyset("n", "<leader>ca", "<Plug>(coc-codeaction-cursor)", { silent = true, remap = true })
   keyset("x", "<leader>ca", "<Plug>(coc-codeaction-selected)", { silent = true, remap = true })
-  keyset("n", "<leader>ac", "<Plug>(coc-codeaction)", { silent = true, remap = true }) -- adding source action as backup/variant
+  keyset("n", "<leader>cc", "<Plug>(coc-codeaction)", { silent = true, remap = true }) -- adding source action as backup/variant
 
   -- Autofix
-  keyset("n", "<leader>qf", "<Plug>(coc-fix-current)", { silent = true, remap = true })
+  keyset("n", "<leader>cq", "<Plug>(coc-fix-current)", { silent = true, remap = true })
 
   -- Vim options
   vim.opt.backup = false
   vim.opt.writebackup = false
-  vim.opt.updatetime = 300
-  vim.opt.signcolumn = "yes"
 
   -- Language Server Configurations
   local languageserver = {

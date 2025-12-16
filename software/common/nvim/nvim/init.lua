@@ -4,6 +4,7 @@ vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = " "
 vim.g.netrw_liststyle = 3
 vim.opt.signcolumn = "yes"
+vim.opt.updatetime = 300
 
 -- Fix for Lua LSP "undefined global" warning on vim.fn.nixCats
 -- This stub function is ignored by Neovim but recognized by the LSP
