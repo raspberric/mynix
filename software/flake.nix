@@ -51,6 +51,7 @@
         xclip
         ripgrep
         mvim.packages.${system}.default
+        mvim.packages.${system}.fedev
         openCodeSrc.packages.${system}.default
       ];
     };

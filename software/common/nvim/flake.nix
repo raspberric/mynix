@@ -18,6 +18,7 @@
   } @ inputs: let
     inherit (nixCats) utils;
     luaPath = ./nvim;
+    unwrappedCfgPath = "/home/xpo/config/software/common/nvim/nvim";
     forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
     extra_pkg_config = {
       # allowUnfree = true;
@@ -45,24 +46,22 @@
           # mini deps
           curl
           gnutar
-          # lsps
-          typescript-language-server
+        ];
+        config = with pkgs; [
           lua-language-server
           nixd
+          stylua
+          alejandra
+        ];
+        frontend = with pkgs; [
+          typescript-language-server
           astro-language-server
           angular-language-server
           vscode-langservers-extracted
           tailwindcss-language-server
           vscode-js-debug
-          # formatters
-          stylua
-          alejandra
+          # add prettier
         ];
-        # lua = [
-        # 	lua-language-server
-        # ];
-        # frontend = with pkgs; [
-        # ];
       };
 
       # This is for plugins that will load at startup without using packadd:
@@ -71,34 +70,51 @@
           gitsigns-nvim
         ];
         general = with pkgs.vimPlugins; [
-          blink-cmp
-          nvim-lspconfig
-          (nvim-treesitter.withPlugins (p: [
-            p.typescript
-            p.nix
-            p.lua
-            p.astro
-            p.css
-            p.html
-          ]))
-          nvim-treesitter-parsers.angular
           nvim-treesitter-textobjects
           mini-nvim
           snacks-nvim
           conform-nvim
-          nvim-ts-autotag
           tokyonight-nvim
-          ccc-nvim
           persistence-nvim
+          trouble-nvim
+          flash-nvim
+          markview-nvim
+        ];
+        config = with pkgs; [
+          (nvim-treesitter.withPlugins (p: [
+            p.nix
+            p.lua
+          ]))
+          nvim-lspconfig
+          blink-cmp
+          lazydev-nvim
+          nvim-lspconfig
+        ];
+        frontend = with pkgs; [
+          (nvim-treesitter.withPlugins (p: [
+            p.typescript
+            p.astro
+            p.css
+            p.html
+          ]))
+          pkgs.neovimPlugins.opencode
+          coc-nvim
+          # coc-css
+          # coc-html
+          # coc-pairs
+          # coc-tsserver
+          # coc-lists
+          # coc-diagnostics
+          # coc-explorer
+          # coc-markdownlint
+          # coc-tailwindcss
+          coc-json
+          ccc-nvim
+          nvim-treesitter-parsers.angular
+          nvim-ts-autotag
           nvim-dap
           nvim-dap-ui
-          trouble-nvim
-          lazydev-nvim
-          flash-nvim
-          nvim-lspconfig
-          refactoring-nvim
-          pkgs.neovimPlugins.opencode
-          markview-nvim
+          # refactoring-nvim
         ];
       };
 
@@ -120,15 +136,11 @@
 
     packageDefinitions = {
       mvim = {
-        pkgs,
-        name,
-        ...
-      }: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
           wrapRc = false;
-          unwrappedCfgPath = "/home/xpo/config/software/common/nvim/nvim";
+          inherit unwrappedCfgPath;
           # IMPORTANT:
           # your alias may not conflict with your other packages.
           aliases = ["nvim"];
@@ -136,11 +148,33 @@
         categories = {
           general = true;
           gitPlugins = true;
-          customPlugins = true;
+          config = true;
+          runtimeChecks = {
+            IS_LUA = true;
+            IS_NIX = true;
+          };
+        };
+      };
+
+      fedev = {pkgs}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          gitPlugins = true;
+          frontend = true;
           vscode_debug_path = pkgs.vscode-js-debug;
+          runtimeChecks = {
+            IS_FRONTEND = true;
+          };
         };
       };
     };
+
     defaultPackageName = "mvim";
   in
     forEachSystem (system: let
