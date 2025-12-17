@@ -25,6 +25,11 @@
       "args": [
         "--stdio"
       ],
+      "initializationOptions": {
+        "typescript": {
+          "tsdk": "./node_modules/typescript/lib"
+        }
+      },
       "filetypes": [
         "astro"
       ],
@@ -36,10 +41,13 @@
     }
   },
   "tsserver.enable": true,
+  "tsserver.format.enable": false,
   "tsserver.useLocalTsdk": true,
-  "html.suggest.angular1": false,
   "html.validate.scripts": false,
   "html.validate.styles": false,
-  "html.format.enable": true,
-  "css.validate.enable": true
+  "html.format.enable": false,
+  "css.format.enable": false,
+  "json.format.enable": false,
+  "prettier.disableLanguages": [],
+  "prettier.formatterPriority": 1
 }
