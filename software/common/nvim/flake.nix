@@ -83,8 +83,10 @@
           trouble-nvim
           flash-nvim
           markview-nvim
+          plenary-nvim
+          pkgs.neovimPlugins.opencode
         ];
-        config = with pkgs; [
+        config = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
             p.nix
             p.lua
@@ -94,14 +96,14 @@
           lazydev-nvim
           nvim-lspconfig
         ];
-        frontend = with pkgs; [
+        frontend = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
             p.typescript
             p.astro
             p.css
             p.html
+            p.angular
           ]))
-          pkgs.neovimPlugins.opencode
           pkgs.neovimPlugins.coc-angular
           coc-nvim
           coc-css
@@ -115,7 +117,6 @@
           # coc-tailwindcss
           coc-json
           ccc-nvim
-          nvim-treesitter-parsers.angular
           nvim-ts-autotag
           nvim-dap
           nvim-dap-ui
@@ -140,7 +141,7 @@
     };
 
     packageDefinitions = {
-      mvim = {
+      mvim = {pkgs, ...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
@@ -161,7 +162,7 @@
         };
       };
 
-      fedev = {pkgs}: {
+      fedev = {pkgs, ...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
