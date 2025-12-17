@@ -12,7 +12,7 @@ function M.setup()
   keyset("i", "<C-j>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
   keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
   keyset("i", "<TAB>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-  keyset("i", "<c-space>", "coc#refresh()", {silent = true, expr = true})
+  keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
 
   -- Navigation
   keyset("n", "<leader>cd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
@@ -42,12 +42,7 @@ function M.setup()
   keyset("n", "<leader>cR", "<Plug>(coc-rename)", { silent = true, remap = true, desc = "Rename Symbol" })
 
   -- Formatting
-  keyset(
-    { "n", "x" },
-    "<leader>cf",
-    "<Plug>(coc-format-selected)",
-    { silent = true, remap = true, desc = "Format Code" }
-  )
+  keyset("n", "<leader>cf", ":CocCommand prettier.formatFile<CR>", { silent = true, desc = "Format File (Prettier)" })
 
   -- Code Action
   keyset("n", "<leader>ca", "<Plug>(coc-codeaction-cursor)", { silent = true, remap = true, desc = "Code Action" })
