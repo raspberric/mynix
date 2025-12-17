@@ -49,5 +49,6 @@
   "css.format.enable": false,
   "json.format.enable": false,
   "prettier.disableLanguages": [],
-  "prettier.formatterPriority": 1
+  "prettier.formatterPriority": 1,
+  "prettier.resolveConfig": true
 }
