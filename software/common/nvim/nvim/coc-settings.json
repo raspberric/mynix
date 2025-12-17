@@ -5,16 +5,17 @@
       "args": [
         "--stdio",
         "--tsProbeLocations",
-        "./node_modules",
+        "./node_modules/typescript/lib",
         "--ngProbeLocations",
-        "./node_modules"
+        "./node_modules/@angular/language-server/bin"
       ],
       "filetypes": [
         "html",
         "typescript",
-        "typescriptreact",
+        "ts",
         "angular"
       ],
+      "trace.server.verobosity": "verbose",
       "rootPatterns": [
         "angular.json",
         "project.json"
