@@ -109,6 +109,7 @@
           coc-css
           coc-html
           coc-tsserver
+          coc-prettier
           # coc-pairs
           # coc-lists
           # coc-diagnostics
