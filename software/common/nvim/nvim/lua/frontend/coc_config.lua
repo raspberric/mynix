@@ -51,38 +51,7 @@ function M.setup()
   vim.opt.backup = false
   vim.opt.writebackup = false
 
-  -- Language Server Configurations
-  local languageserver = {
-    angular = {
-      command = "ngserver",
-      args = { "--stdio", "--tsProbeLocations", "", "--ngProbeLocations", "" },
-      filetypes = { "html", "typescript", "typescriptreact", "angular" },
-      rootPatterns = { "angular.json", "project.json" },
-    },
-    astro = {
-      command = "astro-ls",
-      args = { "--stdio" },
-      filetypes = { "astro" },
-      rootPatterns = { "astro.config.mjs", "package.json", ".git" },
-    },
-  }
-  vim.fn["coc#config"]("languageserver", languageserver)
 
-  -- Extension Configurations
-  vim.fn["coc#config"]("tsserver", {
-    enable = true,
-    useLocalTsdk = true,
-  })
-
-  vim.fn["coc#config"]("html", {
-    suggest = { angular1 = false },
-    validate = { scripts = false, styles = false },
-    format = { enable = true },
-  })
-
-  vim.fn["coc#config"]("css", {
-    validate = { enable = true },
-  })
 end
 
 return M

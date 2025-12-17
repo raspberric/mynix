@@ -1,0 +1,45 @@
+{
+  "languageserver": {
+    "angular": {
+      "command": "ngserver",
+      "args": [
+        "--stdio",
+        "--tsProbeLocations",
+        "./node_modules",
+        "--ngProbeLocations",
+        "./node_modules"
+      ],
+      "filetypes": [
+        "html",
+        "typescript",
+        "typescriptreact",
+        "angular"
+      ],
+      "rootPatterns": [
+        "angular.json",
+        "project.json"
+      ]
+    },
+    "astro": {
+      "command": "astro-ls",
+      "args": [
+        "--stdio"
+      ],
+      "filetypes": [
+        "astro"
+      ],
+      "rootPatterns": [
+        "astro.config.mjs",
+        "package.json",
+        ".git"
+      ]
+    }
+  },
+  "tsserver.enable": true,
+  "tsserver.useLocalTsdk": true,
+  "html.suggest.angular1": false,
+  "html.validate.scripts": false,
+  "html.validate.styles": false,
+  "html.format.enable": true,
+  "css.validate.enable": true
+}
