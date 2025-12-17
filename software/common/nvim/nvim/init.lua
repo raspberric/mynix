@@ -6,12 +6,6 @@ vim.g.netrw_liststyle = 3
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 300
 
--- Fix for Lua LSP "undefined global" warning on vim.fn.nixCats
--- This stub function is ignored by Neovim but recognized by the LSP
-vim.fn.nixCats = vim.fn.nixCats or function(path)
-  return {}
-end
-
 vim.cmd("colorscheme tokyonight-storm")
 require("mini_config").setup()
 require("snacks_config").setup()
@@ -19,7 +13,6 @@ require("treesitter").setup()
 require("persistence_config").setup()
 require("trouble_config").setup()
 require("flash_config").setup()
-require("refactor_config").setup()
 require("opencode").setup()
 
 -- Handle frontend development with coc.nvim or other LSP setup

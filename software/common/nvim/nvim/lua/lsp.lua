@@ -67,6 +67,5 @@ return {
     vim.lsp.enable("angularls")
     vim.lsp.enable("tailwindcss")
 
-    require("nvim-ts-autotag").setup()
   end,
 }
