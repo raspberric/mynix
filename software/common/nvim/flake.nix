@@ -66,6 +66,9 @@
           vscode-js-debug
           # add prettier
         ];
+        java = with pkgs; [
+          jdt-language-server
+        ];
       };
 
       # This is for plugins that will load at startup without using packadd:
@@ -122,6 +125,10 @@
           nvim-dap
           nvim-dap-ui
           # refactoring-nvim
+        ];
+
+        java = with pkgs.vimPlugins; [
+          coc-java
         ];
       };
 
@@ -181,6 +188,26 @@
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
             IS_FRONTEND = true;
+          };
+        };
+      };
+
+      jedev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          gitPlugins = true;
+          frontend = true;
+          java = true;
+          vscode_debug_path = pkgs.vscode-js-debug;
+          runtimeChecks = {
+            IS_FRONTEND = true;
+            IS_JAVA = true;
           };
         };
       };

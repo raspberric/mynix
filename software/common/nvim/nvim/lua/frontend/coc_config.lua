@@ -2,6 +2,23 @@ local M = {}
 
 function M.setup()
   local keyset = vim.keymap.set
+  -- Dynamic Java Configuration
+  if nixCats("runtimeChecks.IS_JAVA") then
+    vim.fn["coc#config"]("java", {
+      enabled = true,
+      saveActions = {
+        organizeImports = true,
+      },
+      completion = {
+        enabled = true,
+        importOrder = { "java", "javax", "com", "org" }
+      },
+      format = {
+        enabled = true,
+      }
+    })
+  end
+
   -- Autocomplete
   function _G.check_back_space()
     local col = vim.fn.col(".") - 1
