@@ -38,6 +38,7 @@
     lazygitConfigured = import ./common/lazygit.nix {inherit pkgs;};
     tmuxConfigured = import ./common/tmux.nix {inherit pkgs;};
     ghosttyConfigured = import ./gui/ghostty.nix {inherit pkgs;};
+    nxConfigured = import ./common/nx/default.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -85,6 +86,22 @@
       vscode = pkgs.mkShell {
         buildInputs = [pkgs.vscode];
       };
+
+      jedev = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          nxConfigured
+          nodePackages."@angular/cli"
+          jdk21
+          maven
+          spring-boot-cli
+        ];
+
+        shellHook = ''
+          export JAVA_HOME=${pkgs.jdk21.home}
+          echo "Spring Boot Dev Shell Loaded (JDK 21)"
+        '';
+      };
+
       default = pkgs.mkShell {
         buildInputs = [standardApps];
         shellHook = ''
