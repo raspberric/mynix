@@ -81,11 +81,16 @@
       };
     };
 
-    devShells.${system}.default = pkgs.mkShell {
-      buildInputs = [standardApps];
-      shellHook = ''
-        echo "Welcome to the rice fields MF!"
-      '';
+    devShells.${system} = {
+      vscode = pkgs.mkShell {
+        buildInputs = [pkgs.vscode];
+      };
+      default = pkgs.mkShell {
+        buildInputs = [standardApps];
+        shellHook = ''
+          echo "Welcome to the rice fields MF!"
+        '';
+      };
     };
   };
 }
