@@ -1,0 +1,9 @@
+{
+  "name": "nx-wrapper",
+  "version": "1.0.0",
+  "description": "Nix wrapper for nx",
+  "license": "MIT",
+  "dependencies": {
+    "nx": "latest"
+  }
+}
