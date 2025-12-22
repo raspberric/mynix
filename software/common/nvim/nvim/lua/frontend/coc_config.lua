@@ -2,6 +2,7 @@ local M = {}
 
 function M.setup()
   local keyset = vim.keymap.set
+
   -- Dynamic Java Configuration
   if nixCats("runtimeChecks.IS_JAVA") then
     vim.fn["coc#config"]("java", {
@@ -68,6 +69,14 @@ function M.setup()
 
   -- Autofix
   keyset("n", "<leader>cq", "<Plug>(coc-fix-current)", { silent = true, remap = true, desc = "Quickfix" })
+
+  vim.api.nvim_create_augroup("CocGroup", { clear = true })
+  vim.api.nvim_create_autocmd("CursorHold", {
+    group = "CocGroup",
+    command = "silent call CocActionAsync('highlight')",
+    desc = "Highlight symbol under cursor on CursorHold",
+  })
+  vim.api.nvim_set_hl(0, "CocHighlightText", { bg = "#4F4040" }) -- Example: adjust color as needed
 
   -- Vim options
   vim.opt.backup = false
