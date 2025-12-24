@@ -28,10 +28,10 @@ else
   require("lsp").setup()
   require("blink").setup()
   require("formatter").setup()
-end
 
-vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
+  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+  vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
+end
 
 vim.diagnostic.config({
   virtual_text = true,

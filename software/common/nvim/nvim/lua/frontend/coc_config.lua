@@ -4,6 +4,7 @@ function M.setup()
   local keyset = vim.keymap.set
 
   -- Dynamic Java Configuration
+  ---@diagnostic disable-next-line: undefined-global
   if nixCats("runtimeChecks.IS_JAVA") then
     vim.fn["coc#config"]("java", {
       enabled = true,
@@ -20,11 +21,45 @@ function M.setup()
     })
   end
 
-  local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-  keyset("i", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"]], opts)
-  keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"]], opts)
-  keyset("i", "<C-n>", [[coc#pum#visible() ? coc#pum#info() : coc#refresh()]], opts)
-  keyset("i", "<C-y>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"]], opts)
+  -- Autocomplete Logic
+  local autocomplete_opts = { silent = true, noremap = true, expr = true, replace_keycodes = true }
+
+  keyset({ "n", "i" }, "<C-j>", function()
+    if vim.fn["coc#pum#visible"]() == 1 then
+      vim.fn["coc#pum#next"](1)
+      return ""
+    end
+    return "<C-j>"
+  end, autocomplete_opts)
+
+  keyset({ "n", "i" }, "<C-k>", function()
+    if vim.fn["coc#pum#visible"]() == 1 then
+      vim.fn["coc#pum#prev"](1)
+      return ""
+    end
+    return "<C-k>"
+  end, autocomplete_opts)
+
+  keyset({ "n", "i" }, "<C-n>", function()
+    if vim.fn["coc#pum#visible"]() == 1 then
+      vim.fn["coc#pum#info"]()
+      return ""
+    else
+      if vim.api.nvim_get_mode().mode == "n" then
+        return "i<C-r>=coc#refresh()<CR>"
+      else
+        return "<C-r>=coc#refresh()<CR>"
+      end
+    end
+  end, autocomplete_opts)
+
+  keyset({ "n", "i" }, "<C-y>", function()
+    if vim.fn["coc#pum#visible"]() == 1 then
+      vim.fn["coc#pum#confirm"]()
+      return ""
+    end
+    return "<C-y>"
+  end, autocomplete_opts)
 
   -- Navigation
   keyset("n", "<leader>cd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
@@ -37,27 +72,32 @@ function M.setup()
   keyset("n", "<leader>ci", "<Plug>(coc-implementation)", { silent = true, remap = true, desc = "Goto Implementation" })
   keyset("n", "<leader>cr", "<Plug>(coc-references)", { silent = true, remap = true, desc = "Goto References" })
 
-  -- Documentation
-  function _G.show_docs()
-    local cw = vim.fn.expand("<cword>")
-    if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
-      vim.api.nvim_command("h " .. cw)
-    elseif vim.api.nvim_eval("coc#rpc#ready()") then
-      vim.fn.CocActionAsync("doHover")
-    else
-      vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
-    end
-  end
-  keyset("n", "<C-n>", "<CMD>lua _G.show_docs()<CR>", { silent = true, desc = "Show Documentation" })
-
   -- Scroll Documentation
-  local scroll_opts = { silent = true, nowait = true, expr = true, replace_keycodes = false }
-  keyset("n", "<C-h>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-h>"]], scroll_opts)
-  keyset("n", "<C-l>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-l>"]], scroll_opts)
-  keyset("i", "<C-h>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<C-h>"]], scroll_opts)
-  keyset("i", "<C-l>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<C-l>"]], scroll_opts)
-  keyset("v", "<C-h>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-h>"]], scroll_opts)
-  keyset("v", "<C-l>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-l>"]], scroll_opts)
+  local scroll_opts = { silent = true, nowait = true, expr = true, replace_keycodes = true }
+
+  keyset({ "n", "i", "v" }, "<C-h>", function()
+    if vim.fn["coc#float#has_scroll"]() == 1 then
+      if vim.api.nvim_get_mode().mode == "i" then
+        return "<C-r>=coc#float#scroll(0)<CR>"
+      else
+        vim.fn["coc#float#scroll"](0)
+        return ""
+      end
+    end
+    return "<C-h>"
+  end, scroll_opts)
+
+  keyset({ "n", "i", "v" }, "<C-l>", function()
+    if vim.fn["coc#float#has_scroll"]() == 1 then
+      if vim.api.nvim_get_mode().mode == "i" then
+        return "<C-r>=coc#float#scroll(1)<CR>"
+      else
+        vim.fn["coc#float#scroll"](1)
+        return ""
+      end
+    end
+    return "<C-l>"
+  end, scroll_opts)
 
   -- Rename
   keyset("n", "<leader>cR", "<Plug>(coc-rename)", { silent = true, remap = true, desc = "Rename Symbol" })
@@ -79,7 +119,7 @@ function M.setup()
     command = "silent call CocActionAsync('highlight')",
     desc = "Highlight symbol under cursor on CursorHold",
   })
-  vim.api.nvim_set_hl(0, "CocHighlightText", { bg = "#4F4040" }) -- Example: adjust color as needed
+  vim.api.nvim_set_hl(0, "CocHighlightText", { bg = "#4F4040" })
 
   -- Vim options
   vim.opt.backup = false
