@@ -42,19 +42,19 @@
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
-      paths = with pkgs; [
-        gitConfigured
-        lazygitConfigured
-        tmuxConfigured
-        tldr
-        nodejs_24
-        pnpm
-        xclip
-        ripgrep
-        mvim.packages.${system}.default
-        mvim.packages.${system}.fedev
-        openCodeSrc.packages.${system}.default
-      ];
+      paths = with pkgs;
+        [
+          gitConfigured
+          lazygitConfigured
+          tmuxConfigured
+          tldr
+          nodejs_24
+          pnpm
+          xclip
+          ripgrep
+          openCodeSrc.packages.${system}.default
+        ]
+        ++ (builtins.attrValues mvim.packages.${system});
     };
 
     guiApps = pkgs.symlinkJoin {
