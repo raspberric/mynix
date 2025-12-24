@@ -22,28 +22,16 @@ function M.setup()
   end
 
   -- Autocomplete Logic
-  local autocomplete_opts = { silent = true, noremap = true, expr = true, replace_keycodes = true }
+  local opts = { silent = true, noremap = true, expr = true, replace_keycodes = true }
 
-  keyset({ "n", "i" }, "<C-j>", function()
-    if vim.fn["coc#pum#visible"]() == 1 then
-      vim.fn["coc#pum#next"](1)
-      return ""
-    end
-    return "<C-j>"
-  end, autocomplete_opts)
-
-  keyset({ "n", "i" }, "<C-k>", function()
-    if vim.fn["coc#pum#visible"]() == 1 then
-      vim.fn["coc#pum#prev"](1)
-      return ""
-    end
-    return "<C-k>"
-  end, autocomplete_opts)
+  keyset("i", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"]], opts)
+  keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"]], opts)
+  keyset("n", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-w>j"]], opts)
+  keyset("n", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-w>k"]], opts)
 
   keyset({ "n", "i" }, "<C-n>", function()
     if vim.fn["coc#pum#visible"]() == 1 then
-      vim.fn["coc#pum#info"]()
-      return ""
+      return vim.fn["coc#pum#info"]()
     else
       if vim.api.nvim_get_mode().mode == "n" then
         return "i<C-r>=coc#refresh()<CR>"
@@ -51,53 +39,28 @@ function M.setup()
         return "<C-r>=coc#refresh()<CR>"
       end
     end
-  end, autocomplete_opts)
+  end, opts)
 
-  keyset({ "n", "i" }, "<C-y>", function()
-    if vim.fn["coc#pum#visible"]() == 1 then
-      vim.fn["coc#pum#confirm"]()
-      return ""
-    end
-    return "<C-y>"
-  end, autocomplete_opts)
+  keyset({ "n", "i" }, "<C-y>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"]], opts)
 
   -- Navigation
-  keyset("n", "<leader>cd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
-  keyset(
-    "n",
-    "<leader>ct",
-    "<Plug>(coc-type-definition)",
-    { silent = true, remap = true, desc = "Goto Type Definition" }
-  )
-  keyset("n", "<leader>ci", "<Plug>(coc-implementation)", { silent = true, remap = true, desc = "Goto Implementation" })
-  keyset("n", "<leader>cr", "<Plug>(coc-references)", { silent = true, remap = true, desc = "Goto References" })
+  keyset("n", "gd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
+  keyset("n", "gy", "<Plug>(coc-type-definition)", { silent = true, remap = true, desc = "Goto Type Definition" })
+  keyset("n", "gi", "<Plug>(coc-implementation)", { silent = true, remap = true, desc = "Goto Implementation" })
+  keyset("n", "gr", "<Plug>(coc-references)", { silent = true, remap = true, desc = "Goto References" })
+  keyset("n", "grr", "<Plug>(coc-references)", { silent = true, remap = true, desc = "Goto References" })
+  keyset("n", "gri", "<Plug>(coc-implementation)", { silent = true, remap = true, desc = "Goto Implementation" })
+  keyset("n", "grn", "<Plug>(coc-rename)", { silent = true, remap = true, desc = "Rename Symbol" })
+  keyset("n", "gra", "<Plug>(coc-codeaction-cursor)", { silent = true, remap = true, desc = "Code Action" })
 
   -- Scroll Documentation
   local scroll_opts = { silent = true, nowait = true, expr = true, replace_keycodes = true }
-
-  keyset({ "n", "i", "v" }, "<C-h>", function()
-    if vim.fn["coc#float#has_scroll"]() == 1 then
-      if vim.api.nvim_get_mode().mode == "i" then
-        return "<C-r>=coc#float#scroll(0)<CR>"
-      else
-        vim.fn["coc#float#scroll"](0)
-        return ""
-      end
-    end
-    return "<C-h>"
-  end, scroll_opts)
-
-  keyset({ "n", "i", "v" }, "<C-l>", function()
-    if vim.fn["coc#float#has_scroll"]() == 1 then
-      if vim.api.nvim_get_mode().mode == "i" then
-        return "<C-r>=coc#float#scroll(1)<CR>"
-      else
-        vim.fn["coc#float#scroll"](1)
-        return ""
-      end
-    end
-    return "<C-l>"
-  end, scroll_opts)
+  keyset("n", "<C-h>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-w>h"]], scroll_opts)
+  keyset("n", "<C-l>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-w>l"]], scroll_opts)
+  keyset("i", "<C-h>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<C-h>"]], scroll_opts)
+  keyset("i", "<C-l>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<C-l>"]], scroll_opts)
+  keyset("v", "<C-h>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-h>"]], scroll_opts)
+  keyset("v", "<C-l>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-l>"]], scroll_opts)
 
   -- Rename
   keyset("n", "<leader>cR", "<Plug>(coc-rename)", { silent = true, remap = true, desc = "Rename Symbol" })
