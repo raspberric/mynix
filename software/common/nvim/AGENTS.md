@@ -10,3 +10,7 @@ The Neovim configuration, located in `software/common/nvim/nvim`, utilizes [NixC
 
 If any configuration options or their implications are unclear or ambiguous, please prompt the user to trigger a web search. This will enable you to gather more precise information before making any changes.
 Do not use `nix search` command. Use [ nixpgs search ](https://search.nixos.org/packages?channel=25.05) instead.
+
+## Code Changes
+
+Do not try to fix the warnings that the user has not specifically told you to fix.
