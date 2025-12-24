@@ -12,25 +12,19 @@ function M.setup()
       },
       completion = {
         enabled = true,
-        importOrder = { "java", "javax", "com", "org" }
+        importOrder = { "java", "javax", "com", "org" },
       },
       format = {
         enabled = true,
-      }
+      },
     })
   end
 
-  -- Autocomplete
-  function _G.check_back_space()
-    local col = vim.fn.col(".") - 1
-    return col == 0 or vim.fn.getline("."):sub(col, col):match("%s") ~= nil
-  end
-
   local opts = { silent = true, noremap = true, expr = true, replace_keycodes = false }
-  keyset("i", "<C-j>", 'coc#pum#visible() ? coc#pum#next(1) : v:lua.check_back_space() ? "<TAB>" : coc#refresh()', opts)
-  keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"]], opts)
-  keyset("i", "<TAB>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"]], opts)
-  keyset("i", "<c-space>", "coc#refresh()", { silent = true, expr = true })
+  keyset("i", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"]], opts)
+  keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"]], opts)
+  keyset("i", "<C-n>", [[coc#pum#visible() ? coc#pum#info() : coc#refresh()]], opts)
+  keyset("i", "<C-y>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"]], opts)
 
   -- Navigation
   keyset("n", "<leader>cd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
@@ -55,6 +49,15 @@ function M.setup()
     end
   end
   keyset("n", "<C-n>", "<CMD>lua _G.show_docs()<CR>", { silent = true, desc = "Show Documentation" })
+
+  -- Scroll Documentation
+  local scroll_opts = { silent = true, nowait = true, expr = true, replace_keycodes = false }
+  keyset("n", "<C-h>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-h>"]], scroll_opts)
+  keyset("n", "<C-l>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-l>"]], scroll_opts)
+  keyset("i", "<C-h>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(0)\<cr>" : "\<C-h>"]], scroll_opts)
+  keyset("i", "<C-l>", [[coc#float#has_scroll() ? "\<c-r>=coc#float#scroll(1)\<cr>" : "\<C-l>"]], scroll_opts)
+  keyset("v", "<C-h>", [[coc#float#has_scroll() ? coc#float#scroll(0) : "\<C-h>"]], scroll_opts)
+  keyset("v", "<C-l>", [[coc#float#has_scroll() ? coc#float#scroll(1) : "\<C-l>"]], scroll_opts)
 
   -- Rename
   keyset("n", "<leader>cR", "<Plug>(coc-rename)", { silent = true, remap = true, desc = "Rename Symbol" })
