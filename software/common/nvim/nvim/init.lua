@@ -15,19 +15,23 @@ require("trouble_config").setup()
 require("flash_config").setup()
 require("opencode").setup()
 
--- Handle frontend development with coc.nvim or other LSP setup
+---@diagnostic disable-next-line: undefined-global
 if nixCats("runtimeChecks.IS_FRONTEND") then
-  require("frontend.coc_config").setup()
   require("frontend.ccc_config").setup()
   require("debug_config").setup()
-else
-  require("blink").setup()
-  require("lsp").setup()
-  require("formatter").setup()
-
-  vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
-  vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
 end
+
+---@diagnostic disable-next-line: undefined-global
+if nixCats("runtimeChecks.IS_COC") then
+  require("frontend.coc_config").setup()
+else
+  require("lsp").setup()
+  require("blink").setup()
+  require("formatter").setup()
+end
+
+vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
+vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
 
 vim.diagnostic.config({
   virtual_text = true,

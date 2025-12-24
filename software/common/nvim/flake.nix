@@ -88,15 +88,14 @@
           markview-nvim
           plenary-nvim
           pkgs.neovimPlugins.opencode
+          lazydev-nvim
         ];
         config = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
             p.nix
             p.lua
           ]))
-          nvim-lspconfig
           blink-cmp
-          lazydev-nvim
           nvim-lspconfig
         ];
         frontend = with pkgs.vimPlugins; [
@@ -108,23 +107,25 @@
             p.angular
           ]))
           pkgs.neovimPlugins.coc-angular
+          ccc-nvim
+          nvim-ts-autotag
+          nvim-dap
+          nvim-dap-ui
+          # refactoring-nvim
+        ];
+        frontendCoc = with pkgs.vimPlugins; [
           coc-nvim
           coc-css
           coc-html
           coc-tsserver
           coc-prettier
+          coc-json
           # coc-pairs
           # coc-lists
           # coc-diagnostics
           # coc-explorer
           # coc-markdownlint
           # coc-tailwindcss
-          coc-json
-          ccc-nvim
-          nvim-ts-autotag
-          nvim-dap
-          nvim-dap-ui
-          # refactoring-nvim
         ];
 
         java = with pkgs.vimPlugins; [
@@ -183,11 +184,32 @@
         };
         categories = {
           general = true;
+          config = true;
           gitPlugins = true;
           frontend = true;
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
             IS_FRONTEND = true;
+          };
+        };
+      };
+
+      cedev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          gitPlugins = true;
+          frontend = true;
+          frontendCoc = true;
+          vscode_debug_path = pkgs.vscode-js-debug;
+          runtimeChecks = {
+            IS_FRONTEND = true;
+            IS_COC = true;
           };
         };
       };
@@ -202,11 +224,11 @@
         categories = {
           general = true;
           gitPlugins = true;
-          frontend = true;
+          frontendCoc = true;
           java = true;
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
-            IS_FRONTEND = true;
+            IS_COC = true;
             IS_JAVA = true;
           };
         };
