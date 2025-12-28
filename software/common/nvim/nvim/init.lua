@@ -6,6 +6,15 @@ vim.g.netrw_liststyle = 3
 vim.opt.signcolumn = "yes"
 vim.opt.updatetime = 300
 
+-- folding
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+vim.opt.foldenable = false -- Fold everything when opening a file? (false = open)
+vim.opt.foldcolumn = "1" -- Show a small column on the left indicating folds
+vim.opt.fillchars = { fold = " ", foldopen = "", foldsep = " ", foldclose = "" }
+-- toggle wrap
+vim.keymap.set("n", "<leader>w", ":set wrap!<CR>", { desc = "Toggle Wrap" })
+
 vim.cmd("colorscheme tokyonight-storm")
 require("mini_config").setup()
 require("snacks_config").setup()
@@ -19,6 +28,7 @@ require("opencode").setup()
 if nixCats("runtimeChecks.IS_FRONTEND") then
   require("frontend.ccc_config").setup()
   require("debug_config").setup()
+  require("nvim-ts-autotag").setup()
 end
 
 ---@diagnostic disable-next-line: undefined-global
