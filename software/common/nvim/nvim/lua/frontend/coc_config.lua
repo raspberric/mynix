@@ -24,24 +24,48 @@ function M.setup()
   -- Autocomplete Logic
   local opts = { silent = true, noremap = true, expr = true, replace_keycodes = true }
 
+  -- Next/Prev in list
   keyset("i", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-j>"]], opts)
   keyset("i", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-k>"]], opts)
-  keyset("n", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-w>j"]], opts)
-  keyset("n", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-w>k"]], opts)
 
-  keyset({ "n", "i" }, "<C-n>", function()
+  -- Fallback to window nav in normal mode if no PUM
+  -- keyset("n", "<C-j>", [[coc#pum#visible() ? coc#pum#next(1) : "\<C-w>j"]], opts)
+  -- keyset("n", "<C-k>", [[coc#pum#visible() ? coc#pum#prev(1) : "\<C-w>k"]], opts)
+
+  -- <C-n> Logic:
+  -- Normal Mode: Show documentation (hover)
+  -- Insert Mode:
+  --   If PUM visible: Show info (docs for selected item)
+  --   If PUM NOT visible: Trigger refresh (show autocomplete)
+
+  -- Insert Mode <C-n>
+  keyset("i", "<C-n>", function()
     if vim.fn["coc#pum#visible"]() == 1 then
       return vim.fn["coc#pum#info"]()
     else
-      if vim.api.nvim_get_mode().mode == "n" then
-        return "i<C-r>=coc#refresh()<CR>"
-      else
-        return "<C-r>=coc#refresh()<CR>"
-      end
+      return vim.fn["coc#refresh"]()
     end
   end, opts)
 
+  -- Normal Mode <C-n> - Show Documentation
+  function _G.show_docs()
+    local cw = vim.fn.expand("<cword>")
+    if vim.fn.index({ "vim", "help" }, vim.bo.filetype) >= 0 then
+      vim.api.nvim_command("h " .. cw)
+    elseif vim.api.nvim_eval("coc#rpc#ready()") then
+      vim.fn.CocActionAsync("doHover")
+    else
+      vim.api.nvim_command("!" .. vim.o.keywordprg .. " " .. cw)
+    end
+  end
+  vim.keymap.set("n", "<C-n>", "<CMD>lua _G.show_docs()<CR>", { silent = true, desc = "Show Documentation" })
+
+  -- Confirm selection
   keyset({ "n", "i" }, "<C-y>", [[coc#pum#visible() ? coc#pum#confirm() : "\<C-y>"]], opts)
+
+  -- Escape to close PUM/Float
+  keyset("i", "<Esc>", [[coc#pum#visible() ? coc#pum#cancel() : "\<Esc>"]], opts)
+  keyset("n", "<Esc>", [[coc#float#has_float() ? coc#float#close_all() : "\<Esc>"]], opts)
 
   -- Navigation
   keyset("n", "gd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
@@ -52,6 +76,16 @@ function M.setup()
   keyset("n", "gri", "<Plug>(coc-implementation)", { silent = true, remap = true, desc = "Goto Implementation" })
   keyset("n", "grn", "<Plug>(coc-rename)", { silent = true, remap = true, desc = "Rename Symbol" })
   keyset("n", "gra", "<Plug>(coc-codeaction-cursor)", { silent = true, remap = true, desc = "Code Action" })
+
+  keyset("n", "<leader>cd", "<Plug>(coc-definition)", { silent = true, remap = true, desc = "Goto Definition" })
+  keyset(
+    "n",
+    "<leader>ct",
+    "<Plug>(coc-type-definition)",
+    { silent = true, remap = true, desc = "Goto Type Definition" }
+  )
+  keyset("n", "<leader>ci", "<Plug>(coc-implementation)", { silent = true, remap = true, desc = "Goto Implementation" })
+  keyset("n", "<leader>cr", "<Plug>(coc-references)", { silent = true, remap = true, desc = "Goto References" })
 
   -- Scroll Documentation
   local scroll_opts = { silent = true, nowait = true, expr = true, replace_keycodes = true }
