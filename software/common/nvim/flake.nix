@@ -224,6 +224,7 @@
         categories = {
           general = true;
           gitPlugins = true;
+          frontend = true;
           frontendCoc = true;
           java = true;
           vscode_debug_path = pkgs.vscode-js-debug;
