@@ -228,6 +228,7 @@
           java = true;
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
+            IS_FRONTEND = true;
             IS_COC = true;
             IS_JAVA = true;
           };
