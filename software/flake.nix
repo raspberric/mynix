@@ -31,6 +31,7 @@
             "steam-run"
             "google-chrome"
             "discord"
+            "vscode"
           ];
       };
     };
@@ -94,6 +95,7 @@
           jdk21
           maven
           spring-boot-cli
+          redis
         ];
 
         shellHook = ''
