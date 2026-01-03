@@ -68,6 +68,7 @@
         ];
         java = with pkgs; [
           jdt-language-server
+          jdk21
         ];
       };
 
@@ -105,6 +106,7 @@
             p.css
             p.html
             p.angular
+            p.java
           ]))
           pkgs.neovimPlugins.coc-angular
           ccc-nvim
@@ -129,7 +131,7 @@
         ];
 
         java = with pkgs.vimPlugins; [
-          coc-java
+          nvim-jdtls
         ];
       };
 
@@ -225,13 +227,13 @@
           general = true;
           gitPlugins = true;
           frontend = true;
-          frontendCoc = true;
+          config = true;
           java = true;
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
             IS_FRONTEND = true;
-            IS_COC = true;
             IS_JAVA = true;
+            JAVA_HOME = pkgs.jdk21.home;
           };
         };
       };
