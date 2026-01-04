@@ -55,6 +55,13 @@ return {
     })
     vim.lsp.config("lua_ls", {
       capabilities = lspCapabilities,
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "nixCats" },
+          },
+        },
+      },
     })
 
     vim.lsp.enable("lua_ls")
@@ -66,6 +73,5 @@ return {
     vim.lsp.enable("astro")
     vim.lsp.enable("angularls")
     vim.lsp.enable("tailwindcss")
-
   end,
 }
