@@ -69,6 +69,7 @@
         java = with pkgs; [
           jdt-language-server
           jdk21
+          vscode-extensions.vscjava.vscode-java-debug
         ];
       };
 
@@ -230,6 +231,7 @@
           config = true;
           java = true;
           vscode_debug_path = pkgs.vscode-js-debug;
+          java_debug_path = pkgs.vscode-extensions.vscjava.vscode-java-debug;
           runtimeChecks = {
             IS_FRONTEND = true;
             IS_JAVA = true;
