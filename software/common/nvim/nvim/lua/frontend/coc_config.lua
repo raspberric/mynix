@@ -6,17 +6,74 @@ function M.setup()
   -- Dynamic Java Configuration
   ---@diagnostic disable-next-line: undefined-global
   if nixCats("runtimeChecks.IS_JAVA") then
+    -- Disable coc-java extension to prevent conflicts
     vim.fn["coc#config"]("java", {
-      enabled = true,
-      saveActions = {
-        organizeImports = true,
-      },
-      completion = {
-        enabled = true,
-        importOrder = { "java", "javax", "com", "org" },
-      },
-      format = {
-        enabled = true,
+      enabled = false,
+    })
+
+    -- Configure generic language server using jdtls binary
+    vim.fn["coc#config"]("languageserver", {
+      java = {
+        command = "jdtls",
+        args = {
+          "-javaagent:" .. nixCats("runtimeChecks.LOMBOK_JAR"),
+        },
+        rootPatterns = { "mvnw", "gradlew", "pom.xml", "build.gradle" },
+        filetypes = { "java" },
+        initializationOptions = {
+          bundles = {},
+          extendedClientCapabilities = {
+            progressReportProvider = false,
+            classFileContentsSupport = true,
+            overrideMethodsPromptSupport = true,
+            hashCodeEqualsPromptSupport = true,
+            advancedOrganizeImportsSupport = true,
+            generateToStringPromptSupport = true,
+            advancedGenerateAccessorsSupport = true,
+            generateConstructorsPromptSupport = true,
+            selectionRangeSupport = true,
+          },
+          settings = {
+            java = {
+              home = nixCats("runtimeChecks.JAVA_HOME"),
+              eclipse = {
+                downloadSources = true,
+              },
+              maven = {
+                downloadSources = true,
+              },
+              implementationsCodeLens = {
+                enabled = true,
+              },
+              referencesCodeLens = {
+                enabled = true,
+              },
+              references = {
+                includeDecompiledSources = true,
+              },
+              inlayHints = {
+                parameterNames = {
+                  enabled = "all",
+                },
+              },
+              completion = {
+                enabled = true,
+                importOrder = { "java", "javax", "com", "org" },
+                guessMethodArguments = true,
+              },
+              configuration = {
+                updateBuildConfiguration = "interactive",
+                runtimes = {
+                  {
+                    name = "JavaSE-21",
+                    path = nixCats("runtimeChecks.JAVA_HOME"),
+                    default = true,
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     })
   end
