@@ -1,6 +1,14 @@
 return {
   setup = function()
     local dap = require("dap")
+    local dap_view = require("dap-view")
+
+    dap_view.setup()
+
+    vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Debug: Toggle Breakpoint" })
+    vim.keymap.set("n", "<leader>dt", dap_view.toggle, { desc = "Debug: Toggle View" })
+    vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Debug: Continue" })
+    vim.keymap.set("n", "<leader>dC", dap.run_to_cursor, { desc = "Debug: Run to cursor" })
 
     local js_debug_path = nixCats.get("vscode_debug_path")
     dap.adapters["pwa-chrome"] = {

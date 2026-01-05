@@ -91,6 +91,8 @@
           plenary-nvim
           pkgs.neovimPlugins.opencode
           lazydev-nvim
+          nvim-dap
+          nvim-dap-view
         ];
         config = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
@@ -112,9 +114,6 @@
           pkgs.neovimPlugins.coc-angular
           ccc-nvim
           nvim-ts-autotag
-          nvim-dap
-          nvim-dap-ui
-          # refactoring-nvim
         ];
         frontendCoc = with pkgs.vimPlugins; [
           coc-nvim
