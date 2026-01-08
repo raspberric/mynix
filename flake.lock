@@ -23,6 +23,7 @@
           "mySystem",
           "nixpkgs"
         ],
+        "plugins-better-ts-errors": "plugins-better-ts-errors",
         "plugins-coc-angular": "plugins-coc-angular",
         "plugins-opencode": "plugins-opencode"
       },
@@ -58,11 +59,11 @@
     },
     "nixCats": {
       "locked": {
-        "lastModified": 1767159145,
-        "narHash": "sha256-rnx/0p6D7rKd7mjtgsdSZjpkutJMzUaVyo2mj0rmjWQ=",
+        "lastModified": 1767604651,
+        "narHash": "sha256-itAnxzTpWpY1s3LA/oNngOuZDXT5U5JUZP5fApwx9gs=",
         "owner": "BirdeeHub",
         "repo": "nixCats-nvim",
-        "rev": "479ab18fbeabaf87564d3fb0eaf99ebebb05f2f8",
+        "rev": "3c9bc4d7123e1b48d92f25ba505b889af541e897",
         "type": "github"
       },
       "original": {
@@ -144,16 +145,32 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1767549868,
-        "narHash": "sha256-VMTakhDDWH97KshlXcC+sQv69df9DhHiGPqjEyC18s4=",
+        "lastModified": 1767654623,
+        "narHash": "sha256-Tu5/5CLhTf0un/ZSkXeQZ8d8aAS9G+BxVyZjaQ9uBi4=",
         "owner": "sst",
         "repo": "opencode",
-        "rev": "cdd6ea514b94d8ce71770bb02f33ab979e9ee0f6",
+        "rev": "21053732e77e7f38d0862dd2b00ad1a987a9a191",
         "type": "github"
       },
       "original": {
         "owner": "sst",
         "repo": "opencode",
+        "type": "github"
+      }
+    },
+    "plugins-better-ts-errors": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1730709379,
+        "narHash": "sha256-JqcoTKhU3ghFp2z8Wt27aI/DvUc6nfvs5QvkjOAdrU8=",
+        "owner": "OlegGulevskyy",
+        "repo": "better-ts-errors.nvim",
+        "rev": "d57a7794b271e1a0010d0328e5d3f18e20f1face",
+        "type": "github"
+      },
+      "original": {
+        "owner": "OlegGulevskyy",
+        "repo": "better-ts-errors.nvim",
         "type": "github"
       }
     },

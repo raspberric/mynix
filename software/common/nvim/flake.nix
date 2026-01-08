@@ -12,6 +12,10 @@
       url = "github:iamcco/coc-angular";
       flake = false;
     };
+    "plugins-better-ts-errors" = {
+      url = "github:/OlegGulevskyy/better-ts-errors.nvim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -114,6 +118,9 @@
           pkgs.neovimPlugins.coc-angular
           ccc-nvim
           nvim-ts-autotag
+          # dependency for better-ts-errors
+          pkgs.neovimPlugins.better-ts-errors
+          nui-nvim
         ];
         frontendCoc = with pkgs.vimPlugins; [
           coc-nvim

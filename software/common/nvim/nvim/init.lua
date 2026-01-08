@@ -29,6 +29,7 @@ if nixCats("runtimeChecks.IS_FRONTEND") then
   require("frontend.ccc_config").setup()
   require("debug_config").setup()
   require("nvim-ts-autotag").setup()
+  require("better-ts-errors")
 end
 
 ---@diagnostic disable-next-line: undefined-global
