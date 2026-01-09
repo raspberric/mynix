@@ -1,26 +1,5 @@
 {
   "languageserver": {
-    "angular": {
-      "command": "ngserver",
-      "args": [
-        "--stdio",
-        "--tsProbeLocations",
-        "./node_modules/typescript/lib",
-        "--ngProbeLocations",
-        "./node_modules/@angular/language-server/bin"
-      ],
-      "filetypes": [
-        "html",
-        "typescript",
-        "ts",
-        "angular"
-      ],
-      "trace.server.verobosity": "verbose",
-      "rootPatterns": [
-        "angular.json",
-        "project.json"
-      ]
-    },
     "astro": {
       "command": "astro-ls",
       "args": [
@@ -44,6 +23,11 @@
   "tsserver.enable": true,
   "tsserver.format.enable": false,
   "tsserver.useLocalTsdk": true,
+  "typescript.suggest.autoImports": true,
+  "typescript.preferences.importModuleSpecifier": "shortest",
+  "typescript.preferences.includePackageJsonAutoImports": "auto",
+  "javascript.suggest.autoImports": true,
+  "suggest.autoTrigger": "always",
   "html.validate.scripts": false,
   "html.validate.styles": false,
   "html.format.enable": false,

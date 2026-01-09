@@ -12,6 +12,10 @@
       url = "github:iamcco/coc-angular";
       flake = false;
     };
+    "plugins-better-ts-errors" = {
+      url = "github:/OlegGulevskyy/better-ts-errors.nvim";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -66,6 +70,11 @@
           vscode-js-debug
           # add prettier
         ];
+        java = with pkgs; [
+          jdt-language-server
+          jdk21
+          vscode-extensions.vscjava.vscode-java-debug
+        ];
       };
 
       # This is for plugins that will load at startup without using packadd:
@@ -85,15 +94,16 @@
           markview-nvim
           plenary-nvim
           pkgs.neovimPlugins.opencode
+          lazydev-nvim
+          nvim-dap
+          nvim-dap-view
         ];
         config = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
             p.nix
             p.lua
           ]))
-          nvim-lspconfig
           blink-cmp
-          lazydev-nvim
           nvim-lspconfig
         ];
         frontend = with pkgs.vimPlugins; [
@@ -103,25 +113,32 @@
             p.css
             p.html
             p.angular
+            p.java
           ]))
           pkgs.neovimPlugins.coc-angular
+          ccc-nvim
+          nvim-ts-autotag
+          # dependency for better-ts-errors
+          pkgs.neovimPlugins.better-ts-errors
+          nui-nvim
+        ];
+        frontendCoc = with pkgs.vimPlugins; [
           coc-nvim
           coc-css
           coc-html
           coc-tsserver
           coc-prettier
+          coc-json
           # coc-pairs
           # coc-lists
           # coc-diagnostics
           # coc-explorer
           # coc-markdownlint
           # coc-tailwindcss
-          coc-json
-          ccc-nvim
-          nvim-ts-autotag
-          nvim-dap
-          nvim-dap-ui
-          # refactoring-nvim
+        ];
+
+        java = with pkgs.vimPlugins; [
+          nvim-jdtls
         ];
       };
 
@@ -176,11 +193,55 @@
         };
         categories = {
           general = true;
+          config = true;
           gitPlugins = true;
           frontend = true;
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
             IS_FRONTEND = true;
+          };
+        };
+      };
+
+      cedev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          gitPlugins = true;
+          frontend = true;
+          frontendCoc = true;
+          vscode_debug_path = pkgs.vscode-js-debug;
+          runtimeChecks = {
+            IS_FRONTEND = true;
+            IS_COC = true;
+          };
+        };
+      };
+
+      jedev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          gitPlugins = true;
+          frontend = true;
+          config = true;
+          java = true;
+          vscode_debug_path = pkgs.vscode-js-debug;
+          java_debug_path = pkgs.vscode-extensions.vscjava.vscode-java-debug;
+          runtimeChecks = {
+            IS_FRONTEND = true;
+            IS_JAVA = true;
+            JAVA_HOME = pkgs.jdk21.home;
           };
         };
       };

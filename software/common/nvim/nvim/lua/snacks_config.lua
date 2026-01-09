@@ -66,9 +66,6 @@ function M.setup ()
 	require('snacks').setup({
 		picker = {
 			enabled = true,
-			file = {
-				ignored_dirs = { ".git", "node_modules", "build", "dist", "vendor" }
-			},
 		},
 		notifier = {
 			enabled = true

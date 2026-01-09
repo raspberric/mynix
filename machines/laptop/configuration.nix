@@ -53,5 +53,12 @@
       '';
     };
   };
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = true;
+    settings.PermitRootLogin = "no";
+    openFirewall = true;
+  };
+
   system.stateVersion = "25.05";
 }
