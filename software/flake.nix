@@ -31,6 +31,7 @@
             "steam-run"
             "google-chrome"
             "discord"
+            "discord-custom"
             "vscode"
           ];
       };
@@ -39,6 +40,7 @@
     lazygitConfigured = import ./common/lazygit.nix {inherit pkgs;};
     tmuxConfigured = import ./common/tmux.nix {inherit pkgs;};
     ghosttyConfigured = import ./gui/ghostty.nix {inherit pkgs;};
+    discordConfigured = import ./gui/discord.nix {inherit pkgs;};
     nxConfigured = import ./common/nx/default.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
@@ -63,10 +65,7 @@
       paths = with pkgs; [
         ghosttyConfigured
         google-chrome
-        (discord.override {
-          withOpenASAR = true;
-          withVencord = true;
-        })
+        discordConfigured
         heroic
       ];
     };
