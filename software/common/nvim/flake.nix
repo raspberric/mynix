@@ -8,10 +8,6 @@
       url = "github:sudo-tee/opencode.nvim/6094564e935b034c9ec6088d8333cd45553dc34e";
       flake = false;
     };
-    "plugins-coc-angular" = {
-      url = "github:iamcco/coc-angular";
-      flake = false;
-    };
     "plugins-better-ts-errors" = {
       url = "github:/OlegGulevskyy/better-ts-errors.nvim";
       flake = false;
@@ -115,26 +111,11 @@
             p.angular
             p.java
           ]))
-          pkgs.neovimPlugins.coc-angular
           ccc-nvim
           nvim-ts-autotag
           # dependency for better-ts-errors
           pkgs.neovimPlugins.better-ts-errors
           nui-nvim
-        ];
-        frontendCoc = with pkgs.vimPlugins; [
-          coc-nvim
-          coc-css
-          coc-html
-          coc-tsserver
-          coc-prettier
-          coc-json
-          # coc-pairs
-          # coc-lists
-          # coc-diagnostics
-          # coc-explorer
-          # coc-markdownlint
-          # coc-tailwindcss
         ];
 
         java = with pkgs.vimPlugins; [
@@ -199,26 +180,6 @@
           vscode_debug_path = pkgs.vscode-js-debug;
           runtimeChecks = {
             IS_FRONTEND = true;
-          };
-        };
-      };
-
-      cedev = {pkgs, ...}: {
-        settings = {
-          suffix-path = true;
-          suffix-LD = true;
-          wrapRc = false;
-          inherit unwrappedCfgPath;
-        };
-        categories = {
-          general = true;
-          gitPlugins = true;
-          frontend = true;
-          frontendCoc = true;
-          vscode_debug_path = pkgs.vscode-js-debug;
-          runtimeChecks = {
-            IS_FRONTEND = true;
-            IS_COC = true;
           };
         };
       };
