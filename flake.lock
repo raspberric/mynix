@@ -24,7 +24,6 @@
           "nixpkgs"
         ],
         "plugins-better-ts-errors": "plugins-better-ts-errors",
-        "plugins-coc-angular": "plugins-coc-angular",
         "plugins-opencode": "plugins-opencode"
       },
       "locked": {
@@ -94,11 +93,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1767364772,
-        "narHash": "sha256-fFUnEYMla8b7UKjijLnMe+oVFOz6HjijGGNS1l7dYaQ=",
+        "lastModified": 1767966113,
+        "narHash": "sha256-mSTsvXa4WveSRJexsmCbm9dY17B1fKp7NLpJxllpQw4=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "16c7794d0a28b5a37904d55bcca36003b9109aaa",
+        "rev": "5f02c91314c8ba4afe83b256b023756412218535",
         "type": "github"
       },
       "original": {
@@ -126,11 +125,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1767051569,
-        "narHash": "sha256-0MnuWoN+n1UYaGBIpqpPs9I9ZHW4kynits4mrnh1Pk4=",
+        "lastModified": 1767313136,
+        "narHash": "sha256-16KkgfdYqjaeRGBaYsNrhPRRENs0qzkQVUooNHtoy2w=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "40ee5e1944bebdd128f9fbada44faefddfde29bd",
+        "rev": "ac62194c3917d5f474c1a844b6fd6da2db95077d",
         "type": "github"
       },
       "original": {
@@ -145,11 +144,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1767960296,
-        "narHash": "sha256-uZIHgGKPfQ4CTunFC1g8EC/ptq0o5JLRviQprrGPlK0=",
+        "lastModified": 1768057008,
+        "narHash": "sha256-V5NMJfmmLYtR4ghUA07tBi90Fs/OuG4PC5I2DABzmCM=",
         "owner": "sst",
         "repo": "opencode",
-        "rev": "d34fdac85450c26ae422b00bd151eab797ea7e2e",
+        "rev": "02b7eb59f8ce9d80a9a80210c0a8ca9de716962e",
         "type": "github"
       },
       "original": {
@@ -171,22 +170,6 @@
       "original": {
         "owner": "OlegGulevskyy",
         "repo": "better-ts-errors.nvim",
-        "type": "github"
-      }
-    },
-    "plugins-coc-angular": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1700445841,
-        "narHash": "sha256-aLipB4IeH6gbJa1wZCfX30MjGsHluDNs++knKRgCcmc=",
-        "owner": "iamcco",
-        "repo": "coc-angular",
-        "rev": "2c39ac6c5c2474cf68b7ae13aa9b5e8fbe04f0e0",
-        "type": "github"
-      },
-      "original": {
-        "owner": "iamcco",
-        "repo": "coc-angular",
         "type": "github"
       }
     },
