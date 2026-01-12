@@ -66,6 +66,9 @@ function M.setup ()
 	require('snacks').setup({
 		picker = {
 			enabled = true,
+			replace_netrw = true,
+			hidden = true,
+			ignored = true,
 		},
 		notifier = {
 			enabled = true
@@ -76,6 +79,8 @@ function M.setup ()
 		explorer = {
 			enabled = true,
 			replace_netrw = true,
+			hidden = true,
+			ignored = true,
 		},
 	});
 	setup_keybinds();
