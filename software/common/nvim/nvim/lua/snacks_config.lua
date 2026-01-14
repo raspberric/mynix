@@ -68,7 +68,12 @@ function M.setup ()
 			enabled = true,
 			replace_netrw = true,
 			hidden = true,
-			ignored = true,
+			ignored = false,
+			sources = {
+				files = {
+					root = false,
+				}
+			}
 		},
 		notifier = {
 			enabled = true
