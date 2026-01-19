@@ -60,5 +60,9 @@
     openFirewall = true;
   };
 
+  services.tailscale.enable = true;
+  networking.firewall.trustedInterfaces = ["tailscale0"];
+  networking.firewall.checkReversePath = "loose";
+
   system.stateVersion = "25.05";
 }
