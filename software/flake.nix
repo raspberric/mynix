@@ -103,6 +103,19 @@
         '';
       };
 
+      nedev = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          dotnet-sdk_8
+          omnisharp-roslyn
+          netcoredbg
+        ];
+
+        shellHook = ''
+          export DOTNET_ROOT=${pkgs.dotnet-sdk_8}
+          echo ".NET 8 Dev Shell Loaded"
+        '';
+      };
+
       default = pkgs.mkShell {
         buildInputs = [standardApps];
         shellHook = ''
