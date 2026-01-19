@@ -33,6 +33,7 @@
       # Once we add this overlay to our nixpkgs, we are able to
       # use `pkgs.neovimPlugins`, which is a set of our plugins.
       (utils.standardPluginOverlay inputs)
+      (import ./overlays/angular.nix)
     ];
 
     categoryDefinitions = {
