@@ -16,33 +16,7 @@ return {
     })
     vim.lsp.config("cssls", { capabilities = lspCapabilities })
     vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
-    vim.lsp.config("angularls", {
-      cmd = {
-        "ngserver",
-        "--stdio",
-        "--tsProbeLocations",
-        "",
-        "--ngProbeLocations",
-        "",
-      },
-      before_init = function(params, config)
-        local root = config.root_dir
-        config.cmd = {
-          "ngserver",
-          "--stdio",
-          "--tsProbeLocations",
-          root .. "/node_modules",
-          "--ngProbeLocations",
-          root .. "/node_modules",
-        }
-      end,
-      filetypes = { "typescript", "html", "typescriptreact" },
-      root_dir = vim.fs.root(0, {
-        "angular.json",
-        "package.json",
-      }),
-      capabilities = lspCapabilities,
-    })
+    vim.lsp.config("angularls", { capabilities = lspCapabilities })
     vim.lsp.config("astro", {
       init_options = {
         typescript = {
@@ -65,13 +39,17 @@ return {
     })
 
     vim.lsp.enable("lua_ls")
-    vim.lsp.enable("nixd")
-    vim.lsp.enable("ts_ls")
-    vim.lsp.enable("jsonls")
-    vim.lsp.enable("html")
-    vim.lsp.enable("cssls")
-    vim.lsp.enable("astro")
-    vim.lsp.enable("angularls")
-    vim.lsp.enable("tailwindcss")
+    if nixCats("runtimeChecks.IS_NIX") then
+      vim.lsp.enable("nixd")
+    end
+    if nixCats("runtimeChecks.IS_FRONTEND") then
+      vim.lsp.enable("ts_ls")
+      vim.lsp.enable("jsonls")
+      vim.lsp.enable("html")
+      vim.lsp.enable("cssls")
+      vim.lsp.enable("astro")
+      vim.lsp.enable("angularls")
+      vim.lsp.enable("tailwindcss")
+    end
   end,
 }
