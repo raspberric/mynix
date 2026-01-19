@@ -38,6 +38,14 @@ require("formatter").setup()
 vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { desc = "Code Action" })
 vim.keymap.set("n", "<C-n>", vim.lsp.buf.hover, { desc = "Show hover documentation" })
 
+vim.keymap.set("n", "<leader>ci", function()
+  vim.lsp.buf.execute_command({
+    command = "_typescript.organizeImports",
+    arguments = { vim.api.nvim_buf_get_name(0) },
+    title = "",
+  })
+end, { desc = "Organize Imports" })
+
 vim.diagnostic.config({
   virtual_text = true,
   signs = true,
