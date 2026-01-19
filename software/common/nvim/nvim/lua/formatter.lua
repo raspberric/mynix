@@ -11,6 +11,13 @@ return {
         html = { "prettier" },
         css = { "prettier" },
       },
+      formatters = {
+        prettier = {
+          command = require("conform.util").find_executable({
+            "node_modules/.bin/prettier",
+          }, "prettier"),
+        },
+      },
       format_on_save = { timeout_ms = 500, lsp_fallback = true },
     })
     vim.keymap.set({ "n" }, "<leader>cf", function()
