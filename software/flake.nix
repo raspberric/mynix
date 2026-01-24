@@ -56,6 +56,7 @@
           xclip
           ripgrep
           openCodeSrc.packages.${system}.default
+          posting
         ]
         ++ (builtins.attrValues mvim.packages.${system});
     };
