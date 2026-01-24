@@ -15,8 +15,8 @@
       bind-key -n M-C-l swap-window -t +1\; select-window -t +1
 
       # join windows
-      bind-key j choose-window -F "#{window_index}: #{window_name}" "join-pane -h -t %%"
-      bind-key J choose-window -F "#{window_index}: #{window_name}" "join-pane -v -t %%"
+      bind-key j choose-window -F "#{window_index}: #{window_name}" "join-pane -h -s %%"
+      bind-key J choose-window -F "#{window_index}: #{window_name}" "join-pane -v -s %%"
 
       # open a new window in cwd
       bind-key C new-window -c "#{pane_current_path}"
