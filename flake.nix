@@ -25,6 +25,7 @@
           ./machines/laptop/configuration.nix
           ./machines/laptop/hardware.nix
           ./software/gui/gaming.nix
+          ./software/common/sessionVariables.nix
           {
             environment = {
               systemPackages = [
@@ -38,12 +39,12 @@
         inherit system;
         modules = [
           nixos-wsl.nixosModules.default
+          ./software/common/sessionVariables.nix
           {
             system.stateVersion = "25.05";
             wsl.enable = true;
             nix.settings.experimental-features = ["nix-command" "flakes"];
             environment = {
-              variables.EDITOR = "nvim";
               systemPackages = [
                 mySystem.packages.${system}.standardApps
               ];
