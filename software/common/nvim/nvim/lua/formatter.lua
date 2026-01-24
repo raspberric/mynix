@@ -9,6 +9,7 @@ return {
         typescript = { "prettier" },
         astro = { "prettier" },
         html = { "prettier" },
+        htmlangular = { "prettier" },
         css = { "prettier" },
       },
       formatters = {
