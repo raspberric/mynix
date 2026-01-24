@@ -51,6 +51,7 @@
           # mini deps
           curl
           gnutar
+          fd
         ];
         config = with pkgs; [
           lua-language-server
