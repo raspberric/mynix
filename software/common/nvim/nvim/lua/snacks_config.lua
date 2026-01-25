@@ -87,6 +87,9 @@ function M.setup ()
 			hidden = true,
 			ignored = true,
 		},
+		bufdelete = {
+			enabled = true,
+		},
 	});
 	setup_keybinds();
 end
