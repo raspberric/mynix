@@ -38,9 +38,14 @@ function M.setup()
     show_icons = true,
   })
   require("mini.surround").setup({
-    add = "<leader>sa",
-    delete = "<leader>sd",
-    replace = "<leader>sr",
+    mappings = {
+      add = "<leader>sa",
+      delete = "<leader>sd",
+      replace = "<leader>sr",
+      find = "<leader>sf",
+      highlight = "<leader>sh",
+      update_n_lines = "<leader>sn",
+    },
   })
   local miniclue = require("mini.clue")
   miniclue.setup({
@@ -83,6 +88,8 @@ function M.setup()
 
     clues = {
       -- Enhance this by adding descriptions for <Leader> mapping groups
+      { mode = "n", keys = "<Leader>s", desc = "+Search/Surround" },
+      { mode = "x", keys = "<Leader>s", desc = "+Search/Surround" },
       -- miniclue.gen_clues.square_brackets(),
       miniclue.gen_clues.builtin_completion(),
       miniclue.gen_clues.g(),
