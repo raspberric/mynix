@@ -14,12 +14,12 @@ in
       jdk17
       watchman
       android-studio
-      androidSdk
+      androidSdk.androidsdk
     ];
 
     shellHook = ''
       export JAVA_HOME=${pkgs.jdk17.home}
-      export ANDROID_HOME=${androidSdk}/libexec/android-sdk
+      export ANDROID_HOME=${androidSdk.androidsdk}/libexec/android-sdk
       export PATH=$PATH:$ANDROID_HOME/tools:$ANDROID_HOME/platform-tools
       echo "React Native Dev Shell Loaded"
     '';
