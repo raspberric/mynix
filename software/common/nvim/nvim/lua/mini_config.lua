@@ -39,12 +39,11 @@ function M.setup()
   })
   require("mini.surround").setup({
     mappings = {
-      add = "<leader>sa",
-      delete = "<leader>sd",
-      replace = "<leader>sr",
-      find = "<leader>sf",
-      highlight = "<leader>sh",
-      update_n_lines = "<leader>sn",
+      add = "sa",
+      delete = "sd",
+      replace = "sr",
+      find = "sf",
+      highlight = "sh",
     },
   })
   local miniclue = require("mini.clue")
