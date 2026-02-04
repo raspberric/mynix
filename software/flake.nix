@@ -20,6 +20,8 @@
     pkgs = import nixpkgs {
       inherit system;
       config = {
+        allowUnfree = true;
+        android_sdk.accept_license = true;
         permittedInsecurePackages = [
           "electron-36.9.5"
         ];
@@ -33,6 +35,17 @@
             "discord"
             "discord-custom"
             "vscode"
+            "android-studio"
+            "android-studio-stable"
+            "android-sdk-tools"
+            "android-sdk-platform-tools"
+            "android-sdk-cmdline-tools"
+            "android-sdk-build-tools"
+            "platform-tools"
+            "build-tools"
+            "android-sdk-emulator"
+            "cmdline-tools"
+            "tools"
           ];
       };
     };
@@ -116,6 +129,8 @@
           echo ".NET 8 Dev Shell Loaded"
         '';
       };
+
+      rndev = import ./devshells/react-native.nix {inherit pkgs;};
 
       default = pkgs.mkShell {
         buildInputs = [standardApps];

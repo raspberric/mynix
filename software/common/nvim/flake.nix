@@ -107,6 +107,8 @@
         frontend = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
             p.typescript
+            p.javascript
+            p.tsx
             p.astro
             p.css
             p.html
@@ -186,6 +188,26 @@
         };
       };
 
+      rndev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          config = true;
+          gitPlugins = true;
+          frontend = true;
+          vscode_debug_path = pkgs.vscode-js-debug;
+          runtimeChecks = {
+            IS_FRONTEND = true;
+            IS_REACT_NATIVE = true;
+          };
+        };
+      };
+
       jedev = {pkgs, ...}: {
         settings = {
           suffix-path = true;
@@ -221,6 +243,12 @@
         packageDefinitions;
       defaultPackage = nixCatsBuilder defaultPackageName;
     in {
-      packages = utils.mkAllWithDefault defaultPackage;
+      packages = {
+        default = defaultPackage;
+        mvim = defaultPackage;
+        fedev = nixCatsBuilder "fedev";
+        jedev = nixCatsBuilder "jedev";
+        rndev = nixCatsBuilder "rndev";
+      };
     });
 }
