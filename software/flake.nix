@@ -20,6 +20,7 @@
     pkgs = import nixpkgs {
       inherit system;
       config = {
+        allowUnfree = true;
         android_sdk.accept_license = true;
         permittedInsecurePackages = [
           "electron-36.9.5"
@@ -40,6 +41,11 @@
             "android-sdk-platform-tools"
             "android-sdk-cmdline-tools"
             "android-sdk-build-tools"
+            "platform-tools"
+            "build-tools"
+            "android-sdk-emulator"
+            "cmdline-tools"
+            "tools"
           ];
       };
     };
