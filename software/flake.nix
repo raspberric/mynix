@@ -117,6 +117,13 @@
         '';
       };
 
+      godev = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          go
+          mvim.packages.${system}.godev
+        ];
+      };
+
       nedev = pkgs.mkShell {
         buildInputs = with pkgs; [
           dotnet-sdk_8

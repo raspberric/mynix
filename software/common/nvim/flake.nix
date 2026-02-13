@@ -68,6 +68,12 @@
           vscode-js-debug
           # add prettier
         ];
+        go = with pkgs; [
+          gopls
+          go
+          gofumpt
+          delve
+        ];
         java = with pkgs; [
           jdt-language-server
           jdk21
@@ -120,6 +126,10 @@
           # dependency for better-ts-errors
           pkgs.neovimPlugins.better-ts-errors
           nui-nvim
+        ];
+
+        go = with pkgs.vimPlugins; [
+          (nvim-treesitter.withPlugins (p: [p.go]))
         ];
 
         java = with pkgs.vimPlugins; [
@@ -208,6 +218,22 @@
         };
       };
 
+      godev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          config = true;
+          gitPlugins = true;
+          go = true;
+          runtimeChecks = {IS_GO = true;};
+        };
+      };
+
       jedev = {pkgs, ...}: {
         settings = {
           suffix-path = true;
@@ -247,6 +273,7 @@
         default = defaultPackage;
         mvim = defaultPackage;
         fedev = nixCatsBuilder "fedev";
+        godev = nixCatsBuilder "godev";
         jedev = nixCatsBuilder "jedev";
         rndev = nixCatsBuilder "rndev";
       };
