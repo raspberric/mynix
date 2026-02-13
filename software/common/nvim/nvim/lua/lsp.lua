@@ -37,6 +37,21 @@ return {
         },
       },
     })
+    vim.lsp.config("gopls", {
+      capabilities = lspCapabilities,
+      settings = {
+        gopls = {
+          analyses = {
+            unusedparams = true,
+          },
+          staticcheck = true,
+          gofumpt = true,
+          usePlaceholders = true,
+          completeUnimported = true,
+          directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+        },
+      },
+    })
 
     vim.lsp.enable("lua_ls")
     if nixCats("runtimeChecks.IS_NIX") then
@@ -50,6 +65,9 @@ return {
       vim.lsp.enable("astro")
       vim.lsp.enable("angularls")
       vim.lsp.enable("tailwindcss")
+    end
+    if nixCats("runtimeChecks.IS_GO") then
+      vim.lsp.enable("gopls")
     end
   end,
 }
