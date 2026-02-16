@@ -23,10 +23,10 @@ require("persistence_config").setup()
 require("trouble_config").setup()
 require("flash_config").setup()
 require("opencode").setup()
+require("debug_config").setup()
 
 if nixCats("runtimeChecks.IS_FRONTEND") then
   require("frontend.ccc_config").setup()
-  require("debug_config").setup()
   require("nvim-ts-autotag").setup()
   require("better-ts-errors").setup()
 end
@@ -52,8 +52,12 @@ vim.diagnostic.config({
 })
 vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
 vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bd", function() Snacks.bufdelete() end, { desc = "Delete buffer" })
-vim.keymap.set("n", "<leader>bo", function() Snacks.bufdelete.other() end, { desc = "Delete other buffers" })
+vim.keymap.set("n", "<leader>bd", function()
+  Snacks.bufdelete()
+end, { desc = "Delete buffer" })
+vim.keymap.set("n", "<leader>bo", function()
+  Snacks.bufdelete.other()
+end, { desc = "Delete other buffers" })
 
 vim.keymap.set("n", "<leader>td", "<cmd>tabclose<CR>", { desc = "close tab" })
 vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "new tab" })
