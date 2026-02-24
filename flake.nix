@@ -26,6 +26,7 @@
           ./machines/laptop/hardware.nix
           ./software/gui/gaming.nix
           ./software/common/sessionVariables.nix
+          ./software/devshells/nix-ld.nix
           {
             environment = {
               systemPackages = [
