@@ -117,11 +117,9 @@
         '';
       };
 
-      godev = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          go
-          mvim.packages.${system}.godev
-        ];
+      godev = import ./devshells/go.nix {
+        inherit pkgs;
+        vimFlavor = mvim.packages.${system}.godev;
       };
 
       nedev = pkgs.mkShell {
