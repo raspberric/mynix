@@ -23,5 +23,18 @@ return {
         },
       },
     })
+
+    vim.treesitter.query.set(
+      "typescript",
+      "injections",
+      [[
+	  ; extends
+	  (call_expression
+	    function: (identifier) @_tag (#eq? @_tag "css")
+	    arguments: (template_string (string_fragment) @injection.content)
+	    (#set! injection.language "css")
+	  )
+	]]
+    )
   end,
 }

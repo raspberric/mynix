@@ -16,25 +16,62 @@ return {
         type = "server",
         host = "localhost",
         port = "${port}",
-        command = "node",
-        args = {
-          js_debug_path .. "/lib/node_modules/js-debug/dist/src/dapDebugServer.js",
+        executable = {
+          command = "node",
+          args = {
+            js_debug_path .. "/lib/node_modules/js-debug/dist/src/dapDebugServer.js",
+            "${port}",
+          },
+        },
+      }
+      dap.adapters["pwa-node"] = {
+        type = "server",
+        host = "localhost",
+        port = "${port}",
+        executable = {
+          command = "node",
+          args = {
+            js_debug_path .. "/lib/node_modules/js-debug/dist/src/dapDebugServer.js",
+            "${port}",
+          },
         },
       }
 
       for _, language in ipairs({ "typescript", "javascript", "astro" }) do
         dap.configurations[language] = {
           {
-            name = "Attach to chrome",
+            name = "Attach to Chrome (localhost:3000)",
             type = "pwa-chrome",
-            url = "172.23.221.208:4321",
+            url = "http://localhost:3000",
             request = "attach",
             sourceMaps = true,
             protocol = "inspector",
             port = 9222,
-            webRoot = "${workspaceFolder}/src",
+            webRoot = "${workspaceFolder}/tcat-fe/src",
             skipFiles = { "**/node_modules/**" },
-            -- cwd = vim.fn.getcwd(),
+          },
+          {
+            type = "pwa-node",
+            request = "launch",
+            name = "Launch Current File (pwa-node with tsx)",
+            cwd = vim.fn.getcwd(),
+            -- runtimeArgs = { "--import", "tsx" },
+            args = { "${file}" },
+            sourceMaps = true,
+            protocol = "inspector",
+            skipFiles = { "<node_internals>/**", "node_modules/**" },
+            resolveSourceMapLocations = {
+              "${workspaceFolder}/**",
+              "!**/node_modules/**",
+            },
+          },
+          {
+            type = "pwa-node",
+            request = "attach",
+            name = "Attach to Process",
+            processId = require("dap.utils").pick_process,
+            cwd = vim.fn.getcwd(),
+            sourceMaps = true,
           },
         }
       end

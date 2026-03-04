@@ -46,6 +46,7 @@ function M.setup()
       highlight = "sh",
     },
   })
+  require("mini.cursorword").setup()
   local miniclue = require("mini.clue")
   miniclue.setup({
     window = { delay = 0, config = { width = 60 } },
