@@ -3,7 +3,17 @@ return {
     require("lazydev").setup()
     local lspCapabilities = require("blink.cmp").get_lsp_capabilities()
     vim.lsp.config("nixd", { capabilities = lspCapabilities })
-    vim.lsp.config("ts_ls", { capabilities = lspCapabilities })
+    vim.lsp.config("ts_ls", {
+      capabilities = lspCapabilities,
+      init_options = {
+        plugins = {
+          {
+            name = "ts-lit-plugin",
+            location = "node_modules/ts-lit-plugin",
+          },
+        },
+      },
+    })
     vim.lsp.config("jsonls", { capabilities = lspCapabilities })
     vim.lsp.config("html", {
       filetypes = { "html" },
