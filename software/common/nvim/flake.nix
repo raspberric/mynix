@@ -5,7 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
     "plugins-opencode" = {
-      url = "github:sudo-tee/opencode.nvim/6094564e935b034c9ec6088d8333cd45553dc34e";
+      url = "github:sudo-tee/opencode.nvim/fbad9da6c08dfe794c4d12e42f85f37029fef8a2";
       flake = false;
     };
     "plugins-better-ts-errors" = {
