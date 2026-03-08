@@ -2,7 +2,7 @@
   description = "Raspberry nix wsl config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     mySystem = {
       url = "path:./software";

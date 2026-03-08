@@ -1,7 +1,7 @@
 {
   description = "";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     mvim = {
       url = "path:./common/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
