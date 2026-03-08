@@ -57,6 +57,8 @@
 
     devShells.${system} = mySystem.devShells.${system};
 
+    apps.${system} = mySystem.apps.${system};
+
     packages.${system}.raspEnv = {
       default = mySystem.packages.${system}.default;
     };
