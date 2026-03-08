@@ -6,15 +6,11 @@
       url = "path:./common/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    openCodeSrc = {
-      url = "github:sst/opencode";
-    };
   };
   outputs = {
     self,
     nixpkgs,
     mvim,
-    openCodeSrc,
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -55,6 +51,7 @@
     ghosttyConfigured = import ./gui/ghostty.nix {inherit pkgs;};
     discordConfigured = import ./gui/discord.nix {inherit pkgs;};
     nxConfigured = import ./common/nx/default.nix {inherit pkgs;};
+    opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -68,7 +65,7 @@
           pnpm
           xclip
           ripgrep
-          openCodeSrc.packages.${system}.default
+          opencodeConfigured
           posting
         ]
         ++ (builtins.attrValues mvim.packages.${system});
@@ -84,6 +81,11 @@
       ];
     };
   in {
+    apps.${system}.opencode = {
+      type = "app";
+      program = "${opencodeConfigured}/bin/opencode";
+    };
+
     packages.${system} = {
       inherit standardApps;
 
