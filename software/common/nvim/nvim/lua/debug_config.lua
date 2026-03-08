@@ -40,13 +40,12 @@ return {
       for _, language in ipairs({ "typescript", "javascript", "astro" }) do
         dap.configurations[language] = {
           {
-            name = "Attach to Chrome (localhost:3000)",
+            name = "Launch Chrome (localhost:3000)",
             type = "pwa-chrome",
             url = "http://localhost:3000",
-            request = "attach",
+            request = "launch",
             sourceMaps = true,
             protocol = "inspector",
-            port = 9222,
             webRoot = "${workspaceFolder}/tcat-fe/src",
             skipFiles = { "**/node_modules/**" },
           },
