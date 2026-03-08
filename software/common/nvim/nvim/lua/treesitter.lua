@@ -34,6 +34,13 @@ return {
 	    arguments: (template_string (string_fragment) @injection.content)
 	    (#set! injection.language "css")
 	  )
+
+	  ; html`...`
+	  (call_expression
+	    function: (identifier) @_tag (#eq? @_tag "html")
+	    arguments: (template_string (string_fragment) @injection.content)
+	    (#set! injection.language "html")
+	  )
 	]]
     )
   end,
