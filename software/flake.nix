@@ -55,6 +55,7 @@
     pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
     okular = import ./gui/okular.nix {inherit pkgs;};
     srbIdPkcs11 = import ./common/srb-id-pkcs11.nix {inherit pkgs;};
+    srbIdChrome = import ./common/srb-id-chrome.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -81,6 +82,7 @@
       paths = with pkgs; [
         ghosttyConfigured
         google-chrome
+        srbIdChrome
         discordConfigured
         heroic
         inkscape
