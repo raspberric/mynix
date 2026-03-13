@@ -52,6 +52,8 @@
     discordConfigured = import ./gui/discord.nix {inherit pkgs;};
     nxConfigured = import ./common/nx/default.nix {inherit pkgs;};
     opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
+    pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
+    okular = import ./gui/okular.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -66,6 +68,7 @@
           xclip
           ripgrep
           opencodeConfigured
+          pkillOnPort
           posting
         ]
         ++ (builtins.attrValues mvim.packages.${system});
@@ -78,6 +81,8 @@
         google-chrome
         discordConfigured
         heroic
+        inkscape
+        okular
       ];
     };
   in {
