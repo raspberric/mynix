@@ -14,12 +14,14 @@ pkgs.callPackage (
   }:
     stdenv.mkDerivation (finalAttrs: {
       pname = "srb-id-pkcs11";
-      version = "0.4.0"; # keeping 0.4.0 as it aligns with the version.zig in the repo right now
+      version = "0.4.0";
 
       src = fetchFromGitHub {
         owner = "ubavic";
         repo = "srb-id-pkcs11";
+        # Update this to use a newer version
         rev = "48153cf31b4ed0138a74770597c012d9056bd19d";
+        # Then you have to put sha256 = ''; here and nix will tell you the correct hash when you run the derivation
         sha256 = "0hsv4qaa0nw0xyya1whksi3a1hawxjf6kwq99vg4rwzc40zdlh5j";
       };
 
@@ -33,6 +35,8 @@ pkgs.callPackage (
         pcsclite
       ];
 
+      # Same goes for the hashes below - if you want a newer version you have to update the urls,
+      # make hashes empty like so sha256 = ''; and then put the right ones when nix complains
       preBuild = ''
         mkdir -p include
         cp ${fetchurl {
@@ -103,6 +107,7 @@ pkgs.callPackage (
         homepage = "https://github.com/ubavic/srb-id-pkcs11";
         license = licenses.unlicense;
         platforms = platforms.linux;
+        # you have to run this so the .so gets injected into nss db
         mainProgram = "register-srb-id-chrome";
       };
     })
