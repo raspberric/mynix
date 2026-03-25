@@ -72,5 +72,10 @@
     options = "--delete-older-than 7d";
   };
 
+  services.pcscd = {
+    enable = true;
+    plugins = [pkgs.ccid];
+  };
+
   system.stateVersion = "25.05";
 }

@@ -54,6 +54,7 @@
     opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
     pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
     okular = import ./gui/okular.nix {inherit pkgs;};
+    srbIdPkcs11Chrome = import ./common/srb-id-pkcs11-chrome.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -70,6 +71,7 @@
           opencodeConfigured
           pkillOnPort
           posting
+          srbIdPkcs11Chrome
         ]
         ++ (builtins.attrValues mvim.packages.${system});
     };
