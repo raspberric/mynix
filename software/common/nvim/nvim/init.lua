@@ -24,6 +24,7 @@ require("trouble_config").setup()
 require("flash_config").setup()
 require("opencode").setup()
 require("debug_config").setup()
+require("bookmarks").setup()
 
 if nixCats("runtimeChecks.IS_FRONTEND") then
   require("frontend.ccc_config").setup()
