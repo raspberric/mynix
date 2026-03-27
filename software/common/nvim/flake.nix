@@ -102,6 +102,8 @@
           lazydev-nvim
           nvim-dap
           nvim-dap-view
+          barbar-nvim
+          nvim-web-devicons
         ];
         config = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [
