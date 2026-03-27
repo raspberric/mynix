@@ -18,8 +18,8 @@ return {
     map("n", "<Tab>", "<Cmd>BufferNext<CR>", { desc = "go to next buffer" })
 
     -- Re-order to previous/next
-    map("n", "<C-H>", "<Cmd>BufferMovePrevious<CR>", { desc = "move buffer left" })
-    map("n", "<C-L>", "<Cmd>BufferMoveNext<CR>", { desc = "move buffer right" })
+    map("n", "<leader>bh", "<Cmd>BufferMovePrevious<CR>", { desc = "move buffer left" })
+    map("n", "<leader>bl", "<Cmd>BufferMoveNext<CR>", { desc = "move buffer right" })
 
     map("n", "<leader>bp", "<Cmd>BufferPin<CR>", { desc = "pin buffer" })
     map("n", "<leader>bc", "<Cmd>BufferClose<CR>", { desc = "close buffer" })
