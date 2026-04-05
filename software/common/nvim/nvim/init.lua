@@ -25,6 +25,7 @@ require("flash_config").setup()
 require("opencode").setup()
 require("debug_config").setup()
 require("bookmarks").setup()
+require("tabs").setup()
 
 if nixCats("runtimeChecks.IS_FRONTEND") then
   require("frontend.ccc_config").setup()
@@ -51,18 +52,5 @@ vim.diagnostic.config({
   virtual_text = true,
   signs = true,
 })
-vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
-vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
-vim.keymap.set("n", "<leader>bd", function()
-  Snacks.bufdelete()
-end, { desc = "Delete buffer" })
-vim.keymap.set("n", "<leader>bo", function()
-  Snacks.bufdelete.other()
-end, { desc = "Delete other buffers" })
-
-vim.keymap.set("n", "<leader>td", "<cmd>tabclose<CR>", { desc = "close tab" })
-vim.keymap.set("n", "<leader>tn", "<cmd>tabnew<CR>", { desc = "new tab" })
-vim.keymap.set("n", "<leader>tl", "<cmd>tabnext<CR>", { desc = "new tab" })
-vim.keymap.set("n", "<leader>th", "<cmd>tabprev<CR>", { desc = "previous tab" })
 -- escape terminal on esc
 vim.api.nvim_set_keymap("t", "<Esc>", "<C-\\><C-n>", { noremap = true, silent = true })
