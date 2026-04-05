@@ -1,9 +1,10 @@
 return {
   setup = function()
-    require("barbar").setup({})
+    require("barbar").setup({
+      icons = { pinned = { button = "", filename = true } },
+    })
 
     local map = vim.api.nvim_set_keymap
-    local opts = { noremap = true, silent = true }
 
     -- vim.keymap.set("n", "<S-Tab>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
     -- vim.keymap.set("n", "<Tab>", "<cmd>bnext<CR>", { desc = "Next buffer" })
@@ -22,10 +23,10 @@ return {
     map("n", "<leader>bl", "<Cmd>BufferMoveNext<CR>", { desc = "move buffer right" })
 
     map("n", "<leader>bp", "<Cmd>BufferPin<CR>", { desc = "pin buffer" })
-    map("n", "<leader>bc", "<Cmd>BufferClose<CR>", { desc = "close buffer" })
+    map("n", "<leader>bd", "<Cmd>BufferClose<CR>", { desc = "close buffer" })
     map("n", "<leader>bb", "<Cmd>BufferPick<CR>", { desc = "pick buffer by letter" })
     map("n", "<leader>br", "<Cmd>BufferPickDelete<CR>", { desc = "delete buffer by letter" })
-    map("n", "<leader>bd", "<Cmd>BufferCloseAllButCurrentOrPinned<CR>", { desc = "close all but current or pinned" })
+    map("n", "<leader>bo", "<Cmd>BufferCloseAllButCurrentOrPinned<CR>", { desc = "close all but current or pinned" })
 
     map("n", "<leader>bn", "<Cmd>BufferOrderByName<CR>", { desc = "sort buffers by name" })
     map("n", "<leader>bs", "<Cmd>BufferOrderByDirectory<CR>", { desc = "sort buffers by directory" })
