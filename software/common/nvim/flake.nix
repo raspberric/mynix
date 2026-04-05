@@ -98,6 +98,7 @@
           markview-nvim
           plenary-nvim
           pkgs.neovimPlugins.opencode
+          vim-bookmarks
           lazydev-nvim
           nvim-dap
           nvim-dap-view
