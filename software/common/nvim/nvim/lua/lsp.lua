@@ -18,7 +18,12 @@ return {
     })
     vim.lsp.config("cssls", { capabilities = lspCapabilities })
     vim.lsp.config("tailwindcss", { capabilities = lspCapabilities })
-    vim.lsp.config("angularls", { capabilities = lspCapabilities })
+    vim.lsp.config("angularls", {
+      capabilities = lspCapabilities,
+      root_dir = function(bufnr)
+        return vim.fs.root(bufnr, { "angular.json", "project.json" })
+      end,
+    })
     vim.lsp.config("astro", {
       init_options = {
         typescript = {
