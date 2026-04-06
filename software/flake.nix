@@ -50,7 +50,6 @@
     tmuxConfigured = import ./common/tmux.nix {inherit pkgs;};
     ghosttyConfigured = import ./gui/ghostty.nix {inherit pkgs;};
     discordConfigured = import ./gui/discord.nix {inherit pkgs;};
-    nxConfigured = import ./common/nx/default.nix {inherit pkgs;};
     opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
     pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
     okular = import ./gui/okular.nix {inherit pkgs;};
@@ -110,38 +109,9 @@
         buildInputs = [pkgs.vscode];
       };
 
-      jedev = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          nxConfigured
-          nodePackages."@angular/cli"
-          jdk21
-          maven
-          spring-boot-cli
-          redis
-        ];
-
-        shellHook = ''
-          export JAVA_HOME=${pkgs.jdk21.home}
-          echo "Spring Boot Dev Shell Loaded (JDK 21)"
-        '';
-      };
-
       godev = import ./devshells/go.nix {
         inherit pkgs;
         vimFlavor = mvim.packages.${system}.godev;
-      };
-
-      nedev = pkgs.mkShell {
-        buildInputs = with pkgs; [
-          dotnet-sdk_8
-          omnisharp-roslyn
-          netcoredbg
-        ];
-
-        shellHook = ''
-          export DOTNET_ROOT=${pkgs.dotnet-sdk_8}
-          echo ".NET 8 Dev Shell Loaded"
-        '';
       };
 
       rndev = import ./devshells/react-native.nix {inherit pkgs;};
