@@ -8,7 +8,6 @@
     };
   };
   outputs = {
-    self,
     nixpkgs,
     mvim,
   }: let
@@ -71,8 +70,9 @@
           pkillOnPort
           posting
           srbIdPkcs11Chrome
-        ]
-        ++ (builtins.attrValues mvim.packages.${system});
+          mvim.packages.${system}.mvim
+          mvim.packages.${system}.fedev
+        ];
     };
 
     guiApps = pkgs.symlinkJoin {
