@@ -68,6 +68,10 @@
           vscode-js-debug
           # add prettier
         ];
+        c = with pkgs; [
+          clang-tools
+          cmake-language-server
+        ];
         go = with pkgs; [
           gopls
           go
@@ -130,6 +134,14 @@
           # dependency for better-ts-errors
           pkgs.neovimPlugins.better-ts-errors
           nui-nvim
+        ];
+
+        c = with pkgs.vimPlugins; [
+          (nvim-treesitter.withPlugins (p: [
+            p.c
+            p.cpp
+            p.cmake
+          ]))
         ];
 
         go = with pkgs.vimPlugins; [
@@ -222,6 +234,22 @@
         };
       };
 
+      cdev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          config = true;
+          gitPlugins = true;
+          c = true;
+          runtimeChecks = {IS_C = true;};
+        };
+      };
+
       godev = {pkgs, ...}: {
         settings = {
           suffix-path = true;
@@ -276,6 +304,7 @@
       packages = {
         default = defaultPackage;
         mvim = defaultPackage;
+        cdev = nixCatsBuilder "cdev";
         fedev = nixCatsBuilder "fedev";
         godev = nixCatsBuilder "godev";
         jedev = nixCatsBuilder "jedev";
