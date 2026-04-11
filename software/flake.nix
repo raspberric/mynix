@@ -7,9 +7,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
+
   outputs = {
+    self,
     nixpkgs,
     mvim,
+    ...
   }: let
     system = "x86_64-linux";
     pkgs = import nixpkgs {
@@ -56,23 +59,22 @@
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
-      paths = with pkgs;
-        [
-          gitConfigured
-          lazygitConfigured
-          tmuxConfigured
-          tldr
-          nodejs_24
-          pnpm
-          xclip
-          ripgrep
-          opencodeConfigured
-          pkillOnPort
-          posting
-          srbIdPkcs11Chrome
-          mvim.packages.${system}.mvim
-          mvim.packages.${system}.fedev
-        ];
+      paths = with pkgs; [
+        gitConfigured
+        lazygitConfigured
+        tmuxConfigured
+        tldr
+        nodejs_24
+        pnpm
+        xclip
+        ripgrep
+        opencodeConfigured
+        pkillOnPort
+        posting
+        srbIdPkcs11Chrome
+        mvim.packages.${system}.mvim
+        mvim.packages.${system}.fedev
+      ];
     };
 
     guiApps = pkgs.symlinkJoin {

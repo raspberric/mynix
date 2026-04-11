@@ -161,7 +161,7 @@
     };
 
     packageDefinitions = {
-      mvim = {}: {
+      mvim = { ... }: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
@@ -182,7 +182,7 @@
         };
       };
 
-      fedev = {pkgs}: {
+      fedev = {pkgs, ...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;

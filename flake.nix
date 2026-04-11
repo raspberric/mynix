@@ -59,7 +59,8 @@
 
     apps.${system} = mySystem.apps.${system};
 
-    packages.${system}.raspEnv = {
+    packages.${system} = {
+      raspEnv = mySystem.packages.${system}.default;
       default = mySystem.packages.${system}.default;
     };
   };
