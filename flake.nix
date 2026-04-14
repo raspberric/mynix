@@ -57,8 +57,6 @@
 
     devShells.${system} = mySystem.devShells.${system};
 
-    apps.${system} = mySystem.apps.${system};
-
     packages.${system} = {
       raspEnv = mySystem.packages.${system}.default;
       default = mySystem.packages.${system}.default;
