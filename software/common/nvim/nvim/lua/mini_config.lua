@@ -23,6 +23,10 @@ function M.setup()
       apply = "<leader>ga",
       reset = "<leader>gr",
     },
+    options = {
+      indent_heuristic = true,
+      algorithm = "histogram",
+    },
   })
   vim.keymap.set("n", "<leader>gd", MiniDiff.toggle_overlay, { desc = "Toggle diff overlay" })
   vim.keymap.set("n", "<leader>gn", function()
