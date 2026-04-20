@@ -85,6 +85,7 @@
       startupPlugins = {
         gitPlugins = with pkgs.vimPlugins; [
           gitsigns-nvim
+          diffview-nvim
         ];
         general = with pkgs.vimPlugins; [
           nvim-treesitter-textobjects
