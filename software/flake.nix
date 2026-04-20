@@ -44,6 +44,7 @@
             "android-sdk-emulator"
             "cmdline-tools"
             "tools"
+            "claude-code"
           ];
       };
     };
@@ -56,6 +57,7 @@
     pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
     okular = import ./gui/okular.nix {inherit pkgs;};
     srbIdPkcs11Chrome = import ./common/srb-id-pkcs11-chrome.nix {inherit pkgs;};
+    claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -74,6 +76,7 @@
         srbIdPkcs11Chrome
         mvim.packages.${system}.mvim
         mvim.packages.${system}.fedev
+        claudeConfigured
       ];
     };
 
@@ -89,11 +92,6 @@
       ];
     };
   in {
-    apps.${system}.opencode = {
-      type = "app";
-      program = "${opencodeConfigured}/bin/opencode";
-    };
-
     packages.${system} = {
       inherit standardApps;
 

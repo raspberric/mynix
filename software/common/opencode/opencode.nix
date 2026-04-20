@@ -5,13 +5,16 @@ pkgs.writeShellApplication {
   text = ''
     # Create a writable configuration directory
     CONFIG_DIR="$HOME/.config/opencode"
-    mkdir -p "$CONFIG_DIR"
+    mkdir -p "$CONFIG_DIR/skills"
 
     # Copy the immutable config to the writable location
-    # We use -u to update only if the source is newer or size differs,
-    # and verify we have write permissions
-    cp -u "${./opencode.json}" "$CONFIG_DIR/opencode.json" || true
+    # We use -f to force overwrite so the Nix config is strictly declarative
+    cp -f "${./opencode.json}" "$CONFIG_DIR/opencode.json" || true
     chmod 644 "$CONFIG_DIR/opencode.json"
+
+    # Copy skills
+    cp -rf "${./skills}/"* "$CONFIG_DIR/skills/" || true
+    chmod -R 644 "$CONFIG_DIR/skills/"* || true
 
     export OPENCODE_CONFIG_DIR="$CONFIG_DIR"
     exec opencode "$@"
