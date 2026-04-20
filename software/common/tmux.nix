@@ -3,6 +3,8 @@
     name = "tmux.conf";
     text = ''
       setw -g mode-keys vi
+      set -g set-clipboard on
+      set -g allow-passthrough on
 
       # copy tmux-yank contents to clipboard
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -sel clipboard"
