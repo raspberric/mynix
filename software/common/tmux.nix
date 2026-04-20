@@ -3,13 +3,14 @@
     name = "tmux.conf";
     text = ''
       setw -g mode-keys vi
+      set -g set-clipboard on
+      set -g allow-passthrough on
 
       # copy tmux-yank contents to clipboard
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -sel clipboard"
-      run-shell "tmux-yank"
 
       run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
-
+      run-shell ${pkgs.tmuxPlugins.copy-toolkit}/share/tmux-plugins/copy-toolkit/copytk.tmux
       # move windows left and right
       bind-key -n M-C-h swap-window -t -1\; select-window -t -1
       bind-key -n M-C-l swap-window -t +1\; select-window -t +1
@@ -27,8 +28,8 @@ in
     name = "tmux";
     runtimeInputs = [
       pkgs.tmux
-      pkgs.tmuxPlugins.yank
       pkgs.tmuxPlugins.resurrect
+      pkgs.tmuxPlugins.copy-toolkit
     ];
     text = ''
       exec ${pkgs.tmux}/bin/tmux -f "${tmuxConfigContent}" "$@"
