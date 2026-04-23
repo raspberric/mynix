@@ -9,7 +9,6 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     mvim,
     ...
@@ -92,6 +91,10 @@
       ];
     };
   in {
+    nixosModules = {
+      hermes-agent = import ./services/hermes.nix;
+    };
+
     packages.${system} = {
       inherit standardApps;
 

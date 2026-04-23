@@ -11,7 +11,6 @@
   };
 
   outputs = {
-    self,
     nixpkgs,
     nixos-wsl,
     mySystem,
@@ -27,6 +26,7 @@
           ./software/gui/gaming.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
+        ] ++ (builtins.attrValues mySystem.nixosModules) ++ [
           {
             environment = {
               systemPackages = [

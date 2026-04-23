@@ -3,10 +3,6 @@
   pkgs,
   ...
 }: {
-  imports = [
-    ../../software/services/hermes.nix
-  ];
-
   services.hermes-agent.enable = true;
 
   boot.loader.systemd-boot.enable = true;
