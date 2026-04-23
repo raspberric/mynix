@@ -3,6 +3,12 @@
   pkgs,
   ...
 }: {
+  imports = [
+    ../../software/services/hermes.nix
+  ];
+
+  services.hermes-agent.enable = true;
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
