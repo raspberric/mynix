@@ -8,6 +8,7 @@
 
       # copy tmux-yank contents to clipboard
       bind-key -T copy-mode-vi y send-keys -X copy-pipe-and-cancel "xclip -i -sel clipboard"
+      set -g @copytk-copy-command "xclip -i -sel clipboard"
 
       run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
       run-shell ${pkgs.tmuxPlugins.copy-toolkit}/share/tmux-plugins/copy-toolkit/copytk.tmux
