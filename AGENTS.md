@@ -50,4 +50,4 @@ packages.${system} = {
 *Failing to do this results in `error: flake attribute 'packages.x86_64-linux.<name>' is not a derivation`.*
 
 ## 4. Git Commits
-NEVER commit changes to the repository yourself unless explicitly instructed to do so by the user. If the user asks you to implement a feature, write a file, or stage changes, do not run `git commit` unless "commit" is explicitly part of the request.
+Always leave all git staging and committing to the user. You should only use read-only git commands like `git status` and `git diff` to inspect changes. If you finish modifying files, stop and inform the user the files are ready, allowing them to manually commit. Only execute `git commit` if the user's prompt explicitly contains the exact instruction "commit".
