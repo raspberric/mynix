@@ -48,3 +48,6 @@ packages.${system} = {
 };
 ```
 *Failing to do this results in `error: flake attribute 'packages.x86_64-linux.<name>' is not a derivation`.*
+
+## 4. Git Commits
+NEVER commit changes to the repository yourself unless explicitly instructed to do so by the user. If the user asks you to implement a feature, write a file, or stage changes, do not run `git commit` unless "commit" is explicitly part of the request.
