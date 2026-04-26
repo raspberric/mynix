@@ -8,12 +8,17 @@
       url = "path:./software";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    lanzaboote = {
+      url = "path:./software/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
     nixpkgs,
     nixos-wsl,
     mySystem,
+    lanzaboote,
     ...
   }: let
     system = "x86_64-linux";
@@ -26,6 +31,7 @@
           ./software/gui/gaming.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
+          lanzaboote.nixosModules.default
         ] ++ (builtins.attrValues mySystem.nixosModules) ++ [
           {
             environment = {

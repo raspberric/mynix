@@ -2,6 +2,7 @@
   description = "";
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs-esp-dev.url = "github:mirrexagon/nixpkgs-esp-dev";
     mvim = {
       url = "path:./common/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -10,6 +11,7 @@
 
   outputs = {
     nixpkgs,
+    nixpkgs-esp-dev,
     mvim,
     ...
   }: let
@@ -21,6 +23,7 @@
         android_sdk.accept_license = true;
         permittedInsecurePackages = [
           "electron-36.9.5"
+          "python3.13-ecdsa-0.19.1"
         ];
         allowUnfreePredicate = pkg:
           builtins.elem (pkgs.lib.getName pkg) [
@@ -110,6 +113,11 @@
     devShells.${system} = {
       vscode = pkgs.mkShell {
         buildInputs = [pkgs.vscode];
+      };
+
+      cdev = import ./devshells/c.nix {
+        inherit pkgs nixpkgs-esp-dev;
+        vimFlavor = mvim.packages.${system}.cdev;
       };
 
       godev = import ./devshells/go.nix {
