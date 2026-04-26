@@ -19,13 +19,20 @@ If your Windows 11 partition is encrypted with BitLocker, changing the Secure Bo
 4. Reboot your computer and boot into **NixOS**.
 
 ## Step 2: Generate Secure Boot Keys
-Before rebooting again, we need to generate your own cryptographic keys. The module has installed `sbctl` which we will use for this.
+Before we can rebuild the system with Lanzaboote enabled, we need to generate your own cryptographic keys. Because `sbctl` might not be installed on your system yet (since the rebuild hasn't happened), we will run it via `nix-shell`.
 
 Open a terminal and run:
 ```bash
-sudo sbctl create-keys
+sudo nix-shell -p sbctl --run "sbctl create-keys"
 ```
 This will generate custom keys and store them in `/var/lib/sbctl`. 
+
+## Step 2.5: Rebuild NixOS
+Now that the keys are generated, Lanzaboote can use them during the build process.
+Run your standard rebuild command:
+```bash
+sudo nixos-rebuild switch --flake .#nixos
+```
 
 ## Step 3: Verify Configuration
 Verify that `sbctl` correctly sees your boot files. Run:
