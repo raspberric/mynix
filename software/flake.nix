@@ -79,6 +79,8 @@
         mvim.packages.${system}.mvim
         mvim.packages.${system}.fedev
         claudeConfigured
+        yazi
+        podman-compose
       ];
     };
 
