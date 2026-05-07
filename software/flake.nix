@@ -94,9 +94,7 @@
       ];
     };
   in {
-    nixosModules = {
-      hermes-agent = import ./services/hermes.nix;
-    };
+    nixosModules = {};
 
     packages.${system} = {
       inherit standardApps;

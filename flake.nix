@@ -25,22 +25,25 @@
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        modules = [
-          ./machines/laptop/configuration.nix
-          ./machines/laptop/hardware.nix
-          ./software/gui/gaming.nix
-          ./software/common/sessionVariables.nix
-          ./software/devshells/nix-ld.nix
-          lanzaboote.nixosModules.default
-        ] ++ (builtins.attrValues mySystem.nixosModules) ++ [
-          {
-            environment = {
-              systemPackages = [
-                mySystem.packages.${system}.default
-              ];
-            };
-          }
-        ];
+        modules =
+          [
+            ./machines/laptop/configuration.nix
+            ./machines/laptop/hardware.nix
+            ./software/gui/gaming.nix
+            ./software/common/sessionVariables.nix
+            ./software/devshells/nix-ld.nix
+            lanzaboote.nixosModules.default
+          ]
+          ++ (builtins.attrValues mySystem.nixosModules)
+          ++ [
+            {
+              environment = {
+                systemPackages = [
+                  mySystem.packages.${system}.default
+                ];
+              };
+            }
+          ];
       };
       wsl = nixpkgs.lib.nixosSystem {
         inherit system;
