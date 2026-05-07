@@ -12,6 +12,7 @@
 
       run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
       run-shell ${pkgs.tmuxPlugins.copy-toolkit}/share/tmux-plugins/copy-toolkit/copytk.tmux
+
       # move windows left and right
       bind-key -n M-C-h swap-window -t -1\; select-window -t -1
       bind-key -n M-C-l swap-window -t +1\; select-window -t +1

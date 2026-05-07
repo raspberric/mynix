@@ -7,6 +7,8 @@
       editor = nvim
     [merge]
       ff = false
+    [pull]
+      ff = only
   '';
 in
   pkgs.writeShellApplication {
