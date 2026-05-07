@@ -28,6 +28,8 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+  services.resolved.enable = true;
+  networking.networkmanager.dns = "systemd-resolved";
   users.users.xpo = {
     isNormalUser = true;
     description = "xpo";
