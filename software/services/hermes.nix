@@ -1,12 +1,15 @@
 {...}: {
-  users.groups.hermes.gid = 10000;
-  users.users.xpo.extraGroups = ["hermes"];
+  users.groups.kosmoy.gid = 10000;
+  users.users.xpo.extraGroups = ["kosmoy"];
 
-  virtualisation.podman.enable = true;
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
   virtualisation.oci-containers.backend = "podman";
 
   systemd.tmpfiles.rules = [
-    "d /opt/hermes-workspace 2775 10000 10000 -"
+    "d /opt/kosmoy-workspace 2775 10000 10000 -"
   ];
 
   virtualisation.oci-containers.containers.hermes-agent = {
