@@ -80,6 +80,7 @@
         mvim.packages.${system}.fedev
         claudeConfigured
         yazi
+        podman
         podman-compose
       ];
     };
