@@ -60,6 +60,7 @@
     okular = import ./gui/okular.nix {inherit pkgs;};
     srbIdPkcs11Chrome = import ./common/srb-id-pkcs11-chrome.nix {inherit pkgs;};
     claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs;};
+    podmanWithCompose = import ./common/podman.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
@@ -80,7 +81,6 @@
         mvim.packages.${system}.fedev
         claudeConfigured
         yazi
-        podman
         podman-compose
       ];
     };
@@ -97,7 +97,9 @@
       ];
     };
   in {
-    nixosModules = {};
+    nixosModules = {
+      podmanModule = ./modules/podman.nix;
+    };
 
     packages.${system} = {
       inherit standardApps;
