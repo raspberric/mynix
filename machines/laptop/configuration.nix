@@ -34,8 +34,6 @@
     isNormalUser = true;
     description = "xpo";
     extraGroups = ["networkmanager" "wheel"];
-    # packages = with pkgs; [
-    # ];
   };
   environment.variables.EDITOR = "nvim";
   nixpkgs.config.allowUnfree = true;
