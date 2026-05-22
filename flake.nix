@@ -74,6 +74,24 @@
           }
         ];
       };
+
+      vps = nixpkgs.lib.nixosSystem {
+        inherit system;
+        modules = [
+          nixos-wsl.nixosModules.default
+          ./software/common/sessionVariables.nix
+          ./software/devshells/nix-ld.nix
+          {
+            system.stateVersion = "25.05";
+            nix.settings.experimental-features = ["nix-command" "flakes"];
+            environment = {
+              systemPackages = [
+                mySystem.packages.${system}.standardApps
+              ];
+            };
+          }
+        ];
+      };
     };
 
     packages.${system} = {
