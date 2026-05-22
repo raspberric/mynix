@@ -52,6 +52,9 @@
           curl
           gnutar
           fd
+          # treesitter deps
+          gcc
+          nvim-treesitter
         ];
         config = with pkgs; [
           lua-language-server
@@ -66,7 +69,7 @@
           vscode-langservers-extracted
           tailwindcss-language-server
           vscode-js-debug
-          # add prettier
+          prettier
         ];
         c = with pkgs; [
           clang-tools
@@ -174,7 +177,7 @@
     };
 
     packageDefinitions = {
-      mvim = { ... }: {
+      mvim = {...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
