@@ -58,7 +58,6 @@
     opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
     pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
     okular = import ./gui/okular.nix {inherit pkgs;};
-    srbIdPkcs11Chrome = import ./common/srb-id-pkcs11-chrome.nix {inherit pkgs;};
     claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs;};
     podmanWithCompose = import ./common/podman.nix {inherit pkgs;};
 
@@ -76,7 +75,6 @@
         opencodeConfigured
         pkillOnPort
         posting
-        srbIdPkcs11Chrome
         mvim.packages.${system}.mvim
         mvim.packages.${system}.fedev
         claudeConfigured
