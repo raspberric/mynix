@@ -22,7 +22,7 @@
   } @ inputs: let
     inherit (nixCats) utils;
     luaPath = ./nvim;
-    unwrappedCfgPath = "/home/xpo/config/software/common/nvim/nvim";
+    unwrappedCfgPath = "/home/nixos/config/software/common/nvim/nvim";
     forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
     extra_pkg_config = {
       # allowUnfree = true;
