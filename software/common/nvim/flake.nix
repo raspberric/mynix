@@ -161,9 +161,6 @@
 
       # available at RUN TIME for plugins. Will be available to path within neovim terminal
       environmentVariables = {
-        frontend = {
-          XDG_CONFIG_HOME = "/home/xpo/config/software/common/nvim";
-        };
       };
 
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
@@ -174,7 +171,7 @@
     };
 
     packageDefinitions = {
-      mvim = { ... }: {
+      mvim = {...}: {
         settings = {
           suffix-path = true;
           suffix-LD = true;
