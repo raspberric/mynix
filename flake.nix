@@ -32,6 +32,7 @@
             ./software/gui/gaming.nix
             ./software/common/sessionVariables.nix
             ./software/devshells/nix-ld.nix
+            ./software/common/srb-id-pkcs11-chrome.nix
             lanzaboote.nixosModules.default
           ]
           ++ (builtins.attrValues mySystem.nixosModules)
