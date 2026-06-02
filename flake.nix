@@ -4,12 +4,12 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
-    mySystem = {
-      url = "path:./software";
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    lanzaboote = {
-      url = "path:./software/lanzaboote";
+    mySystem = {
+      url = "path:./software";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -33,7 +33,7 @@
             ./software/common/sessionVariables.nix
             ./software/devshells/nix-ld.nix
             ./software/common/srb-id-pkcs11-chrome.nix
-            lanzaboote.nixosModules.default
+            (import ./software/lanzaboote lanzaboote)
           ]
           ++ (builtins.attrValues mySystem.nixosModules)
           ++ [
