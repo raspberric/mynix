@@ -27,13 +27,7 @@
         ];
         allowUnfreePredicate = pkg:
           builtins.elem (pkgs.lib.getName pkg) [
-            "steam"
-            "steam-original"
-            "steam-unwrapped"
-            "steam-run"
             "google-chrome"
-            "discord"
-            "discord-custom"
             "vscode"
             "android-studio"
             "android-studio-stable"

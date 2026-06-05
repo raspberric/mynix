@@ -13,5 +13,13 @@ in {
     steam.enable = true;
   };
 
-  gamingApps = pkgs.symlinkJoin [ds-beamng discordConfigured pkgs.heroic];
+  apps = pkgs.symlinkJoin [ds-beamng discordConfigured pkgs.heroic];
+  unfreePkgs = [
+    "steam"
+    "steam-original"
+    "steam-unwrapped"
+    "steam-run"
+    "discord"
+    "discord-custom"
+  ];
 }
