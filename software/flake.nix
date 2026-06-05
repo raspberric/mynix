@@ -89,7 +89,6 @@
         ghosttyConfigured
         google-chrome
         discordConfigured
-        heroic
         inkscape
         okular
       ];

@@ -7,12 +7,11 @@
       dualsensectl trigger right feedback-raw 0 0 0 2 2 2 4 4 4 4
     '';
   };
+  discordConfigured = import ./gui/discord.nix {inherit pkgs;};
 in {
   programs = {
     steam.enable = true;
   };
 
-  environment.systemPackages = [
-    ds-beamng
-  ];
+  gamingApps = pkgs.symlinkJoin [ds-beamng discordConfigured pkgs.heroic];
 }
