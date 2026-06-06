@@ -54,7 +54,6 @@
           fd
           # treesitter deps
           gcc
-          nvim-treesitter
         ];
         config = with pkgs; [
           lua-language-server
