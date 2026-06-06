@@ -44,47 +44,13 @@
           ];
       };
     };
-    gitConfigured = import ./common/git.nix {inherit pkgs;};
-    lazygitConfigured = import ./common/lazygit.nix {inherit pkgs;};
-    tmuxConfigured = import ./common/tmux.nix {inherit pkgs;};
-    ghosttyConfigured = import ./gui/ghostty.nix {inherit pkgs;};
-    discordConfigured = import ./gui/discord.nix {inherit pkgs;};
-    opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
-    pkillOnPort = import ./scripts/pkillOnPort.nix {inherit pkgs;};
-    okular = import ./gui/okular.nix {inherit pkgs;};
-    claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs;};
-    podmanWithCompose = import ./common/podman.nix {inherit pkgs;};
 
     standardApps = pkgs.symlinkJoin {
       name = "standard apps";
       paths = with pkgs; [
-        gitConfigured
-        lazygitConfigured
-        tmuxConfigured
-        tldr
-        nodejs_24
-        pnpm
-        xclip
-        ripgrep
-        opencodeConfigured
-        pkillOnPort
         posting
-        mvim.packages.${system}.mvim
         mvim.packages.${system}.fedev
-        claudeConfigured
-        yazi
         podman-compose
-      ];
-    };
-
-    guiApps = pkgs.symlinkJoin {
-      name = "gui apps";
-      paths = with pkgs; [
-        ghosttyConfigured
-        google-chrome
-        discordConfigured
-        inkscape
-        okular
       ];
     };
   in {
