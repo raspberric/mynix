@@ -38,25 +38,17 @@
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
-        specialArgs = {inherit lanzaboote;};
         modules = [
           ./machines/laptop/configuration.nix
           ./machines/laptop/hardware.nix
           ./software/gaming.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
-          ./software/lanzaboote
+          # ./software/common/srb-id-pkcs11-chrome.nix
+          (import ./software/lanzaboote lanzaboote)
           ./software/modules/podman.nix
           {
-            environment.systemPackages = [
-              tools
-              dev
-              gui
-              pkgs.podman-compose
-              pkgs.mvim
-              pkgs.fedev
-              (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})
-            ];
+            environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev];
           }
         ];
       };
@@ -84,11 +76,7 @@
           {
             system.stateVersion = "25.05";
             nix.settings.experimental-features = ["nix-command" "flakes"];
-            environment = {
-              systemPackages = [
-                mySystem.packages.${system}.standardApps
-              ];
-            };
+            environment.systemPackages = [tools dev pkgs.mvim];
           }
         ];
       };
