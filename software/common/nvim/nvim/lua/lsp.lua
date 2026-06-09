@@ -1,3 +1,19 @@
+local function find_tsdk(start)
+  local uv = vim.uv or vim.loop
+  local dir = start
+  while dir and dir ~= "" do
+    local tsdk = dir .. "/node_modules/typescript/lib"
+    if uv.fs_stat(tsdk) then
+      return tsdk
+    end
+    local parent = vim.fs.dirname(dir)
+    if parent == dir then
+      return nil
+    end
+    dir = parent
+  end
+end
+
 return {
   setup = function()
     require("lazydev").setup()
@@ -5,6 +21,16 @@ return {
     vim.lsp.config("nixd", { capabilities = lspCapabilities })
     vim.lsp.config("ts_ls", {
       capabilities = lspCapabilities,
+      -- fixes pnpm workspace monrepo ts issues where ts_ls can't find tsc in packages/ui
+      before_init = function(params, config)
+        local root = (params.rootUri and vim.uri_to_fname(params.rootUri)) or params.rootPath or vim.fn.getcwd()
+        local tsdk = find_tsdk(root)
+        if tsdk then
+          config.init_options = config.init_options or {}
+          config.init_options.tsserver = config.init_options.tsserver or {}
+          config.init_options.tsserver.path = tsdk
+        end
+      end,
     })
     vim.lsp.config("jsonls", { capabilities = lspCapabilities })
     vim.lsp.config("html", {
