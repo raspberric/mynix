@@ -45,7 +45,7 @@
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
           # ./software/common/srb-id-pkcs11-chrome.nix
-          (import ./software/lanzaboote lanzaboote)
+          (import ./software/lanzaboote {inherit pkgs lanzaboote; lib = pkgs.lib;})
           ./software/modules/podman.nix
           {
             environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev];
