@@ -1,4 +1,4 @@
-{pkgs}:
+{pkgs, ...}:
 # run register-srb-id-chrome after to register the smartcard module to nss db
 pkgs.callPackage (
   {

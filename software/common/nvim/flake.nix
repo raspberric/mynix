@@ -54,7 +54,6 @@
           fd
           # treesitter deps
           gcc
-          nvim-treesitter
         ];
         config = with pkgs; [
           lua-language-server
@@ -292,7 +291,7 @@
 
     defaultPackageName = "mvim";
   in
-    forEachSystem (system: let
+    (forEachSystem (system: let
       nixCatsBuilder =
         utils.baseBuilder luaPath {
           inherit nixpkgs system dependencyOverlays extra_pkg_config;
@@ -310,5 +309,23 @@
         jedev = nixCatsBuilder "jedev";
         rndev = nixCatsBuilder "rndev";
       };
-    });
+    }))
+    // {
+      overlays.default = final: _prev: let
+        nixCatsBuilder =
+          utils.baseBuilder luaPath {
+            inherit nixpkgs dependencyOverlays extra_pkg_config;
+            system = final.system;
+          }
+          categoryDefinitions
+          packageDefinitions;
+      in {
+        mvim = nixCatsBuilder "mvim";
+        fedev = nixCatsBuilder "fedev";
+        cdev = nixCatsBuilder "cdev";
+        godev = nixCatsBuilder "godev";
+        jedev = nixCatsBuilder "jedev";
+        rndev = nixCatsBuilder "rndev";
+      };
+    };
 }

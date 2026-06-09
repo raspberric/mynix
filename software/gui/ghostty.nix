@@ -63,10 +63,11 @@
   };
 
   desktopFile = pkgs.makeDesktopItem {
-    name = "Ghostty";
+    name = "com.mitchellh.ghostty";
     desktopName = "Ghostty";
     exec = "${ghosttyWrapper}/bin/ghostty";
     icon = ghosttyIcon;
+    startupWMClass = "com.mitchellh.ghostty";
     categories = ["Utility" "TerminalEmulator"];
     comment = "Terminal emulator with custom theme";
   };
