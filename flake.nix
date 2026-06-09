@@ -44,21 +44,23 @@
           ./software/gaming.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
-          # ./software/common/srb-id-pkcs11-chrome.nix
-          (import ./software/lanzaboote {inherit pkgs lanzaboote; lib = pkgs.lib;})
+          (import ./software/lanzaboote {
+            inherit pkgs lanzaboote;
+            lib = pkgs.lib;
+          })
           ./software/modules/podman.nix
           {
-            environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev];
+            environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
           }
         ];
       };
       wsl = nixpkgs.lib.nixosSystem {
-        inherit system;
         modules = [
           nixos-wsl.nixosModules.default
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
           {
+            nixpkgs.hostPlatform = system;
             system.stateVersion = "25.05";
             wsl.enable = true;
             nix.settings.experimental-features = ["nix-command" "flakes"];
@@ -68,12 +70,12 @@
       };
 
       vps = nixpkgs.lib.nixosSystem {
-        inherit system;
         modules = [
           nixos-wsl.nixosModules.default
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
           {
+            nixpkgs.hostPlatform = system;
             system.stateVersion = "25.05";
             nix.settings.experimental-features = ["nix-command" "flakes"];
             environment.systemPackages = [tools dev pkgs.mvim];
