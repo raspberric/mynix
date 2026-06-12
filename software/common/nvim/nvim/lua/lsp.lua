@@ -26,9 +26,9 @@ return {
         local root = (params.rootUri and vim.uri_to_fname(params.rootUri)) or params.rootPath or vim.fn.getcwd()
         local tsdk = find_tsdk(root)
         if tsdk then
-          config.init_options = config.init_options or {}
-          config.init_options.tsserver = config.init_options.tsserver or {}
-          config.init_options.tsserver.path = tsdk
+          params.initializationOptions = params.initializationOptions or {}
+          params.initializationOptions.tsserver = params.initializationOptions.tsserver or {}
+          params.initializationOptions.tsserver.path = tsdk
         end
       end,
     })
