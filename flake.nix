@@ -13,6 +13,9 @@
       url = "path:./software/common/nvim";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    opencodeFlake = {
+      url = "github:anomalyco/opencode?rev=f06b78751e08ca38dc50da7f7ca1c408e6ad6298";
+    };
   };
 
   outputs = {
@@ -21,6 +24,7 @@
     lanzaboote,
     nixpkgs-esp-dev,
     mvim,
+    opencodeFlake,
     ...
   }: let
     system = "x86_64-linux";
@@ -35,6 +39,7 @@
     tools = import ./software/tools.nix {inherit pkgs;};
     dev = import ./software/dev.nix {inherit pkgs;};
     gui = import ./software/gui.nix {inherit pkgs;};
+    opencode = opencodeFlake.packages.${system}.default;
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
@@ -50,7 +55,7 @@
           })
           ./software/modules/podman.nix
           {
-            environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
+            environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
           }
         ];
       };
