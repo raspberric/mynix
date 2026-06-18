@@ -1,16 +1,16 @@
 {pkgs, ...}: let
   opencodeUpdated =
     pkgs.opencode.overrideAttrs
-    ({
+    {
       version = "1.17.3";
       src = pkgs.fetchFromGitHub {
         owner = "anomalyco";
         repo = "opencode";
         rev = "v1.17.3";
-        hash = "sha256-9mg/AoX79RvsQS9SIHo/7BhPVbINyR6okQGIP+3e+jU=";
+        hash = "sha256-Pqj49q8bTwnTQxnlJbqnot7Pvo2K/WbtdEjEsq5P7qo=";
       };
       patches = [];
-    }).overrideAttrs {patches = [];};
+    };
 in
   pkgs.writeShellApplication {
     name = "opencode";
