@@ -13,12 +13,18 @@ return {
         html = { "prettier" },
         htmlangular = { "prettier" },
         css = { "prettier" },
+        python = { "black" },
       },
       formatters = {
         prettier = {
           command = require("conform.util").find_executable({
             "node_modules/.bin/prettier",
           }, "prettier"),
+        },
+        black = {
+          command = "black",
+          args = { "--quiet", "-" },
+          stdin = true,
         },
       },
       format_on_save = { timeout_ms = 500, lsp_fallback = false },
