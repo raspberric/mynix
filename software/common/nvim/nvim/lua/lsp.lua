@@ -26,9 +26,9 @@ return {
         local root = (params.rootUri and vim.uri_to_fname(params.rootUri)) or params.rootPath or vim.fn.getcwd()
         local tsdk = find_tsdk(root)
         if tsdk then
-          config.init_options = config.init_options or {}
-          config.init_options.tsserver = config.init_options.tsserver or {}
-          config.init_options.tsserver.path = tsdk
+          params.initializationOptions = params.initializationOptions or {}
+          params.initializationOptions.tsserver = params.initializationOptions.tsserver or {}
+          params.initializationOptions.tsserver.path = tsdk
         end
       end,
     })
@@ -85,6 +85,35 @@ return {
         },
       },
     })
+    local util = require("lspconfig.util")
+    vim.lsp.config("pyright", {
+      capabilities = lspCapabilities,
+      root_dir = function(bufnr, on_dir)
+        local fname = vim.api.nvim_buf_get_name(bufnr)
+        local root = util.root_pattern(
+          "pyrightconfig.json",
+          " pyproject.toml",
+          "setup.py",
+          "setup.cfg",
+          "requirements.txt"
+        )(fname) or util.find_git_ancestor(fname)
+
+        on_dir(root)
+      end,
+      settings = {
+        python = {
+          analysis = {
+            autoSearchPaths = true,
+            useLibraryCodeForTypes = true,
+            diagnosticMode = "workspace",
+          },
+        },
+      },
+    })
+
+    vim.lsp.config("ruff", {
+      capabilities = lspCapabilities,
+    })
 
     vim.lsp.enable("lua_ls")
     if nixCats("runtimeChecks.IS_NIX") then
@@ -101,6 +130,10 @@ return {
     end
     if nixCats("runtimeChecks.IS_GO") then
       vim.lsp.enable("gopls")
+    end
+    if nixCats("runtimeChecks.IS_PYTHON") then
+      vim.lsp.enable("pyright")
+      vim.lsp.enable("ruff")
     end
   end,
 }

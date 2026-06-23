@@ -80,6 +80,11 @@
           gofumpt
           delve
         ];
+        python = with pkgs; [
+          pyright
+          ruff
+          black
+        ];
         java = with pkgs; [
           jdt-language-server
           jdk21
@@ -148,6 +153,10 @@
 
         go = with pkgs.vimPlugins; [
           (nvim-treesitter.withPlugins (p: [p.go]))
+        ];
+
+        python = with pkgs.vimPlugins; [
+          (nvim-treesitter.withPlugins (p: [p.python]))
         ];
 
         java = with pkgs.vimPlugins; [
@@ -265,6 +274,22 @@
         };
       };
 
+      pydev = {pkgs, ...}: {
+        settings = {
+          suffix-path = true;
+          suffix-LD = true;
+          wrapRc = false;
+          inherit unwrappedCfgPath;
+        };
+        categories = {
+          general = true;
+          config = true;
+          gitPlugins = true;
+          python = true;
+          runtimeChecks = {IS_PYTHON = true;};
+        };
+      };
+
       jedev = {pkgs, ...}: {
         settings = {
           suffix-path = true;
@@ -306,6 +331,7 @@
         cdev = nixCatsBuilder "cdev";
         fedev = nixCatsBuilder "fedev";
         godev = nixCatsBuilder "godev";
+        pydev = nixCatsBuilder "pydev";
         jedev = nixCatsBuilder "jedev";
         rndev = nixCatsBuilder "rndev";
       };
@@ -324,6 +350,7 @@
         fedev = nixCatsBuilder "fedev";
         cdev = nixCatsBuilder "cdev";
         godev = nixCatsBuilder "godev";
+        pydev = nixCatsBuilder "pydev";
         jedev = nixCatsBuilder "jedev";
         rndev = nixCatsBuilder "rndev";
       };
