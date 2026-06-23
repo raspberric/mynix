@@ -21,7 +21,7 @@ in
     name = "tuxedo";
     runtimeInputs = [tuxedoBase];
     text = ''
-      export TODO_FILE="/home/xpo/Projecsts/todo.txt"
+      export TODO_FILE="/home/xpo/Projects/notes/todo.txt"
       exec tuxedo "$@"
     '';
   }
