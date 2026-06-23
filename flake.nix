@@ -55,7 +55,7 @@
           })
           ./software/modules/podman.nix
           {
-            environment.systemPackages = [tools dev gui pkgs.podman-compose pkgs.mvim pkgs.fedev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
+            environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
           }
         ];
       };
