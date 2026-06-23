@@ -7,5 +7,9 @@ in
       nodejs_24
       pnpm
       claudeConfigured
+      python314
+      uv
+      gcc
+      gnumake
     ];
   }
