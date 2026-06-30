@@ -17,6 +17,7 @@
       url = "github:anomalyco/opencode?rev=f06b78751e08ca38dc50da7f7ca1c408e6ad6298";
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    herdrFlake.url = "github:ogulcancelik/herdr/v0.7.1";
   };
 
   outputs = {
@@ -27,6 +28,7 @@
     mvim,
     opencodeFlake,
     nixpkgs-unstable,
+    herdrFlake,
     ...
   }: let
     system = "x86_64-linux";
@@ -43,6 +45,10 @@
     gui = import ./software/gui.nix {inherit pkgs;};
     opencode = opencodeFlake.packages.${system}.default;
     unstable = import nixpkgs-unstable {inherit system;};
+    herdrConfigured = import ./software/common/herdr/herdr.nix {
+      inherit pkgs;
+      herdr = herdrFlake.packages.${system}.default;
+    };
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
@@ -58,7 +64,7 @@
           })
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
-            environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
+            environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;}) herdrConfigured];
           }
         ];
       };
