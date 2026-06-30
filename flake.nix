@@ -16,6 +16,7 @@
     opencodeFlake = {
       url = "github:anomalyco/opencode?rev=f06b78751e08ca38dc50da7f7ca1c408e6ad6298";
     };
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
   outputs = {
@@ -25,6 +26,7 @@
     nixpkgs-esp-dev,
     mvim,
     opencodeFlake,
+    nixpkgs-unstable,
     ...
   }: let
     system = "x86_64-linux";
@@ -40,6 +42,7 @@
     dev = import ./software/dev.nix {inherit pkgs;};
     gui = import ./software/gui.nix {inherit pkgs;};
     opencode = opencodeFlake.packages.${system}.default;
+    unstable = import nixpkgs-unstable {inherit system;};
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
@@ -53,7 +56,7 @@
             inherit pkgs lanzaboote;
             lib = pkgs.lib;
           })
-          ./software/modules/podman.nix
+          (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
             environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;})];
           }

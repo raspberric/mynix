@@ -17,5 +17,6 @@ in
       pkillOnPort
       yazi
       tuxedo
+      nh
     ];
   }
