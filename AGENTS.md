@@ -42,7 +42,7 @@ software/
     ghostty.nix, discord.nix       # GUI app wrappers
     gaming.nix                     # Steam + DualSense controller config (NixOS module)
     okular.nix                     # PDF viewer
-  modules/podman.nix               # Podman NixOS module
+  modules/virtualization.nix       # Virtualzation NixOS module
   scripts/pkillOnPort.nix          # Utility script
   services/hermes.nix              # Hermes AI agent OCI container (NixOS module)
   lanzaboote/                      # Secure Boot sub-flake
