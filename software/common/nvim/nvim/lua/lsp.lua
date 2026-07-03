@@ -89,16 +89,50 @@ return {
     vim.lsp.config("pyright", {
       capabilities = lspCapabilities,
       root_dir = function(bufnr, on_dir)
+        local uv = vim.uv or vim.loop
         local fname = vim.api.nvim_buf_get_name(bufnr)
-        local root = util.root_pattern(
-          "pyrightconfig.json",
-          " pyproject.toml",
-          "setup.py",
-          "setup.cfg",
-          "requirements.txt"
-        )(fname) or util.find_git_ancestor(fname)
-
-        on_dir(root)
+        local dir = vim.fs.dirname(fname)
+        -- Walk up looking for a dir with pyproject.toml (or pyrightconfig.json)
+        -- AND a .venv/venv next to it. This lets us pick the correct sub-project
+        -- in a uv/poetry workspace where each package has its own venv.
+        local best_with_venv, best_project = nil, nil
+        while dir and dir ~= "" do
+          local has_project = uv.fs_stat(dir .. "/pyrightconfig.json")
+            or uv.fs_stat(dir .. "/pyproject.toml")
+            or uv.fs_stat(dir .. "/setup.py")
+            or uv.fs_stat(dir .. "/setup.cfg")
+            or uv.fs_stat(dir .. "/requirements.txt")
+          if has_project then
+            best_project = best_project or dir
+            if uv.fs_stat(dir .. "/.venv/bin/python") or uv.fs_stat(dir .. "/venv/bin/python") then
+              best_with_venv = dir
+              break
+            end
+          end
+          local parent = vim.fs.dirname(dir)
+          if parent == dir then
+            break
+          end
+          dir = parent
+        end
+        on_dir(best_with_venv or best_project or util.find_git_ancestor(fname))
+      end,
+      before_init = function(_, config)
+        local uv = vim.uv or vim.loop
+        local root = config.root_dir
+        if root then
+          for _, venv in ipairs({ ".venv", "venv" }) do
+            local python = root .. "/" .. venv .. "/bin/python"
+            if uv.fs_stat(python) then
+              config.settings = config.settings or {}
+              config.settings.python = config.settings.python or {}
+              config.settings.python.pythonPath = python
+              config.settings.python.venvPath = root
+              config.settings.python.venv = venv
+              break
+            end
+          end
+        end
       end,
       settings = {
         python = {
