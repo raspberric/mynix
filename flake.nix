@@ -71,13 +71,11 @@
       wsl = nixpkgs.lib.nixosSystem {
         modules = [
           nixos-wsl.nixosModules.default
+          ./machines/wsl/configuration.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
           {
             nixpkgs.hostPlatform = system;
-            system.stateVersion = "25.05";
-            wsl.enable = true;
-            nix.settings.experimental-features = ["nix-command" "flakes"];
             environment.systemPackages = [tools dev pkgs.mvim];
           }
         ];
