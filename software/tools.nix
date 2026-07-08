@@ -18,5 +18,7 @@ in
       yazi
       tuxedo
       nh
+      jq
+      unar
     ];
   }
