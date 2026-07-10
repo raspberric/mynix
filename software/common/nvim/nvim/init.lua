@@ -28,6 +28,10 @@ require("debug_config").setup()
 require("bookmarks").setup()
 require("tabs").setup()
 
+if nixCats("runtimeChecks.IS_DB") then
+  require("db").setup()
+end
+
 if nixCats("runtimeChecks.IS_FRONTEND") then
   require("frontend.ccc_config").setup()
   require("nvim-ts-autotag").setup()
