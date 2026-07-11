@@ -1,12 +1,11 @@
 {
   pkgs,
-  opencode,
   ...
 }:
 pkgs.writeShellApplication {
-    name = "opencode";
-    runtimeInputs = [opencode];
-    text = ''
+  name = "opencode";
+  runtimeInputs = [pkgs.opencode];
+  text = ''
       # Create a writable configuration directory
       CONFIG_DIR="$HOME/.config/opencode"
       mkdir -p "$CONFIG_DIR/skills" "$CONFIG_DIR/plugin"
@@ -35,5 +34,5 @@ pkgs.writeShellApplication {
       export OPENCODE_CONFIG_DIR="$CONFIG_DIR"
 
       exec opencode "$@"
-    '';
-  }
+  '';
+}

@@ -34,7 +34,12 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      overlays = [mvim.overlays.default];
+      overlays = [
+        mvim.overlays.default
+        (_final: _prev: {
+          opencode = opencodeFlake.packages.${system}.default;
+        })
+      ];
       config = {
         allowUnfree = true;
         android_sdk.accept_license = true;
@@ -43,10 +48,7 @@
     tools = import ./software/tools.nix {inherit pkgs;};
     dev = import ./software/dev.nix {inherit pkgs;};
     gui = import ./software/gui.nix {inherit pkgs;};
-    opencode = import ./software/common/opencode/opencode.nix {
-      inherit pkgs;
-      opencode = opencodeFlake.packages.${system}.default;
-    };
+    opencode = import ./software/common/opencode/opencode.nix {inherit pkgs;};
     unstable = import nixpkgs-unstable {inherit system;};
     herdrConfigured = import ./software/common/herdr/herdr.nix {
       inherit pkgs;
