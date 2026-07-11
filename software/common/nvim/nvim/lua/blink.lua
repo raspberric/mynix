@@ -1,17 +1,31 @@
 local M = {}
 
 function M.setup()
-  require("blink.cmp").setup({
-    sources = {
-      default = { "lsp", "path", "lazydev", "snippets", "buffer" },
-      providers = {
-        lazydev = {
-          name = "LazyDev",
-          module = "lazydev.integrations.blink",
-          score_offset = 100,
-        },
+  local sources = {
+    default = { "lsp", "path", "lazydev", "snippets", "buffer" },
+    providers = {
+      lazydev = {
+        name = "LazyDev",
+        module = "lazydev.integrations.blink",
+        score_offset = 100,
       },
     },
+  }
+
+  if nixCats("runtimeChecks.IS_DB") then
+    sources.per_filetype = {
+      sql = { inherit_defaults = true, "dadbod" },
+      mysql = { inherit_defaults = true, "dadbod" },
+      plsql = { inherit_defaults = true, "dadbod" },
+    }
+    sources.providers.dadbod = {
+      name = "Dadbod",
+      module = "vim_dadbod_completion.blink",
+    }
+  end
+
+  require("blink.cmp").setup({
+    sources = sources,
     signature = {
       enabled = true,
     },

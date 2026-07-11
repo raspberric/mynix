@@ -1,24 +1,14 @@
-{pkgs, ...}: let
-  opencodeUpdated =
-    pkgs.opencode.overrideAttrs
-    {
-      version = "1.17.3";
-      src = pkgs.fetchFromGitHub {
-        owner = "anomalyco";
-        repo = "opencode";
-        rev = "v1.17.3";
-        hash = "sha256-Pqj49q8bTwnTQxnlJbqnot7Pvo2K/WbtdEjEsq5P7qo=";
-      };
-      patches = [];
-    };
-in
-  pkgs.writeShellApplication {
-    name = "opencode";
-    runtimeInputs = [opencodeUpdated];
-    text = ''
+{
+  pkgs,
+  ...
+}:
+pkgs.writeShellApplication {
+  name = "opencode";
+  runtimeInputs = [pkgs.opencode];
+  text = ''
       # Create a writable configuration directory
       CONFIG_DIR="$HOME/.config/opencode"
-      mkdir -p "$CONFIG_DIR/skills"
+      mkdir -p "$CONFIG_DIR/skills" "$CONFIG_DIR/plugin"
 
       # Copy the immutable config to the writable location
       # We use -f to force overwrite so the Nix config is strictly declarative
@@ -29,8 +19,20 @@ in
       cp -rf "${./skills}/"* "$CONFIG_DIR/skills/" || true
       chmod -R 644 "$CONFIG_DIR/skills/"* || true
 
+      # Copy local plugins
+      cp -f "${./plugin/agent-memory.ts}" "$CONFIG_DIR/plugin/agent-memory.ts" || true
+      chmod 644 "$CONFIG_DIR/plugin/agent-memory.ts"
+
+      # This repo is system config, not an opencode project config. Avoid creating
+      # or loading $HOME/config/.opencode when opencode is launched from here.
+      CONFIG_REPO="$HOME/config"
+      PWD_PHYSICAL="$(pwd -P)"
+      if [ -f "$CONFIG_REPO/software/common/opencode/opencode.nix" ] && { [ "$PWD_PHYSICAL" = "$CONFIG_REPO" ] || [ "''${PWD_PHYSICAL#"$CONFIG_REPO/"}" != "$PWD_PHYSICAL" ]; }; then
+        export OPENCODE_DISABLE_PROJECT_CONFIG=1
+      fi
+
       export OPENCODE_CONFIG_DIR="$CONFIG_DIR"
 
       exec opencode "$@"
-    '';
-  }
+  '';
+}

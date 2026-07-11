@@ -162,6 +162,12 @@
         java = with pkgs.vimPlugins; [
           nvim-jdtls
         ];
+
+        db = with pkgs.vimPlugins; [
+          vim-dadbod
+          vim-dadbod-completion
+          vim-dadbod-ui
+        ];
       };
 
       # use with packadd and an autocommand in config to achieve lazy loading
@@ -286,7 +292,11 @@
           config = true;
           gitPlugins = true;
           python = true;
-          runtimeChecks = {IS_PYTHON = true;};
+          db = true;
+          runtimeChecks = {
+            IS_PYTHON = true;
+            IS_DB = true;
+          };
         };
       };
 
