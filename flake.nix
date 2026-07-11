@@ -48,7 +48,6 @@
     tools = import ./software/tools.nix {inherit pkgs;};
     dev = import ./software/dev.nix {inherit pkgs;};
     gui = import ./software/gui.nix {inherit pkgs;};
-    opencode = import ./software/common/opencode/opencode.nix {inherit pkgs;};
     unstable = import nixpkgs-unstable {inherit system;};
     herdrConfigured = import ./software/common/herdr/herdr.nix {
       inherit pkgs;
@@ -69,7 +68,7 @@
           })
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
-            environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev opencode (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;}) herdrConfigured];
+            environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;}) herdrConfigured];
           }
         ];
       };
