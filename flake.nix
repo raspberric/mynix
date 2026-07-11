@@ -43,7 +43,10 @@
     tools = import ./software/tools.nix {inherit pkgs;};
     dev = import ./software/dev.nix {inherit pkgs;};
     gui = import ./software/gui.nix {inherit pkgs;};
-    opencode = opencodeFlake.packages.${system}.default;
+    opencode = import ./software/common/opencode/opencode.nix {
+      inherit pkgs;
+      opencode = opencodeFlake.packages.${system}.default;
+    };
     unstable = import nixpkgs-unstable {inherit system;};
     herdrConfigured = import ./software/common/herdr/herdr.nix {
       inherit pkgs;

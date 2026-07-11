@@ -1,6 +1,6 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"plugin": ["opencode-agent-memory"],
+	"plugin": ["./plugin/agent-memory.ts"],
 
 	"provider": {
 		"general-compute": {
