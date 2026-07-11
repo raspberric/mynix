@@ -107,6 +107,7 @@
           persistence-nvim
           trouble-nvim
           flash-nvim
+          hydra-nvim
           markview-nvim
           plenary-nvim
           pkgs.neovimPlugins.opencode
