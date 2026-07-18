@@ -1,4 +1,4 @@
-{pkgs, sshKeyName ...}: let
+{pkgs, ...}: let
   # 1. Dynamically target the key directly inside your local ~/.ssh directory
   homeDir = builtins.getEnv "HOME";
   keyPath = /. + "${homeDir}/.ssh/id_rsa.pub";
@@ -10,6 +10,8 @@ in
     [ERROR] Could not find your local SSH public key at: ${toString keyPath}
     Please ensure the file exists on your local machine before running the build.
   ''; {
+    system.stateVersion = "25.05";
+
     nix = {
       settings = {
         experimental-features = ["nix-command" "flakes"];
