@@ -4,6 +4,7 @@
   ...
 }: {
   virtualisation.docker = {
+    # this will not be necessary after we update to 26.05
     package = unstable.docker_29;
     enable = true;
     enableOnBoot = false;

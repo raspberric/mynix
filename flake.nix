@@ -58,6 +58,9 @@
       nixos = nixpkgs.lib.nixosSystem {
         modules = [
           ./machines/laptop/configuration.nix
+          ./software/modules/k3d.nix
+          ./software/modules/optimize.nix
+          ./software/modules/tailscale.nix
           ./machines/laptop/hardware.nix
           ./software/gaming.nix
           ./software/common/sessionVariables.nix
@@ -76,6 +79,7 @@
         modules = [
           nixos-wsl.nixosModules.default
           ./machines/wsl/configuration.nix
+          ./software/modules/optimize.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
           {
@@ -89,12 +93,12 @@
         modules = [
           nixos-wsl.nixosModules.default
           ./software/common/sessionVariables.nix
+          ./software/modules/optimize.nix
+          ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
           {
             nixpkgs.hostPlatform = system;
-            system.stateVersion = "25.05";
-            nix.settings.experimental-features = ["nix-command" "flakes"];
-            environment.systemPackages = [tools dev pkgs.mvim];
+            environment.systemPackages = [tools dev herdrConfigured pkgs.mvim];
           }
         ];
       };
