@@ -65,7 +65,14 @@
           typescript-language-server
           astro-language-server
           angular-language-server
-          vscode-langservers-extracted
+          # CSS server is code-split in VSCodium 1.106.27818. Nixpkgs copies
+          # only cssServerMain.js, omitting its required chunks.
+          (vscode-langservers-extracted.overrideAttrs (old: {
+            postInstall = (old.postInstall or "") + ''
+              cp -a css-language-features/server/dist/node/. \
+                "$out/lib/extensions/css-language-features/server/dist/node"
+            '';
+          }))
           tailwindcss-language-server
           vscode-js-debug
           prettier
@@ -107,6 +114,7 @@
           persistence-nvim
           trouble-nvim
           flash-nvim
+          hydra-nvim
           markview-nvim
           plenary-nvim
           pkgs.neovimPlugins.opencode

@@ -3,6 +3,9 @@
   pkgs,
   ...
 }: {
+  # for k3d
+  systemd.services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
+
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;

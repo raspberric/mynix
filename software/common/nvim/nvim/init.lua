@@ -27,6 +27,7 @@ require("opencode").setup()
 require("debug_config").setup()
 require("bookmarks").setup()
 require("tabs").setup()
+require("hydra_config").setup()
 
 if nixCats("runtimeChecks.IS_DB") then
   require("db").setup()
