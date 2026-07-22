@@ -18,6 +18,10 @@
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     herdrFlake.url = "github:ogulcancelik/herdr/v0.7.1";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -29,6 +33,7 @@
     opencodeFlake,
     nixpkgs-unstable,
     herdrFlake,
+    disko,
     ...
   }: let
     system = "x86_64-linux";
@@ -91,7 +96,10 @@
 
       vps = nixpkgs.lib.nixosSystem {
         modules = [
-          nixos-wsl.nixosModules.default
+          disko.nixosModules.disko
+          ./machines/vps/configuration.nix
+          ./machines/vps/hetzner.nix
+          ./machines/vps/disk-config.nix
           ./software/common/sessionVariables.nix
           ./software/modules/optimize.nix
           ./software/modules/tailscale.nix
