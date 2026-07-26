@@ -18,6 +18,10 @@
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     herdrFlake.url = "github:ogulcancelik/herdr/v0.7.1";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -29,6 +33,7 @@
     opencodeFlake,
     nixpkgs-unstable,
     herdrFlake,
+    disko,
     ...
   }: let
     system = "x86_64-linux";
@@ -58,6 +63,9 @@
       nixos = nixpkgs.lib.nixosSystem {
         modules = [
           ./machines/laptop/configuration.nix
+          ./software/modules/k3d.nix
+          ./software/modules/optimize.nix
+          ./software/modules/tailscale.nix
           ./machines/laptop/hardware.nix
           ./software/gaming.nix
           ./software/common/sessionVariables.nix
@@ -76,6 +84,7 @@
         modules = [
           nixos-wsl.nixosModules.default
           ./machines/wsl/configuration.nix
+          ./software/modules/optimize.nix
           ./software/common/sessionVariables.nix
           ./software/devshells/nix-ld.nix
           {
@@ -87,14 +96,17 @@
 
       vps = nixpkgs.lib.nixosSystem {
         modules = [
-          nixos-wsl.nixosModules.default
+          disko.nixosModules.disko
+          ./machines/vps/configuration.nix
+          ./machines/vps/hetzner.nix
+          ./machines/vps/disk-config.nix
           ./software/common/sessionVariables.nix
+          ./software/modules/optimize.nix
+          ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
           {
             nixpkgs.hostPlatform = system;
-            system.stateVersion = "25.05";
-            nix.settings.experimental-features = ["nix-command" "flakes"];
-            environment.systemPackages = [tools dev pkgs.mvim];
+            environment.systemPackages = [tools dev herdrConfigured pkgs.mvim];
           }
         ];
       };

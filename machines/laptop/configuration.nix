@@ -3,14 +3,10 @@
   pkgs,
   ...
 }: {
-  # for k3d
-  systemd.services."user@".serviceConfig.Delegate = "cpu cpuset io memory pids";
-
   boot.loader.systemd-boot.enable = true;
   boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.canTouchEfiVariables = true;
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  nix.settings.auto-optimise-store = true;
   networking.hostName = "nixos";
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Belgrade";
@@ -65,15 +61,7 @@
     openFirewall = true;
   };
 
-  services.tailscale.enable = true;
-  networking.firewall.trustedInterfaces = ["tailscale0"];
   networking.firewall.checkReversePath = "loose";
-
-  nix.gc = {
-    automatic = true;
-    dates = "weekly";
-    options = "--delete-older-than 7d";
-  };
 
   services.pcscd = {
     enable = true;
