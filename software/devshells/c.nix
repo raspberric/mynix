@@ -6,7 +6,7 @@
 }: let
   # Include ESP-IDF support using mirrexagon's flake.
   espPkgs = import nixpkgs-esp-dev.inputs.nixpkgs {
-    system = pkgs.system;
+    system = pkgs.stdenv.hostPlatform.system;
     overlays = [ nixpkgs-esp-dev.overlays.default ];
     config = {
       permittedInsecurePackages = [

@@ -25,7 +25,8 @@
     unwrappedCfgPath = "/home/xpo/config/software/common/nvim/nvim";
     forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
     extra_pkg_config = {
-      # allowUnfree = true;
+      allowUnfreePredicate = pkg:
+        builtins.elem (nixpkgs.lib.getName pkg) ["barbar.nvim"];
     };
     dependencyOverlays = [
       # This overlay grabs all the inputs named in the format
@@ -68,10 +69,12 @@
           # CSS server is code-split in VSCodium 1.106.27818. Nixpkgs copies
           # only cssServerMain.js, omitting its required chunks.
           (vscode-langservers-extracted.overrideAttrs (old: {
-            postInstall = (old.postInstall or "") + ''
-              cp -a css-language-features/server/dist/node/. \
-                "$out/lib/extensions/css-language-features/server/dist/node"
-            '';
+            postInstall =
+              (old.postInstall or "")
+              + ''
+                cp -a css-language-features/server/dist/node/. \
+                  "$out/lib/extensions/css-language-features/server/dist/node"
+              '';
           }))
           tailwindcss-language-server
           vscode-js-debug
@@ -359,7 +362,7 @@
         nixCatsBuilder =
           utils.baseBuilder luaPath {
             inherit nixpkgs dependencyOverlays extra_pkg_config;
-            system = final.system;
+            system = final.stdenv.hostPlatform.system;
           }
           categoryDefinitions
           packageDefinitions;
