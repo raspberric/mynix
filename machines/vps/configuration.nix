@@ -1,27 +1,63 @@
-{...}: {
-  system.stateVersion = "25.11";
+{
+  lib,
+  vpsInstance,
+  ...
+}: {
+  assertions = [
+    {
+      assertion = vpsInstance.deploymentReady;
+      message = "Set deploymentReady = true in machines/vps/instance.nix after verifying Contabo rescue-system facts.";
+    }
+    {
+      assertion = vpsInstance.sshKeys != [];
+      message = "Add at least one SSH public key to machines/vps/instance.nix before deploying.";
+    }
+    {
+      assertion = !lib.hasInfix "REPLACE_WITH" vpsInstance.disk;
+      message = "Replace placeholder VPS disk path with value verified in Contabo rescue mode.";
+    }
+    {
+      assertion = lib.hasPrefix "/dev/disk/by-id/" vpsInstance.disk;
+      message = "Use a stable /dev/disk/by-id path for the Contabo VPS disk.";
+    }
+    {
+      assertion = vpsInstance.interface != "replace-me";
+      message = "Replace placeholder VPS network interface with value verified in Contabo rescue mode.";
+    }
+  ];
+
+  system.stateVersion = "26.05";
+
+  boot.tmp.cleanOnBoot = true;
 
   nix = {
-    settings.experimental-features = ["nix-command" "flakes"];
+    settings = {
+      experimental-features = ["nix-command" "flakes"];
+      min-free = 1073741824;
+      max-free = 5368709120;
+    };
   };
 
   networking = {
     hostName = "xpo-vps";
-    firewall.enable = true;
+    firewall = {
+      enable = true;
+      allowPing = true;
+      allowedUDPPorts = [41641];
+    };
   };
 
+  users.mutableUsers = false;
   users.users.xpo = {
     isNormalUser = true;
     description = "Xpo user for vps";
     extraGroups = ["wheel"];
-    hashedPassword = "!";
-    openssh.authorizedKeys.keys = [
-      # Add your SSH public key before installing the VPS.
-    ];
+    hashedPasswordFile = "/etc/nixos/secrets/xpo-password-hash";
+    openssh.authorizedKeys.keys = vpsInstance.sshKeys;
   };
 
   users.users.root.hashedPassword = "!";
-  security.sudo.wheelNeedsPassword = false;
+  security.sudo.wheelNeedsPassword = true;
 
   services = {
     openssh = {
@@ -31,10 +67,22 @@
         PermitRootLogin = "no";
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
+        PermitEmptyPasswords = false;
+        AllowAgentForwarding = false;
+        X11Forwarding = false;
+        MaxAuthTries = 3;
+        LoginGraceTime = 30;
       };
     };
 
     fail2ban.enable = true;
+    fstrim.enable = true;
+    journald.extraConfig = ''
+      Storage=persistent
+      SystemMaxUse=512M
+      RuntimeMaxUse=128M
+      MaxRetentionSec=1month
+    '';
   };
 
   time.timeZone = "UTC";
