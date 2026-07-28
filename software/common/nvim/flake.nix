@@ -12,6 +12,10 @@
       url = "github:/OlegGulevskyy/better-ts-errors.nvim";
       flake = false;
     };
+    "plugins-treesitter-textobjects" = {
+      url = "github:nvim-treesitter/nvim-treesitter-textobjects/898ee307df58f854d11cd7edd06472574d48014e";
+      flake = false;
+    };
   };
 
   outputs = {
@@ -109,7 +113,7 @@
           diffview-nvim
         ];
         general = with pkgs.vimPlugins; [
-          nvim-treesitter-textobjects
+          pkgs.neovimPlugins.treesitter-textobjects
           mini-nvim
           snacks-nvim
           conform-nvim
