@@ -1,5 +1,5 @@
 {
-  description = "Raspberry nix wsl config";
+  description = "NixOS system configurations";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
@@ -22,6 +22,10 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixos-anywhere = {
+      url = "github:nix-community/nixos-anywhere";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -34,6 +38,7 @@
     nixpkgs-unstable,
     herdrFlake,
     disko,
+    nixos-anywhere,
     ...
   }: let
     system = "x86_64-linux";
@@ -51,6 +56,10 @@
       };
     };
     tools = import ./software/tools.nix {inherit pkgs;};
+    vpsTools = import ./software/tools.nix {
+      inherit pkgs;
+      desktopTools = false;
+    };
     dev = import ./software/dev.nix {inherit pkgs;};
     gui = import ./software/gui.nix {inherit pkgs;};
     unstable = import nixpkgs-unstable {inherit system;};
@@ -58,10 +67,15 @@
       inherit pkgs;
       herdr = herdrFlake.packages.${system}.default;
     };
+    nixpkgsConfig.nixpkgs.config = {
+      allowUnfree = true;
+      android_sdk.accept_license = true;
+    };
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
         modules = [
+          nixpkgsConfig
           ./machines/laptop/configuration.nix
           ./software/modules/k3d.nix
           ./software/modules/optimize.nix
@@ -82,6 +96,7 @@
       };
       wsl = nixpkgs.lib.nixosSystem {
         modules = [
+          nixpkgsConfig
           nixos-wsl.nixosModules.default
           ./machines/wsl/configuration.nix
           ./software/modules/optimize.nix
@@ -95,10 +110,12 @@
       };
 
       vps = nixpkgs.lib.nixosSystem {
+        specialArgs.vpsInstance = import ./machines/vps/instance.nix;
         modules = [
+          nixpkgsConfig
           disko.nixosModules.disko
           ./machines/vps/configuration.nix
-          ./machines/vps/hetzner.nix
+          ./machines/vps/contabo.nix
           ./machines/vps/disk-config.nix
           ./software/common/sessionVariables.nix
           ./software/modules/optimize.nix
@@ -106,7 +123,7 @@
           ./software/devshells/nix-ld.nix
           {
             nixpkgs.hostPlatform = system;
-            environment.systemPackages = [tools dev herdrConfigured pkgs.mvim];
+            environment.systemPackages = [vpsTools dev herdrConfigured pkgs.neovim];
           }
         ];
       };
@@ -114,6 +131,7 @@
 
     packages.${system} = {
       inherit tools dev gui;
+      nixos-anywhere = nixos-anywhere.packages.${system}.default;
       default = pkgs.symlinkJoin {
         name = "default";
         paths = [tools dev gui];
