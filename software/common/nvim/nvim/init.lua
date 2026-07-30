@@ -15,7 +15,11 @@ vim.opt.fillchars = { fold = " ", foldopen = "", foldsep = " ", foldclose = "
 -- toggle wrap
 vim.keymap.set("n", "<leader>w", ":set wrap!<CR>", { desc = "Toggle Wrap" })
 
-vim.cmd("colorscheme tokyonight-storm")
+require("tokyonight").setup({
+  style = "night",
+  light_style = "day",
+})
+vim.cmd("colorscheme tokyonight")
 require("mini_config").setup()
 require("snacks_config").setup()
 require("treesitter").setup()
