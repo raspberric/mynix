@@ -67,6 +67,9 @@
       inherit pkgs;
       herdr = herdrFlake.packages.${system}.default;
     };
+    vpsKexecProbe = import ./software/scripts/vps-kexec-probe.nix {inherit pkgs;};
+    vpsFacts = import ./software/scripts/vps-facts.nix {inherit pkgs;};
+    vpsPasswordHash = import ./software/scripts/vps-password-hash.nix {inherit pkgs;};
     nixpkgsConfig.nixpkgs.config = {
       allowUnfree = true;
       android_sdk.accept_license = true;
@@ -132,6 +135,9 @@
     packages.${system} = {
       inherit tools dev gui;
       nixos-anywhere = nixos-anywhere.packages.${system}.default;
+      vps-kexec-probe = vpsKexecProbe;
+      vps-facts = vpsFacts;
+      vps-password-hash = vpsPasswordHash;
       default = pkgs.symlinkJoin {
         name = "default";
         paths = [tools dev gui];
