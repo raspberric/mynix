@@ -2,7 +2,7 @@
   description = "Raspberry nix wsl config";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-26.05";
     nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.0.0";
