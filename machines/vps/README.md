@@ -79,12 +79,24 @@ Review generated `machines/vps/instance.nix` against the VPS and Contabo panel:
 - Set the exact IPv4 address, prefix length, and gateway.
 - Set `deploymentReady = true` only after verifying every value.
 
+Verify selected disk on temporary Ubuntu/rescue system before deployment:
+
+```bash
+DISK="/dev/disk/by-id/PASTE_GENERATED_DISK_ID"
+readlink -f "$DISK"
+lsblk -e7 -o NAME,PATH,SIZE,TYPE,FSTYPE,MODEL,SERIAL,MOUNTPOINTS
+lsblk -dn -o NAME,PATH,SIZE,TYPE,MODEL,SERIAL "$(readlink -f "$DISK")"
+```
+
+Resolved device must be intended VPS disk, have `TYPE` equal to `disk`, and
+match expected Contabo disk size/model. Use whole-disk ID, never a `-partN`
+partition ID. Installation erases this device completely.
+
 Use the Contabo panel as source of truth for IPv4 configuration. Do not infer
 the prefix or gateway from the address. Initial deployment uses IPv4 only; add
 IPv6 after IPv4 SSH and the assigned `/64` route work correctly.
 
-The selected disk will be erased. Assertions prevent a build while placeholders
-remain.
+Assertions prevent a build while placeholders remain.
 
 ## 5. Prepare Sudo Password
 
