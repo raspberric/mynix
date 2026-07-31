@@ -1,104 +1,155 @@
 # Contabo VPS Deployment
 
-This host targets a Contabo Cloud VPS installed from its rescue system with
-`nixos-anywhere`. Deployment is intentionally blocked until `instance.nix`
-contains values verified on the actual server.
+This host targets a Contabo Cloud VPS installed with `nixos-anywhere` from an
+existing Linux installation or Contabo's rescue system. Deployment is
+intentionally blocked until `instance.nix` contains values verified on the
+actual server.
 
-## 1. Configure Contabo Firewall
+Run workstation commands from the repository root.
 
-Create and assign a Contabo firewall before installation. Its permanent default
-rule drops all other inbound traffic.
+## 1. Create The VPS
 
-- Allow TCP port 22 from `Any`.
-- Allow ICMP from `Any`.
-- Allow UDP port 41641 from `Any` for direct Tailscale connectivity.
+Create an `x86_64` Contabo VPS with at least 2 GiB RAM and a temporary Ubuntu
+installation. In the Contabo panel:
 
-## 2. Inspect Rescue System
+- Record the exact IPv4 address, prefix length, and gateway.
+- Configure the temporary system to accept your public SSH key for root.
 
-Boot Contabo's rescue system and connect as root. Record facts before touching
-the disk:
+Choose one local SSH key pair for both installation and final `xpo` access, set
+the paths, and test SSH:
 
 ```bash
-test -d /sys/firmware/efi && printf 'UEFI\n' || printf 'BIOS\n'
-lsblk -e7 -o NAME,PATH,SIZE,TYPE,FSTYPE,MODEL,SERIAL,TRAN,MOUNTPOINTS
-ls -l /dev/disk/by-id/
-ip -br link
-ip -4 address
-ip -4 route
-ip -6 address
-ip -6 route
-command -v kexec
-sysctl kernel.kexec_load_disabled
+export SERVER_IPV4="YOUR_SERVER_IPV4"
+export SSH_KEY="$HOME/.ssh/id_ed25519"
+ssh -i "$SSH_KEY" "root@$SERVER_IPV4"
 ```
 
-Use the Contabo Customer Panel as the source of truth for the IPv4 address,
-prefix length, and gateway. Do not infer the prefix or gateway from the address.
-Initial deployment uses IPv4 only; add IPv6 after IPv4 SSH and the assigned `/64`
-route have been verified.
+If Contabo initially provides only a root password, install the same public key
+once with `ssh-copy-id -i "$SSH_KEY.pub" "root@$SERVER_IPV4"`.
+Using one key for both stages is normal: its private half remains on the
+workstation, and final NixOS authorizes only the public half for `xpo`. Protect
+the private key with a passphrase and use separate keys for different admins or
+workstations rather than separate installation stages.
 
-## 3. Complete Instance Configuration
+## 2. Check Kexec Support
 
-Edit `machines/vps/instance.nix`:
+`nixos-anywhere` normally replaces temporary Ubuntu by booting its installer
+with `kexec`. Run the non-destructive preflight:
 
-- Set `disk` to the verified whole-disk `/dev/disk/by-id/...` path.
-- Set `bootMode` to `bios` or `uefi` from the firmware check.
-- Set `interface` to the observed VirtIO interface name.
+```bash
+nix run .#vps-kexec-probe -- \
+  -i "$SSH_KEY" \
+  "root@$SERVER_IPV4"
+```
+
+The target needs an `x86_64` Linux kernel with kexec enabled, no active kernel
+lockdown, at least 1.5 GiB RAM excluding swap, root or passwordless sudo access,
+and the required archive/session utilities. The probe checks these known
+requirements but does not load a kernel, so the actual kexec phase remains the
+final compatibility test.
+
+If Ubuntu fails preflight, boot Contabo rescue mode and rerun the probe there.
+Rescue mode is optional when Ubuntu passes.
+
+## 3. Collect Instance Facts
+
+Collect firmware, disk, and network values over SSH and write them to
+`machines/vps/instance.nix`. Supply the public key that will authorize your
+`xpo` login:
+
+```bash
+nix run .#vps-facts -- \
+  --ssh-key "$SSH_KEY.pub" \
+  -i "$SSH_KEY" \
+  "root@$SERVER_IPV4"
+```
+
+If the VPS has multiple physical disks, the command refuses to guess. Choose a
+reported whole-disk ID and rerun with `--disk /dev/disk/by-id/...`.
+The command replaces `machines/vps/instance.nix` and always writes
+`deploymentReady = false` so installation remains blocked until review.
+
+## 4. Complete Instance Configuration
+
+Review generated `machines/vps/instance.nix` against the VPS and Contabo panel:
+
+- Set `disk` to the intended whole-disk `/dev/disk/by-id/...` path.
+- Set `bootMode` to `bios` or `uefi`.
+- Set `interface` to the default network interface.
 - Set the exact IPv4 address, prefix length, and gateway.
-- Add at least one complete SSH public key to `sshKeys`.
-- Set `deploymentReady = true` only after checking every value.
+- Set `deploymentReady = true` only after verifying every value.
 
-The disk is erased during deployment. Assertions deliberately prevent a build
-while placeholders remain.
+Use the Contabo panel as source of truth for IPv4 configuration. Do not infer
+the prefix or gateway from the address. Initial deployment uses IPv4 only; add
+IPv6 after IPv4 SSH and the assigned `/64` route work correctly.
 
-## 4. Prepare Sudo Password
+The selected disk will be erased. Assertions prevent a build while placeholders
+remain.
 
-The final SSH service accepts keys only. The `xpo` account requires a separate
-password for sudo. Create a temporary root-only tree that nixos-anywhere will
-copy into the installed system:
+## 5. Prepare Sudo Password
+
+The installed SSH service accepts keys only. User `xpo` still needs a password
+for `sudo`. In one terminal, create its temporary yescrypt hash:
 
 ```bash
-secret_dir="$(mktemp -d)"
-trap 'rm -rf "$secret_dir"' EXIT
-install -d -m 700 "$secret_dir/etc/nixos/secrets"
-nix shell nixpkgs#mkpasswd -c sh -c \
-  'umask 077; mkpasswd -m yescrypt > "$1/etc/nixos/secrets/xpo-password-hash"' \
-  sh "$secret_dir"
+nix run .#vps-password-hash
 ```
 
-Enter the password interactively. Never add this directory or password hash to
-Git. The shell removes the temporary directory when it exits.
+The script prompts for the password, prints its protected temporary directory,
+and waits. Leave it running. In a second terminal, copy the `export secret_dir`
+command printed by the script and set the server address again:
 
-## 5. Validate
+```bash
+export secret_dir="/tmp/PATH_PRINTED_BY_SCRIPT"
+export SERVER_IPV4="YOUR_SERVER_IPV4"
+export SSH_KEY="$HOME/.ssh/id_ed25519"
+```
 
-Run local evaluation before installation:
+Run validation and installation from the second terminal. After installation,
+return to the first terminal and press `Ctrl+C`; the script deletes the secret
+directory and exits. If installation fails, leave it running while retrying.
+Never add the directory or hash to Git.
+
+## 6. Validate
 
 ```bash
 nix flake check
 nix build .#nixosConfigurations.vps.config.system.build.toplevel
 ```
 
-Both commands must complete without failed assertions.
-Commit the reviewed configuration before running the destructive installation.
+Both commands must complete without failed assertions. Commit reviewed
+configuration before starting destructive installation.
 
-## 6. Install
+## 7. Install And Reboot
 
-Keep Contabo rescue access available throughout installation:
+Keep Contabo console or rescue access available, then run:
 
 ```bash
 nix run .#nixos-anywhere -- \
   --flake .#vps \
-  --target-host root@SERVER_IPV4 \
+  --target-host "root@$SERVER_IPV4" \
+  -i "$SSH_KEY" \
   --extra-files "$secret_dir"
 ```
 
-The target disk is repartitioned and all existing data is destroyed.
+This erases and repartitions selected disk, installs NixOS, installs its
+bootloader, and reboots the VPS automatically.
 
-## 7. Verify
+## 8. Verify NixOS
 
-After reboot, open a new connection without closing rescue or console access:
+After reboot, confirm the new SSH host fingerprint through the Contabo console.
+On the workstation, remove the obsolete Ubuntu/rescue host key from local
+`known_hosts`, then connect to NixOS as `xpo`:
 
 ```bash
-ssh xpo@SERVER_IPV4
+ssh-keygen -R "$SERVER_IPV4"
+ssh -i "$SSH_KEY" "xpo@$SERVER_IPV4"
+```
+
+Inside the VPS, validate the configured sudo password and check for failed
+services, network configuration, routes, and disk usage:
+
+```bash
 sudo --validate
 systemctl --failed
 ip address
@@ -106,8 +157,22 @@ ip route
 df -h
 ```
 
-Then enroll Tailscale with `sudo tailscale up`. Verify another fresh SSH login
-before ending rescue access.
+Enroll Tailscale with `sudo tailscale up`. Verify another fresh SSH login before
+ending rescue or console access.
+
+## 9. Post-Install Security Hardening
+
+After verifying the NixOS firewall and a fresh SSH login, optionally create a
+Contabo firewall as an external defense-in-depth layer and assign it to the VPS:
+
+- Allow TCP port `22` for SSH.
+- Allow ICMP for network diagnostics.
+- Allow UDP port `41641` for direct Tailscale connections.
+- Drop other unsolicited inbound traffic.
+
+Keep Contabo console access open while applying these rules, then verify another
+SSH connection before closing it. UDP `41641` is optional because Tailscale can
+fall back to DERP relays.
 
 ## Recovery And Maintenance
 
