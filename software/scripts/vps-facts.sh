@@ -50,7 +50,8 @@ if [[ ! -r "$ssh_key_file" ]]; then
   exit 1
 fi
 
-read -r key_type key_data _ < "$ssh_key_file"
+public_key="$(< "$ssh_key_file")"
+read -r key_type key_data _ <<< "$public_key"
 if [[ "$key_type" != ssh-* && "$key_type" != ecdsa-* && "$key_type" != sk-* ]]; then
   printf 'ERROR: unsupported public SSH key type: %s\n' "$key_type" >&2
   exit 1
@@ -59,7 +60,10 @@ if [[ ! "$key_data" =~ ^[A-Za-z0-9+/]+={0,3}$ ]]; then
   printf 'ERROR: invalid public SSH key data\n' >&2
   exit 1
 fi
-public_key="$key_type $key_data"
+
+nix_public_key="${public_key//\\/\\\\}"
+nix_public_key="${nix_public_key//\"/\\\"}"
+nix_public_key="${nix_public_key//\$\{/\\\$\{}"
 
 if [[ ! -d "$(dirname "$output")" ]]; then
   printf 'ERROR: output directory does not exist: %s\n' "$(dirname "$output")" >&2
@@ -182,7 +186,7 @@ fi
   printf '  };\n'
   printf '\n'
   printf '  sshKeys = [\n'
-  printf '    "%s"\n' "$public_key"
+  printf '    "%s"\n' "$nix_public_key"
   printf '  ];\n'
   printf '}\n'
 } > "$output_tmp"
