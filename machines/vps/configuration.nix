@@ -7,21 +7,28 @@
 in {
   assertions = [
     {
+      assertion = vpsInstance.deploymentReady;
+      message = "Set deploymentReady = true in machines/vps/instance.nix after verifying every generated value.";
+    }
+    {
       assertion = authorizedKeys != [];
       message = "Add at least one SSH public key to machines/vps/authorized-keys.nix.";
     }
-  ] ++ lib.optionals vpsInstance.deploymentReady [
     {
       assertion = !lib.hasInfix "REPLACE_WITH" vpsInstance.disk;
-      message = "Replace placeholder VPS disk path with value verified in Contabo rescue mode.";
+      message = "Replace placeholder VPS disk path with a value verified on the target.";
     }
     {
       assertion = lib.hasPrefix "/dev/disk/by-id/" vpsInstance.disk;
       message = "Use a stable /dev/disk/by-id path for the Contabo VPS disk.";
     }
     {
+      assertion = builtins.match ".*-part[0-9]+" vpsInstance.disk == null;
+      message = "Use a whole-disk ID, not a /dev/disk/by-id/*-partN partition path.";
+    }
+    {
       assertion = vpsInstance.interface != "replace-me";
-      message = "Replace placeholder VPS network interface with value verified in Contabo rescue mode.";
+      message = "Replace placeholder VPS network interface with a value verified on the target.";
     }
   ];
 
@@ -39,6 +46,7 @@ in {
 
   networking = {
     hostName = "xpo-vps";
+    enableIPv6 = false;
     firewall = {
       enable = true;
       allowPing = true;

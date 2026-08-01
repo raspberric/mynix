@@ -3,20 +3,15 @@
 set -euo pipefail
 
 output="machines/vps/instance.nix"
-local_mode=false
 requested_disk=""
 ssh_args=()
 
 usage() {
-  printf '%s\n' "Usage: vps-facts [--local] [--output <file>] [--disk <by-id-path>] [ssh-options] <user@host>"
+  printf '%s\n' "Usage: vps-facts [--output <file>] [--disk <by-id-path>] [ssh-options] <user@host>"
 }
 
 while (($# > 0)); do
   case "$1" in
-    --local)
-      local_mode=true
-      shift
-      ;;
     --output)
       [[ $# -ge 2 ]] || { usage >&2; exit 1; }
       output="$2"
@@ -39,7 +34,7 @@ while (($# > 0)); do
   esac
 done
 
-if [[ "$local_mode" == false && ${#ssh_args[@]} -eq 0 ]]; then
+if ((${#ssh_args[@]} == 0)); then
   usage >&2
   exit 1
 fi
@@ -56,11 +51,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-if [[ "$local_mode" == true ]]; then
-  bash @remoteScript@ --machine > "$facts_file"
-else
-  ssh "${ssh_args[@]}" bash -s -- --machine < @remoteScript@ > "$facts_file"
-fi
+ssh "${ssh_args[@]}" bash -s < @remoteScript@ > "$facts_file"
 
 boot_mode=""
 interface=""
