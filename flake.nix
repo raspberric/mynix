@@ -126,7 +126,7 @@
           ./software/devshells/nix-ld.nix
           {
             nixpkgs.hostPlatform = system;
-            environment.systemPackages = [vpsTools dev herdrConfigured pkgs.neovim];
+            environment.systemPackages = [vpsTools dev herdrConfigured pkgs.mvim];
           }
         ];
       };

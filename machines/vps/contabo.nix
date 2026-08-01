@@ -10,7 +10,7 @@ in {
     (modulesPath + "/profiles/qemu-guest.nix")
   ];
 
-  assertions = [
+  assertions = lib.optionals vpsInstance.deploymentReady [
     {
       assertion = builtins.elem vpsInstance.bootMode ["bios" "uefi"];
       message = "Set VPS bootMode to bios or uefi after checking /sys/firmware/efi in Contabo rescue mode.";

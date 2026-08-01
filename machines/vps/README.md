@@ -54,12 +54,10 @@ Rescue mode is optional when Ubuntu passes.
 ## 3. Collect Instance Facts
 
 Collect firmware, disk, and network values over SSH and write them to
-`machines/vps/instance.nix`. Supply the public key that will authorize your
-`xpo` login:
+`machines/vps/instance.nix`:
 
 ```bash
 nix run .#vps-facts -- \
-  --ssh-key "$SSH_KEY.pub" \
   -i "$SSH_KEY" \
   "root@$SERVER_IPV4"
 ```
@@ -78,6 +76,9 @@ Review generated `machines/vps/instance.nix` against the VPS and Contabo panel:
 - Set `interface` to the default network interface.
 - Set the exact IPv4 address, prefix length, and gateway.
 - Set `deploymentReady = true` only after verifying every value.
+
+SSH keys are managed separately in `machines/vps/authorized-keys.nix` and are
+not part of `instance.nix`.
 
 Verify selected disk on temporary Ubuntu/rescue system before deployment:
 
@@ -185,6 +186,21 @@ Contabo firewall as an external defense-in-depth layer and assign it to the VPS:
 Keep Contabo console access open while applying these rules, then verify another
 SSH connection before closing it. UDP `41641` is optional because Tailscale can
 fall back to DERP relays.
+
+## Rebuilding From The VPS
+
+To apply config changes directly on the VPS without going through the workstation:
+
+```bash
+# From the repo root on the VPS
+nix run .#vps-facts -- --local
+# Review instance.nix, set deploymentReady = true
+sudo nixos-rebuild switch --flake .#vps
+```
+
+`vps-facts --local` reads hardware facts from the running system instead of
+over SSH. The resulting `instance.nix` is identical in format to the
+workstation-generated one.
 
 ## Recovery And Maintenance
 

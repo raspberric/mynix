@@ -1,4 +1,4 @@
-{vpsInstance, ...}: {
+{vpsInstance, lib, ...}: lib.mkIf vpsInstance.deploymentReady {
   disko.devices.disk.main = {
     type = "disk";
     device = vpsInstance.disk;

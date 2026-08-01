@@ -108,10 +108,8 @@ printf '    address = "%s";\n' "${address:-REPLACE_ME}"
 printf '    prefixLength = %s;\n' "${prefix_length:-REPLACE_ME}"
 printf '    gateway = "%s";\n' "${gateway:-REPLACE_ME}"
 printf '  };\n'
-printf '\n'
-printf '  sshKeys = ["REPLACE_WITH_YOUR_PUBLIC_SSH_KEY"];\n'
 printf '}\n'
 
 printf '\nVerify IPv4 address, prefix, and gateway against the Contabo panel.\n'
-printf 'Choose the intended whole-disk ID manually and add your workstation public SSH key.\n'
+printf 'Choose the intended whole-disk ID manually.\n'
 printf 'Set deploymentReady = true only after every value is verified.\n'

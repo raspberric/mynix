@@ -1,0 +1,4 @@
+[
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKFCdNu8f5DuD1pe2Otwl8NQkPlBCswwcrZbdNwyQW8F nikola@vps"
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPrdo0tM2FT5me7dbKrvMPPoioYjHBKgHbWRa95R2SOi raspberric@vps"
+]

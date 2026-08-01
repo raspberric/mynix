@@ -2,16 +2,15 @@
   lib,
   vpsInstance,
   ...
-}: {
+}: let
+  authorizedKeys = import ./authorized-keys.nix;
+in {
   assertions = [
     {
-      assertion = vpsInstance.deploymentReady;
-      message = "Set deploymentReady = true in machines/vps/instance.nix after verifying Contabo rescue-system facts.";
+      assertion = authorizedKeys != [];
+      message = "Add at least one SSH public key to machines/vps/authorized-keys.nix.";
     }
-    {
-      assertion = vpsInstance.sshKeys != [];
-      message = "Add at least one SSH public key to machines/vps/instance.nix before deploying.";
-    }
+  ] ++ lib.optionals vpsInstance.deploymentReady [
     {
       assertion = !lib.hasInfix "REPLACE_WITH" vpsInstance.disk;
       message = "Replace placeholder VPS disk path with value verified in Contabo rescue mode.";
@@ -53,7 +52,7 @@
     description = "Xpo user for vps";
     extraGroups = ["wheel"];
     hashedPasswordFile = "/etc/nixos/secrets/xpo-password-hash";
-    openssh.authorizedKeys.keys = vpsInstance.sshKeys;
+    openssh.authorizedKeys.keys = authorizedKeys;
   };
 
   users.users.root.hashedPassword = "!";

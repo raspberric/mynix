@@ -10,6 +10,4 @@
     prefixLength = 32;
     gateway = "192.0.2.254";
   };
-
-  sshKeys = [];
 }
