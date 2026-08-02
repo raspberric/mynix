@@ -39,6 +39,7 @@ in {
   nix = {
     settings = {
       experimental-features = ["nix-command" "flakes"];
+      trusted-users = ["xpo"];
       min-free = 1073741824;
       max-free = 5368709120;
     };
