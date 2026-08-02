@@ -122,6 +122,7 @@
           ./software/modules/optimize.nix
           ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
+          (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
             nixpkgs.hostPlatform = system;
             environment.systemPackages = [vpsTools dev herdrConfigured pkgs.mvim];
