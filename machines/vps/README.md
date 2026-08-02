@@ -189,6 +189,10 @@ This is the preferred routine for a small VPS: configuration builds locally,
 then its closure is copied and activated remotely. Root SSH remains disabled;
 activation uses `xpo` and asks for the sudo password.
 
+The VPS config makes `xpo` a trusted Nix user so it can import custom paths
+built on the workstation. Nix trusted users have root-equivalent control through
+the daemon; this is appropriate only because `xpo` is the sole administrator.
+
 From the workstation repository:
 
 ```bash
@@ -214,6 +218,15 @@ For bootloader or network changes, keep Contabo console access open and use
 
 The password hash already exists on the VPS. Do not run the password helper or
 pass `--extra-files` again for normal rebuilds.
+
+An existing VPS that predates the trusted-user setting must apply it once from
+inside VPS before workstation pushes can succeed:
+
+```bash
+cd "$HOME/config"
+git pull --ff-only
+sudo nixos-rebuild switch --flake .#vps
+```
 
 ## Rebuild On The VPS
 
