@@ -3,21 +3,15 @@
 set -euo pipefail
 
 output="machines/vps/instance.nix"
-ssh_key_file=""
 requested_disk=""
 ssh_args=()
 
 usage() {
-  printf '%s\n' "Usage: vps-facts --ssh-key <public-key-file> [--output <file>] [--disk <by-id-path>] [ssh-options] <user@host>"
+  printf '%s\n' "Usage: vps-facts [--output <file>] [--disk <by-id-path>] [ssh-options] <user@host>"
 }
 
 while (($# > 0)); do
   case "$1" in
-    --ssh-key)
-      [[ $# -ge 2 ]] || { usage >&2; exit 1; }
-      ssh_key_file="$2"
-      shift 2
-      ;;
     --output)
       [[ $# -ge 2 ]] || { usage >&2; exit 1; }
       output="$2"
@@ -40,30 +34,10 @@ while (($# > 0)); do
   esac
 done
 
-if [[ -z "$ssh_key_file" || ${#ssh_args[@]} -eq 0 ]]; then
+if ((${#ssh_args[@]} == 0)); then
   usage >&2
   exit 1
 fi
-
-if [[ ! -r "$ssh_key_file" ]]; then
-  printf 'ERROR: cannot read public SSH key: %s\n' "$ssh_key_file" >&2
-  exit 1
-fi
-
-public_key="$(< "$ssh_key_file")"
-read -r key_type key_data _ <<< "$public_key"
-if [[ "$key_type" != ssh-* && "$key_type" != ecdsa-* && "$key_type" != sk-* ]]; then
-  printf 'ERROR: unsupported public SSH key type: %s\n' "$key_type" >&2
-  exit 1
-fi
-if [[ ! "$key_data" =~ ^[A-Za-z0-9+/]+={0,3}$ ]]; then
-  printf 'ERROR: invalid public SSH key data\n' >&2
-  exit 1
-fi
-
-nix_public_key="${public_key//\\/\\\\}"
-nix_public_key="${nix_public_key//\"/\\\"}"
-nix_public_key="${nix_public_key//\$\{/\\\$\{}"
 
 if [[ ! -d "$(dirname "$output")" ]]; then
   printf 'ERROR: output directory does not exist: %s\n' "$(dirname "$output")" >&2
@@ -77,7 +51,7 @@ cleanup() {
 }
 trap cleanup EXIT
 
-ssh "${ssh_args[@]}" bash -s -- --machine < @remoteScript@ > "$facts_file"
+ssh "${ssh_args[@]}" bash -s < @remoteScript@ > "$facts_file"
 
 boot_mode=""
 interface=""
@@ -184,10 +158,6 @@ fi
   printf '    prefixLength = %s;\n' "$prefix_length"
   printf '    gateway = "%s";\n' "$gateway"
   printf '  };\n'
-  printf '\n'
-  printf '  sshKeys = [\n'
-  printf '    "%s"\n' "$nix_public_key"
-  printf '  ];\n'
   printf '}\n'
 } > "$output_tmp"
 
