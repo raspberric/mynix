@@ -307,9 +307,10 @@ Enable MagicDNS and HTTPS certificates in the Tailscale admin console. Ensure
 tailnet policy grants only intended users or devices access to TCP port 443 on
 this VPS. Do not enable Funnel for this endpoint.
 
-Get the VPS MagicDNS hostname, then replace `tailscaleDnsName` in
-`machines/vps/instance.nix`. Use the exact hostname ending in `.ts.net`, without
-a scheme, port, or trailing slash.
+Get the tailnet DNS name from the Tailscale DNS settings, then replace
+`tailscaleDnsName` in `machines/vps/instance.nix`. Use the name ending in
+`.ts.net`, such as `boar-beta.ts.net`, without a scheme, port, or trailing slash.
+The VPS machine name from `networking.hostName` is prepended automatically.
 
 After deployment, Tailscale Serve exposes Open Design at:
 

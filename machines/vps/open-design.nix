@@ -8,7 +8,7 @@
   dataDir = "/var/lib/open-design";
   codexHome = "${dataDir}/agents/codex";
   openCodeRoot = "${dataDir}/agents/opencode";
-  publicOrigin = "https://${vpsInstance.tailscaleDnsName}";
+  publicOrigin = "https://${config.networking.hostName}.${vpsInstance.tailscaleDnsName}";
   tailscale = lib.getExe config.services.tailscale.package;
 
   codexConfig = pkgs.writeText "open-design-codex-config.toml" ''
@@ -45,8 +45,8 @@ in {
       message = "Replace the Tailscale hostname placeholder in machines/vps/instance.nix.";
     }
     {
-      assertion = builtins.match "^[A-Za-z0-9.-]+[.]ts[.]net$" vpsInstance.tailscaleDnsName != null;
-      message = "Set tailscaleDnsName to the VPS MagicDNS HTTPS hostname ending in .ts.net.";
+      assertion = builtins.match "^[A-Za-z0-9-]+[.]ts[.]net$" vpsInstance.tailscaleDnsName != null;
+      message = "Set tailscaleDnsName to the tailnet DNS name ending in .ts.net.";
     }
   ];
 
@@ -98,8 +98,8 @@ in {
   systemd.services.open-design-tailscale-serve = {
     description = "Expose Open Design through private Tailscale Serve";
     wantedBy = ["multi-user.target"];
-    requires = ["tailscale-online.target" "open-design-web.service"];
-    after = ["tailscale-online.target" "open-design-web.service"];
+    requires = ["tailscaled.service" "open-design-web.service"];
+    after = ["tailscaled.service" "open-design-web.service"];
 
     serviceConfig = {
       Type = "oneshot";
