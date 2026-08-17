@@ -112,6 +112,8 @@ in {
     "d ${openCodeRoot}/cache 0700 open-design open-design - -"
   ];
 
+  systemd.services.open-design.enableDefaultPath = false;
+
   systemd.services.open-design-web = {
     requires = ["open-design.service"];
     after = ["open-design.service"];
