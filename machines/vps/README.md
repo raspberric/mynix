@@ -297,9 +297,10 @@ verify another SSH connection. Tailscale can use DERP relays without UDP 41641.
 ## Open Design
 
 Open Design runs as a native, hardened NixOS service instead of a container so
-it can launch the Nix-packaged Codex and OpenCode executables directly. Its web
-frontend and daemon listen only on loopback. Tailscale Serve provides private
-HTTPS access; no Open Design TCP port is opened in the NixOS firewall.
+it can launch the Nix-packaged Codex and OpenCode executables directly. Its
+daemon listens only on loopback. The frontend accepts the hostname preserved by
+Tailscale Serve, but its port remains closed in the NixOS firewall. Tailscale
+Serve provides private HTTPS access; no Open Design TCP port is publicly opened.
 
 ### Configure Tailscale HTTPS
 

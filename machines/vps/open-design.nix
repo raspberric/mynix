@@ -82,7 +82,8 @@ in {
 
     webFrontend = {
       enable = true;
-      host = "127.0.0.1";
+      # Accept the external Host header preserved by Tailscale Serve.
+      host = "0.0.0.0";
       port = 5174;
       allowedOrigins = [publicOrigin];
     };
