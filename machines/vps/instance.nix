@@ -4,6 +4,7 @@
   disk = "/dev/disk/by-id/scsi-0QEMU_QEMU_HARDDISK_drive-scsi0";
   bootMode = "bios";
   interface = "eth0";
+  tailscaleDnsName = "boar-beta.ts.net";
 
   ipv4 = {
     address = "169.58.106.248";

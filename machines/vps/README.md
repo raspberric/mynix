@@ -293,3 +293,78 @@ verify another SSH connection. Tailscale can use DERP relays without UDP 41641.
 - Update `flake.lock` on a trusted machine, build successfully, then deploy.
 - Do not enable blind automatic flake updates on VPS.
 - Provider snapshots are short-term rollback aids, not durable backups.
+
+## Open Design
+
+Open Design runs as a native, hardened NixOS service instead of a container so
+it can launch the Nix-packaged Codex and OpenCode executables directly. Its web
+frontend and daemon listen only on loopback. Tailscale Serve provides private
+HTTPS access; no Open Design TCP port is opened in the NixOS firewall.
+
+### Configure Tailscale HTTPS
+
+Enable MagicDNS and HTTPS certificates in the Tailscale admin console. Ensure
+tailnet policy grants only intended users or devices access to TCP port 443 on
+this VPS. Do not enable Funnel for this endpoint.
+
+Get the VPS MagicDNS hostname, then replace `tailscaleDnsName` in
+`machines/vps/instance.nix`. Use the exact hostname ending in `.ts.net`, without
+a scheme, port, or trailing slash.
+
+After deployment, Tailscale Serve exposes Open Design at:
+
+```text
+https://HOSTNAME.TAILNET.ts.net
+```
+
+Check services from the VPS:
+
+```bash
+systemctl status open-design.service
+systemctl status open-design-web.service
+systemctl status open-design-tailscale-serve.service
+tailscale serve status
+curl --fail http://127.0.0.1:7457/api/health
+curl --fail http://127.0.0.1:5174/
+```
+
+### Authenticate Codex
+
+Codex authentication belongs to the dedicated `open-design` service identity,
+not user `xpo`. Device authentication uses ChatGPT subscription access and
+stores refreshable credentials under the protected Open Design data directory:
+
+```bash
+sudo open-design-codex login --device-auth
+sudo open-design-codex login status
+```
+
+Select `Codex CLI` and an available subscription model in Open Design. The live
+model list comes from the authenticated Codex CLI.
+
+### Authenticate OpenCode Zen
+
+Even zero-cost Zen models require an OpenCode account and API key. Create the
+key at `https://opencode.ai/auth`, then authenticate the service identity:
+
+```bash
+sudo open-design-opencode auth login --provider opencode
+sudo open-design-opencode auth list
+sudo open-design-opencode models opencode
+```
+
+Select `OpenCode` and `opencode/deepseek-v4-flash-free` in Open Design. Free
+model availability is temporary, and prompts submitted to free models may be
+used for model improvement. Do not send confidential material through them.
+
+### Data And Recovery
+
+All Open Design state, managed projects, agent configuration, and agent login
+credentials live under `/var/lib/open-design`. Back up that directory only to
+encrypted storage. Stop `open-design.service` before taking a filesystem-level
+backup so its SQLite database and project state are consistent.
+
+Normal HTML previews work through Tailscale Serve. Some upstream features are
+intentionally restricted to a browser on daemon localhost, including powered
+WebGL/Worker previews, live-artifact refresh, and connector credential
+management. Use an SSH tunnel for those features when needed.

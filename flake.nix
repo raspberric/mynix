@@ -18,6 +18,7 @@
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     herdrFlake.url = "github:ogulcancelik/herdr/v0.7.1";
+    openDesign.url = "github:nexu-io/open-design?rev=0c237048cb078f95ab01c416924dcb255f7d5dfd";
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,6 +38,7 @@
     opencodeFlake,
     nixpkgs-unstable,
     herdrFlake,
+    openDesign,
     disko,
     nixos-anywhere,
     ...
@@ -122,6 +124,8 @@
           ./software/modules/optimize.nix
           ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
+          openDesign.nixosModules.default
+          ./machines/vps/open-design.nix
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
             nixpkgs.hostPlatform = system;
