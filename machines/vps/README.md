@@ -329,6 +329,20 @@ curl --fail http://127.0.0.1:7457/api/health
 curl --fail http://127.0.0.1:5174/
 ```
 
+### Use The CLI
+
+The `od` command runs as the dedicated `open-design` identity so CLI changes
+and MCP configuration use the same projects and state as the system service:
+
+```bash
+sudo od --help
+sudo od project list --json
+sudo od plugin list --json
+```
+
+The Open Design package intentionally takes precedence over the coreutils
+octal-dump program that is also named `od`.
+
 ### Authenticate Codex
 
 Codex authentication belongs to the dedicated `open-design` service identity,
@@ -368,4 +382,23 @@ backup so its SQLite database and project state are consistent.
 Normal HTML previews work through Tailscale Serve. Some upstream features are
 intentionally restricted to a browser on daemon localhost, including powered
 WebGL/Worker previews, live-artifact refresh, and connector credential
-management. Use an SSH tunnel for those features when needed.
+management. For those features, open a tunnel through Tailscale from the
+workstation:
+
+```bash
+export OPEN_DESIGN_HOST="xpo-vps.boar-beta.ts.net"
+
+ssh -N \
+  -L 127.0.0.1:5174:127.0.0.1:5174 \
+  -L localhost:7457:127.0.0.1:7457 \
+  -o ExitOnForwardFailure=yes \
+  -i "$SSH_KEY" \
+  "xpo@$OPEN_DESIGN_HOST"
+```
+
+Keep that command running and open `http://127.0.0.1:5174`. Port 5174 serves
+the frontend and proxies normal API requests. Port 7457 lets powered previews
+reach the daemon through their required alternate `localhost` origin. SSH
+travels over the Tailscale network; no public-IP connection is involved. The
+browser sends loopback origins, satisfying Open Design's localhost checks
+without weakening them for every tailnet request.

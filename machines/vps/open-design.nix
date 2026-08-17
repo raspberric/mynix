@@ -15,6 +15,28 @@
     cli_auth_credentials_store = "file"
   '';
 
+  openDesignCli = pkgs.writeShellApplication {
+    name = "od";
+    runtimeInputs = [pkgs.coreutils pkgs.util-linux];
+    text = ''
+      if [ "$(id -u)" -ne 0 ]; then
+        echo "od: run with sudo to access the open-design service account" >&2
+        exit 1
+      fi
+
+      exec runuser -u open-design -- env \
+        HOME=${lib.escapeShellArg dataDir} \
+        OD_DATA_DIR=${lib.escapeShellArg dataDir} \
+        CODEX_BIN=${lib.escapeShellArg (lib.getExe pkgs.codex)} \
+        CODEX_HOME=${lib.escapeShellArg codexHome} \
+        OPENCODE_BIN=${lib.escapeShellArg (lib.getExe pkgs.opencode)} \
+        XDG_CONFIG_HOME=${lib.escapeShellArg "${openCodeRoot}/config"} \
+        XDG_DATA_HOME=${lib.escapeShellArg "${openCodeRoot}/data"} \
+        XDG_CACHE_HOME=${lib.escapeShellArg "${openCodeRoot}/cache"} \
+        ${lib.getExe config.services.open-design.package} "$@"
+    '';
+  };
+
   openDesignCodex = pkgs.writeShellApplication {
     name = "open-design-codex";
     runtimeInputs = [pkgs.coreutils pkgs.util-linux];
@@ -111,5 +133,9 @@ in {
     };
   };
 
-  environment.systemPackages = [openDesignCodex openDesignOpenCode];
+  environment.systemPackages = [
+    (lib.hiPrio openDesignCli)
+    openDesignCodex
+    openDesignOpenCode
+  ];
 }
