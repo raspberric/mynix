@@ -20,5 +20,6 @@ in {
     ds-beamng
     discordConfigured
     pkgs.heroic
+    pkgs.r2modman
   ];
 }
