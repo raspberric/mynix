@@ -79,6 +79,7 @@
           nixpkgsConfig
           ./machines/laptop/configuration.nix
           ./software/modules/k3d.nix
+          ./software/modules/litellm.nix
           ./software/modules/optimize.nix
           ./software/modules/tailscale.nix
           ./machines/laptop/hardware.nix
