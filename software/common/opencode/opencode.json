@@ -6,7 +6,7 @@
 			"npm": "@ai-sdk/openai-compatible",
 			"name": "LiteLLM",
 			"options": {
-				"baseURL": "http://127.0.0.1:4000/v1",
+				"baseURL": "http://litellm.localhost:4000/v1",
 				"apiKey": "local"
 			},
 			"models": {

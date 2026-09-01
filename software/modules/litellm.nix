@@ -1,4 +1,8 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   credentialsFile = "/etc/litellm/credentials.env";
 
   deployment = modelName: model: apiKey: {
@@ -9,6 +13,8 @@
     };
   };
 in {
+  networking.hosts."127.0.0.1" = ["litellm.localhost"];
+
   services.litellm = {
     enable = true;
     host = "127.0.0.1";
@@ -74,6 +80,9 @@ in {
       };
     };
   };
+
+  # Keep the unit available for manual use without starting it at boot.
+  systemd.services.litellm.wantedBy = lib.mkForce [];
 
   # This file remains mutable across rebuilds and never enters the Nix store.
   systemd.tmpfiles.rules = [

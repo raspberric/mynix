@@ -1,7 +1,8 @@
 # LiteLLM gateway
 
-LiteLLM listens on `127.0.0.1:4000` and exposes the `free-coding` model alias.
-It tries providers in this order:
+LiteLLM listens on `127.0.0.1:4000`, is available at
+`http://litellm.localhost:4000`, and exposes the `free-coding` model alias. The
+service does not start automatically. It tries providers in this order:
 
 1. Mistral Medium
 2. Gemini Flash
@@ -28,18 +29,21 @@ ZAI_API_KEY=
 OPENROUTER_API_KEY=
 ```
 
-Restart the service after changing credentials:
+Start and stop the gateway manually with:
 
 ```sh
-sudo systemctl restart litellm
+sudo systemctl start litellm
+sudo systemctl stop litellm
 ```
+
+Restart it after changing credentials with `sudo systemctl restart litellm`.
 
 Check the gateway and its model catalog with:
 
 ```sh
 systemctl status litellm
-curl http://127.0.0.1:4000/health/liveliness
-curl http://127.0.0.1:4000/v1/models
+curl http://litellm.localhost:4000/health/liveliness
+curl http://litellm.localhost:4000/v1/models
 ```
 
 Quota exhaustion is detected reactively from provider errors. LiteLLM cannot
