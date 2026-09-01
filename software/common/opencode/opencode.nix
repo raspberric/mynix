@@ -17,7 +17,7 @@ pkgs.writeShellApplication {
 
       # Copy skills
       cp -rf "${./skills}/"* "$CONFIG_DIR/skills/" || true
-      chmod -R 644 "$CONFIG_DIR/skills/"* || true
+      chmod -R u=rwX,go=rX "$CONFIG_DIR/skills/"* || true
 
       # Copy local plugins
       cp -f "${./plugin/agent-memory.ts}" "$CONFIG_DIR/plugin/agent-memory.ts" || true
