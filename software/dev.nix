@@ -1,6 +1,7 @@
 {pkgs, ...}: let
   claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs;};
   opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
+  piConfigured = import ./common/pi/pi.nix {inherit pkgs;};
 in
   pkgs.symlinkJoin {
     name = "dev";
@@ -9,6 +10,7 @@ in
       pnpm
       claudeConfigured
       opencodeConfigured
+      piConfigured
       python314
       uv
       gcc
