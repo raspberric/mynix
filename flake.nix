@@ -121,6 +121,7 @@
           ./machines/vps/disk-config.nix
           ./software/common/sessionVariables.nix
           ./software/modules/optimize.nix
+          ./software/modules/litellm.nix
           ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
