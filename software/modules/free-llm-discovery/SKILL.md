@@ -8,125 +8,75 @@ metadata:
 
 # Free LLM Discovery
 
-Research current free API-accessible LLMs and keep the repository's LiteLLM
-coding fallback pool accurate. Complete the research and edits rather than
-stopping after recommendations.
-
-## Target Files
-
-- `software/modules/litellm.nix`: providers, model IDs, credentials names, and
-  fallback order.
-- `software/modules/litellm.md`: human-readable provider order and setup notes.
-- `software/common/opencode/opencode.json`: only when the pool's minimum
-  context, output, tool support, endpoint, or public alias changes.
-
-Never read, print, edit, or commit `/etc/litellm/credentials.env` or real API
-keys.
+Research current free API LLMs and update the LiteLLM coding pool. Complete
+edits; do not stop after recommendations.
 
 ## Workflow
 
-### 1. Inspect The Existing Pool
+### 1. Inspect
 
-Read the target files and inspect Git status before researching. Preserve
-unrelated worktree changes. Record the current public alias, provider order,
-model IDs, credential variable names, routing settings, minimum context, and
-minimum output limit.
+Read Git status and:
 
-The externally visible primary model must remain `free-coding` unless the user
-explicitly requests a breaking rename.
+- `software/modules/litellm.nix`: providers, credentials, routing, and limits.
+- `software/modules/litellm.md`: documented order and setup.
+- `software/common/opencode/opencode.json`: shared model capabilities and alias.
 
-### 2. Search The Web
+Preserve unrelated changes and public alias `free-coding`. Never read, print,
+edit, or commit `/etc/litellm/credentials.env` or real API keys.
 
-Search the web using the current date. Prefer official pricing, quota, model,
-rate-limit, privacy, and API documentation. Use third-party sources only to
-find leads, then verify each claim against an official source or a live official
-model catalog.
+### 2. Research
 
-For every incumbent provider and credible replacement, verify:
+Search web using current date. Verify third-party leads against official
+pricing, quota, model, rate-limit, privacy, API docs, or live catalogs.
 
-- Whether free API usage is recurring, zero-priced but rate-limited, or a
-  one-time/expiring trial.
-- Exact free tokens, credits, requests, RPM, TPM, RPD, and reset period. Do not
-  present a rate ceiling as an allocated quota.
-- Exact current API model ID, context window, maximum output, tool calling,
-  streaming, reasoning, and coding suitability.
-- Account, card, phone, identity, region, and automatic paid-overage
-  requirements.
-- Prompt retention, training, and privacy controls.
-- Native LiteLLM provider prefix and required parameters for the repository's
-  pinned LiteLLM version.
+For incumbents and credible replacements, verify:
+
+- Free-tier type, exact allocation/reset, and separate RPM/TPM/RPD ceilings.
+- Exact API model ID, context/output, tools, streaming, reasoning, and coding.
+- Account, payment, identity, region, and automatic overage requirements.
+- Retention, training, and privacy controls.
+- Native support and required parameters in the pinned LiteLLM release.
 
 Treat old blog posts, referral offers, consumer chat quotas, OAuth workarounds,
-and web-only plans as stale until officially confirmed for API use. Flag
-conflicting documentation instead of guessing.
+and web-only plans as stale until officially verified. Report conflicts.
 
-### 3. Select And Rank
+### 3. Rank
 
-By default, include only ongoing free API routes in the persistent pool.
-Exclude one-time signup credits and expiring trials unless the user asks for
-them.
+Use ongoing free API routes by default; exclude one-time credits and trials
+unless requested. Require tool calling and prefer at least 128K context.
 
-Rank candidates using this priority:
+Rank by:
 
-1. Coding, reasoning, and reliable tool-calling capability.
-2. Recurring free allowance and hard protection against paid overage.
-3. Availability and stable API behavior.
-4. Context and output limits suitable for OpenCode agent sessions.
-5. Privacy and retention terms.
+1. Coding, reasoning, and reliable tool calling.
+2. Recurring allowance and protection against paid overage.
+3. Availability and API stability.
+4. Context/output limits and privacy.
 
-Prefer models with at least a 128K context window. Do not add a model without
-tool calling to the coding pool. If no candidate satisfies those constraints,
-report the gap rather than silently weakening the pool.
+Report gaps rather than silently weakening requirements.
 
-### 4. Verify LiteLLM Compatibility
+### 4. Update
 
-Confirm that the pinned LiteLLM release recognizes each native provider prefix.
-Do not assume a newly announced model appears in LiteLLM's cost map; arbitrary
-model forwarding may still work when the provider integration supports it.
+- Keep `model_list`, numbered deployment names, `router_settings.fallbacks`, and
+  `litellm.md` in identical order.
+- Primary name is `free-coding`; fallbacks are
+  `free-coding-02-<provider>`, `free-coding-03-<provider>`, etc. Every fallback
+  must resolve once.
+- Confirm provider support in pinned LiteLLM. A model absent from its cost map
+  may still forward. Otherwise use an official OpenAI-compatible endpoint,
+  never a reverse-engineered or terms-violating one.
+- Preserve host, manual startup, credentials, retries, cooldowns, timeouts, and
+  firewall unless asked. Add empty credential variable names, never values.
+- Update docs and use minimum shared capabilities for OpenCode model metadata.
 
-When native support is unavailable but the vendor officially provides an
-OpenAI-compatible endpoint, use LiteLLM's generic OpenAI-compatible route with
-an environment-referenced API base. Do not use reverse-engineered browser
-endpoints or terms-of-service workarounds.
+### 5. Verify
 
-Do not run a Nix evaluation or full NixOS build unless the user explicitly asks
-for one.
+- `free-coding` exists once and is intended primary.
+- Every fallback exists once in documented order.
+- Credential names match configuration and docs.
+- No paid/trial model or secret entered persistent configuration unnoticed.
 
-### 5. Update The Configuration
-
-Keep all three order representations synchronized:
-
-1. Physical order in `model_list`.
-2. Numeric deployment names.
-3. Order in `router_settings.fallbacks` and `litellm.md`.
-
-The first deployment uses `model_name = "free-coding"`. Name subsequent
-deployments `free-coding-02-<provider>`, `free-coding-03-<provider>`, and so on.
-Every fallback name must resolve to exactly one `model_list` entry. Do not add
-the primary alias to its own fallback list.
-
-Preserve host binding, manual systemd startup, credential-file handling,
-timeouts, retries, cooldowns, and firewall settings unless the user asks to
-change them. Add new credential environment variable names with empty defaults,
-but never add credential values.
-
-Update `litellm.md` whenever providers, models, credentials, order, or behavior
-changes. Update OpenCode's model metadata conservatively using the minimum
-capabilities shared by every fallback model.
-
-### 6. Verify And Report
-
-Re-read the final model list and fallback chain. Check that:
-
-- `free-coding` exists exactly once and is the intended primary.
-- Every fallback exists exactly once and follows the documented order.
-- Credential variable names match their provider entries and documentation.
-- No paid-only or trial-only model entered the recurring pool unnoticed.
-- No secrets entered Git or the Nix store configuration.
-
-Run lightweight syntax, formatting, and diff checks that do not evaluate Nix.
-If OpenCode configuration changed, validate it against the current OpenCode
-schema. Do not commit unless the user requested a commit.
+Run syntax, formatting, and diff checks. Do not run Nix evaluation/build or
+commit unless requested. Validate OpenCode schema if its config changed.
 
 Report the research date, official source URLs, changed order, removed or
 rejected candidates, privacy or billing risks, and anything that could not be
