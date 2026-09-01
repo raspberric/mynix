@@ -4,14 +4,14 @@ LiteLLM listens on `127.0.0.1:4000`, is available at
 `http://litellm.localhost:4000`, and exposes the `free-coding` model alias. The
 service does not start automatically. It tries providers in this order:
 
-1. Mistral Medium
-2. Gemini Flash
-3. Cloudflare GPT-OSS 120B
-4. Groq GPT-OSS 120B
-5. SambaNova GPT-OSS 120B
-6. Cohere Command A
-7. Z.AI GLM Flash
-8. OpenRouter GLM free route
+1. OpenRouter GLM free route
+2. Z.AI GLM Flash
+3. Gemini Flash
+4. Cloudflare GPT-OSS 120B
+5. Groq GPT-OSS 120B
+6. SambaNova GPT-OSS 120B
+7. Cohere Command A
+8. Mistral Medium
 
 Provider credentials live in `/etc/litellm/credentials.env`. The NixOS module
 creates this file with mode `0600` but never puts its contents in the Nix store.

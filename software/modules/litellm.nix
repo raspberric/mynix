@@ -38,9 +38,10 @@ in {
 
     settings = {
       model_list = [
-        (deployment "free-coding" "mistral/mistral-medium-latest" "MISTRAL_API_KEY")
-        (deployment "free-coding-02-gemini" "gemini/gemini-3.7-flash" "GEMINI_API_KEY")
-        ((deployment "free-coding-03-cloudflare" "cloudflare/@cf/openai/gpt-oss-120b" "CLOUDFLARE_API_KEY")
+        (deployment "free-coding" "openrouter/z-ai/glm-5.2:free" "OPENROUTER_API_KEY")
+        (deployment "free-coding-02-zai" "zai/glm-4.7-flash" "ZAI_API_KEY")
+        (deployment "free-coding-03-gemini" "gemini/gemini-3.7-flash" "GEMINI_API_KEY")
+        ((deployment "free-coding-04-cloudflare" "cloudflare/@cf/openai/gpt-oss-120b" "CLOUDFLARE_API_KEY")
           // {
             litellm_params = {
               model = "cloudflare/@cf/openai/gpt-oss-120b";
@@ -48,27 +49,26 @@ in {
               account_id = "os.environ/CLOUDFLARE_ACCOUNT_ID";
             };
           })
-        (deployment "free-coding-04-groq" "groq/openai/gpt-oss-120b" "GROQ_API_KEY")
-        (deployment "free-coding-05-sambanova" "sambanova/gpt-oss-120b" "SAMBANOVA_API_KEY")
-        (deployment "free-coding-06-cohere" "cohere_chat/command-a-03-2025" "COHERE_API_KEY")
-        (deployment "free-coding-07-zai" "zai/glm-4.7-flash" "ZAI_API_KEY")
-        (deployment "free-coding-08-openrouter" "openrouter/z-ai/glm-5.2:free" "OPENROUTER_API_KEY")
+        (deployment "free-coding-05-groq" "groq/openai/gpt-oss-120b" "GROQ_API_KEY")
+        (deployment "free-coding-06-sambanova" "sambanova/gpt-oss-120b" "SAMBANOVA_API_KEY")
+        (deployment "free-coding-07-cohere" "cohere_chat/command-a-03-2025" "COHERE_API_KEY")
+        (deployment "free-coding-08-mistral" "mistral/mistral-medium-latest" "MISTRAL_API_KEY")
       ];
 
       router_settings = {
-        num_retries = 0;
+        num_retries = 2;
         allowed_fails = 1;
         cooldown_time = 300;
         fallbacks = [
           {
             "free-coding" = [
-              "free-coding-02-gemini"
-              "free-coding-03-cloudflare"
-              "free-coding-04-groq"
-              "free-coding-05-sambanova"
-              "free-coding-06-cohere"
-              "free-coding-07-zai"
-              "free-coding-08-openrouter"
+              "free-coding-02-zai"
+              "free-coding-03-gemini"
+              "free-coding-04-cloudflare"
+              "free-coding-05-groq"
+              "free-coding-06-sambanova"
+              "free-coding-07-cohere"
+              "free-coding-08-mistral"
             ];
           }
         ];
