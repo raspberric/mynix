@@ -1,4 +1,26 @@
 vim.opt.relativenumber = true
+
+if vim.env.HERDR_ENV == "1" then
+  local osc52_copy = require("vim.ui.clipboard.osc52").copy("+")
+  local clipboard_cache = { lines = {}, regtype = "v" }
+
+  local function copy(lines, regtype)
+    clipboard_cache.lines = vim.list_extend({}, lines)
+    clipboard_cache.regtype = regtype
+    osc52_copy(lines)
+  end
+
+  local function paste()
+    return { clipboard_cache.lines, clipboard_cache.regtype }
+  end
+
+  vim.g.clipboard = {
+    name = "OSC 52 (Herdr)",
+    copy = { ["+"] = copy, ["*"] = copy },
+    paste = { ["+"] = paste, ["*"] = paste },
+  }
+end
+
 vim.opt.clipboard = "unnamedplus"
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true, remap = false })
 vim.g.mapleader = " "
