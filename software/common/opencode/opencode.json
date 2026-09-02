@@ -1,4 +1,24 @@
 {
 	"$schema": "https://opencode.ai/config.json",
-	"plugin": ["./plugin/agent-memory.ts"]
+	"plugin": ["./plugin/agent-memory.ts"],
+	"provider": {
+		"litellm": {
+			"npm": "@ai-sdk/openai-compatible",
+			"name": "LiteLLM",
+			"options": {
+				"baseURL": "http://litellm.localhost:4000/v1",
+				"apiKey": "local"
+			},
+			"models": {
+				"free-coding": {
+					"name": "Free Coding Pool",
+					"tool_call": true,
+					"limit": {
+						"context": 128000,
+						"output": 8192
+					}
+				}
+			}
+		}
+	}
 }
