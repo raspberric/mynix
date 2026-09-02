@@ -61,6 +61,14 @@
       desktopTools = false;
     };
     dev = import ./software/dev.nix {inherit pkgs;};
+    vpsDev = import ./software/dev.nix {
+      inherit pkgs;
+      claudeMemoryLimits = {
+        high = "3G";
+        max = "4G";
+        swapMax = "512M";
+      };
+    };
     gui = import ./software/gui.nix {inherit pkgs;};
     unstable = import nixpkgs-unstable {inherit system;};
     herdrConfigured = import ./software/common/herdr/herdr.nix {
@@ -127,7 +135,7 @@
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
             nixpkgs.hostPlatform = system;
-            environment.systemPackages = [vpsTools dev herdrConfigured pkgs.mvim];
+            environment.systemPackages = [vpsTools vpsDev herdrConfigured pkgs.mvim];
           }
         ];
       };

@@ -1,5 +1,9 @@
-{pkgs, ...}: let
-  claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs;};
+{
+  pkgs,
+  claudeMemoryLimits ? null,
+  ...
+}: let
+  claudeConfigured = import ./common/claude-code/claude-code.nix {inherit pkgs claudeMemoryLimits;};
   opencodeConfigured = import ./common/opencode/opencode.nix {inherit pkgs;};
 in
   pkgs.symlinkJoin {
