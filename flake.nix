@@ -18,6 +18,10 @@
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     herdrFlake.url = "github:ogulcancelik/herdr/v0.7.1";
+    hermesAgent = {
+      url = "github:NousResearch/hermes-agent";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     disko = {
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -37,6 +41,7 @@
     opencodeFlake,
     nixpkgs-unstable,
     herdrFlake,
+    hermesAgent,
     disko,
     nixos-anywhere,
     ...
@@ -129,11 +134,14 @@
           ./software/common/sessionVariables.nix
           ./software/modules/optimize.nix
           ./software/llms/litellm/litellm.nix
+          hermesAgent.nixosModules.default
+          ./software/services/hermes.nix
           ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
             nixpkgs.hostPlatform = system;
+            services.hermes-agent.package = hermesAgent.packages.${system}.minimal;
             environment.systemPackages = [vpsTools vpsDev herdrConfigured pkgs.mvim];
           }
         ];

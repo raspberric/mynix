@@ -259,6 +259,44 @@ nixos-rebuild switch --flake .#vps --sudo
 Do not rerun `vps-facts`: committed `instance.nix` is the machine definition,
 not data to regenerate during updates.
 
+## Hermes Agent
+
+The VPS runs Hermes as the unprivileged `hermes` system user. It uses the
+localhost-only LiteLLM `free-coding` pool and runs every terminal tool call in
+a rootless, resource-limited Podman sandbox. Neither Hermes nor LiteLLM opens
+a public firewall port.
+
+After deploying the configuration, connect over SSH as `xpo` and use the
+shared CLI state directly:
+
+```bash
+hermes
+```
+
+The gateway starts at boot. Starting it also starts its required LiteLLM
+dependency:
+
+```bash
+sudo systemctl start hermes-agent
+sudo systemctl stop hermes-agent
+sudo systemctl restart hermes-agent
+sudo systemctl status hermes-agent
+sudo journalctl -u hermes-agent -f
+```
+
+Keep provider credentials in `/etc/litellm/credentials.env`; do not add them
+to the Nix configuration or Hermes state. Confirm the sandbox runtime after
+starting Hermes:
+
+```bash
+sudo -u hermes env XDG_RUNTIME_DIR=/run/hermes-agent podman info
+```
+
+Hermes sandbox containers are deliberately isolated from host project
+directories. To let an agent work on a repository, clone it from within the
+Hermes session or add an explicit, reviewed volume mount to the Hermes service
+configuration.
+
 ## Rebuild Safety
 
 Both rebuild methods evaluate the same `nixosConfigurations.vps` and produce the
