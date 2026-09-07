@@ -4,12 +4,9 @@
   ...
 }: {
   virtualisation.docker = {
-    # this will not be necessary after we update to 26.05
-    package = unstable.docker_29;
     enable = true;
     enableOnBoot = false;
     rootless = {
-      package = unstable.docker_29;
       enable = true;
       setSocketVariable = true;
     };
@@ -28,4 +25,5 @@
     unstable.docker-buildx
     lazydocker
   ];
+  environment.sessionVariables.BUILDX_BAKE_FILE_RELATIVE_PATHS = "1";
 }
