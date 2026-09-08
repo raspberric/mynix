@@ -4,7 +4,14 @@
   ...
 }: let
   claudeConfigured = import ./llms/claude-code/claude-code.nix {inherit pkgs claudeMemoryLimits;};
-  opencodeConfigured = import ./llms/opencode/opencode.nix {inherit pkgs;};
+  opencodePersonal = import ./llms/opencode/opencode.nix {
+    inherit pkgs;
+    name = "opencode-personal";
+  };
+  opencodeWork = import ./llms/opencode/opencode.nix {
+    inherit pkgs;
+    name = "opencode-work";
+  };
 in
   pkgs.symlinkJoin {
     name = "dev";
@@ -12,7 +19,8 @@ in
       nodejs_24
       pnpm
       claudeConfigured
-      opencodeConfigured
+      opencodePersonal
+      opencodeWork
       python314
       uv
       gcc

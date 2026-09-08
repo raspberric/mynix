@@ -1,9 +1,11 @@
 {
   pkgs,
+  name ? "opencode",
+  profile ? name,
   ...
 }:
 pkgs.writeShellApplication {
-  name = "opencode";
+  inherit name;
   runtimeInputs = [pkgs.opencode];
   text = ''
     # Create a writable configuration directory
