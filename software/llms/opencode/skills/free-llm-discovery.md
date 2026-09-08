@@ -17,9 +17,9 @@ edits; do not stop after recommendations.
 
 Read Git status and:
 
-- `software/modules/litellm.nix`: providers, credentials, routing, and limits.
-- `software/modules/litellm.md`: documented order and setup.
-- `software/common/opencode/opencode.json`: shared model capabilities and alias.
+- `software/llms/litellm/litellm.nix`: providers, credentials, routing, and limits.
+- `software/llms/litellm/litellm.md`: documented order and setup.
+- `software/llms/opencode/opencode.json`: shared model capabilities and alias.
 
 Preserve unrelated changes and public alias `free-coding`. Never read, print,
 edit, or commit `/etc/litellm/credentials.env` or real API keys.
