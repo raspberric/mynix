@@ -3,8 +3,8 @@
   claudeMemoryLimits ? null,
   ...
 }: let
-  claudeConfigured = import ./common/llms/claude-code/claude-code.nix {inherit pkgs claudeMemoryLimits;};
-  opencodeConfigured = import ./common/llms/opencode/opencode.nix {inherit pkgs;};
+  claudeConfigured = import ./llms/claude-code/claude-code.nix {inherit pkgs claudeMemoryLimits;};
+  opencodeConfigured = import ./llms/opencode/opencode.nix {inherit pkgs;};
 in
   pkgs.symlinkJoin {
     name = "dev";
