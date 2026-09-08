@@ -25,5 +25,7 @@
     unstable.docker-buildx
     lazydocker
   ];
-  environment.sessionVariables.BUILDX_BAKE_FILE_RELATIVE_PATHS = "1";
+  environment.sessionVariables = {
+    DOCKER_CLI_PLUGIN_DIRS = "${unstable.docker-buildx}/libexec/docker/cli-plugins:${unstable.docker-compose}/libexec/docker/cli-plugins";
+  };
 }
