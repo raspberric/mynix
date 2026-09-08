@@ -17,7 +17,7 @@ pkgs.writeShellApplication {
 
       # Copy skills
       cp -rf "${./skills}/"* "$CONFIG_DIR/skills/" || true
-      install -Dm644 "${../../modules/free-llm-discovery/SKILL.md}" "$CONFIG_DIR/skills/free-llm-discovery/SKILL.md"
+      install -Dm644 "${../litellm/free-llm-discovery/SKILL.md}" "$CONFIG_DIR/skills/free-llm-discovery/SKILL.md"
       chmod -R u=rwX,go=rX "$CONFIG_DIR/skills/"* || true
 
       # Copy local plugins
