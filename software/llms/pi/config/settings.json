@@ -1,5 +1,0 @@
-{
-  "defaultProvider": "litellm",
-  "defaultModel": "free-coding",
-  "enableInstallTelemetry": false
-}
