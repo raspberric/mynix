@@ -79,6 +79,7 @@
           nixpkgsConfig
           ./machines/laptop/configuration.nix
           ./software/modules/k3d.nix
+          ./software/modules/litellm.nix
           ./software/modules/optimize.nix
           ./software/modules/tailscale.nix
           ./machines/laptop/hardware.nix
@@ -120,6 +121,7 @@
           ./machines/vps/disk-config.nix
           ./software/common/sessionVariables.nix
           ./software/modules/optimize.nix
+          ./software/modules/litellm.nix
           ./software/modules/tailscale.nix
           ./software/devshells/nix-ld.nix
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
