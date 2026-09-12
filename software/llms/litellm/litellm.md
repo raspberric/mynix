@@ -10,21 +10,17 @@ service does not start automatically. It tries providers in this order:
 4. Cloudflare GPT-OSS 120B
 5. Groq GPT-OSS 120B
 6. SambaNova GPT-OSS 120B
-7. Cohere Command A
-8. Mistral Medium
 
 Provider credentials live in `/etc/litellm/credentials.env`. The NixOS module
 creates this file with mode `0600` but never puts its contents in the Nix store.
 Add any available credentials using this format:
 
 ```sh
-MISTRAL_API_KEY=
 GEMINI_API_KEY=
 CLOUDFLARE_API_KEY=
 CLOUDFLARE_ACCOUNT_ID=
 GROQ_API_KEY=
 SAMBANOVA_API_KEY=
-COHERE_API_KEY=
 ZAI_API_KEY=
 OPENROUTER_API_KEY=
 ```

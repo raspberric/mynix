@@ -25,13 +25,11 @@ in {
     # Empty defaults let the gateway start before credentials are installed.
     # A provider with no key fails over to the next configured deployment.
     environment = {
-      MISTRAL_API_KEY = "";
       GEMINI_API_KEY = "";
       CLOUDFLARE_API_KEY = "";
       CLOUDFLARE_ACCOUNT_ID = "";
       GROQ_API_KEY = "";
       SAMBANOVA_API_KEY = "";
-      COHERE_API_KEY = "";
       ZAI_API_KEY = "";
       OPENROUTER_API_KEY = "";
     };
@@ -51,8 +49,6 @@ in {
           })
         (deployment "free-coding-05-groq" "groq/openai/gpt-oss-120b" "GROQ_API_KEY")
         (deployment "free-coding-06-sambanova" "sambanova/gpt-oss-120b" "SAMBANOVA_API_KEY")
-        (deployment "free-coding-07-cohere" "cohere_chat/command-a-03-2025" "COHERE_API_KEY")
-        (deployment "free-coding-08-mistral" "mistral/mistral-medium-latest" "MISTRAL_API_KEY")
       ];
 
       router_settings = {
@@ -67,8 +63,6 @@ in {
               "free-coding-04-cloudflare"
               "free-coding-05-groq"
               "free-coding-06-sambanova"
-              "free-coding-07-cohere"
-              "free-coding-08-mistral"
             ];
           }
         ];
