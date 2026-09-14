@@ -49,7 +49,9 @@ require("persistence_config").setup()
 require("trouble_config").setup()
 require("diffview").setup()
 require("flash_config").setup()
-require("opencode").setup()
+require("opencode").setup({
+  opencode_executable = "opencode-personal",
+})
 require("debug_config").setup()
 require("bookmarks").setup()
 require("tabs").setup()

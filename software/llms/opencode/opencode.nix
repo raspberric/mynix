@@ -17,6 +17,9 @@ pkgs.writeShellApplication {
     cp -f "${./opencode.json}" "$CONFIG_DIR/opencode.json" || true
     chmod 644 "$CONFIG_DIR/opencode.json"
 
+    cp -f "${./system-prompt.md}" "$CONFIG_DIR/system-prompt.md" || true
+    chmod 644 "$CONFIG_DIR/system-prompt.md"
+
     # Copy skills
     cp -rf "${./skills}/"* "$CONFIG_DIR/skills/" || true
     chmod -R u=rwX,go=rX "$CONFIG_DIR/skills/"* || true
@@ -29,7 +32,7 @@ pkgs.writeShellApplication {
     # or loading $HOME/config/.opencode when opencode is launched from here.
     CONFIG_REPO="$HOME/config"
     PWD_PHYSICAL="$(pwd -P)"
-    if [ -f "$CONFIG_REPO/software/common/opencode/opencode.nix" ] && { [ "$PWD_PHYSICAL" = "$CONFIG_REPO" ] || [ "''${PWD_PHYSICAL#"$CONFIG_REPO/"}" != "$PWD_PHYSICAL" ]; }; then
+    if [ -f "$CONFIG_REPO/software/llms/opencode/opencode.nix" ] && { [ "$PWD_PHYSICAL" = "$CONFIG_REPO" ] || [ "''${PWD_PHYSICAL#"$CONFIG_REPO/"}" != "$PWD_PHYSICAL" ]; }; then
       export OPENCODE_DISABLE_PROJECT_CONFIG=1
     fi
 
