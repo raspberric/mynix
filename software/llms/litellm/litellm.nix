@@ -5,12 +5,12 @@
 }: let
   credentialsFile = "/etc/litellm/credentials.env";
 
-  deployment = modelName: model: apiKey: {
-    model_name = modelName;
+  deployment = order: model: apiKey: extraParams: {
+    model_name = "free-coding";
     litellm_params = {
-      inherit model;
+      inherit model order;
       api_key = "os.environ/${apiKey}";
-    };
+    } // extraParams;
   };
 in {
   networking.hosts."127.0.0.1" = ["litellm.localhost"];
@@ -36,36 +36,20 @@ in {
 
     settings = {
       model_list = [
-        (deployment "free-coding" "openrouter/z-ai/glm-5.2:free" "OPENROUTER_API_KEY")
-        (deployment "free-coding-02-zai" "zai/glm-4.7-flash" "ZAI_API_KEY")
-        (deployment "free-coding-03-gemini" "gemini/gemini-3.7-flash" "GEMINI_API_KEY")
-        ((deployment "free-coding-04-cloudflare" "cloudflare/@cf/openai/gpt-oss-120b" "CLOUDFLARE_API_KEY")
-          // {
-            litellm_params = {
-              model = "cloudflare/@cf/openai/gpt-oss-120b";
-              api_key = "os.environ/CLOUDFLARE_API_KEY";
-              account_id = "os.environ/CLOUDFLARE_ACCOUNT_ID";
-            };
-          })
-        (deployment "free-coding-05-groq" "groq/openai/gpt-oss-120b" "GROQ_API_KEY")
-        (deployment "free-coding-06-sambanova" "sambanova/gpt-oss-120b" "SAMBANOVA_API_KEY")
+        (deployment 1 "openrouter/z-ai/glm-5.2:free" "OPENROUTER_API_KEY" {})
+        (deployment 2 "zai/glm-4.7-flash" "ZAI_API_KEY" {})
+        (deployment 3 "gemini/gemini-3.7-flash" "GEMINI_API_KEY" {})
+        (deployment 4 "cloudflare/@cf/openai/gpt-oss-120b" "CLOUDFLARE_API_KEY" {
+          account_id = "os.environ/CLOUDFLARE_ACCOUNT_ID";
+        })
+        (deployment 5 "groq/openai/gpt-oss-120b" "GROQ_API_KEY" {})
+        (deployment 6 "sambanova/gpt-oss-120b" "SAMBANOVA_API_KEY" {})
       ];
 
       router_settings = {
         num_retries = 2;
-        allowed_fails = 1;
+        allowed_fails = 2;
         cooldown_time = 300;
-        fallbacks = [
-          {
-            "free-coding" = [
-              "free-coding-02-zai"
-              "free-coding-03-gemini"
-              "free-coding-04-cloudflare"
-              "free-coding-05-groq"
-              "free-coding-06-sambanova"
-            ];
-          }
-        ];
       };
 
       litellm_settings = {

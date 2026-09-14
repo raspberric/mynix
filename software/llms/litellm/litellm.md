@@ -2,7 +2,8 @@
 
 LiteLLM listens on `127.0.0.1:4000`, is available at
 `http://litellm.localhost:4000`, and exposes the `free-coding` model alias. The
-service does not start automatically. It tries providers in this order:
+service does not start automatically. All deployments share the `free-coding`
+model group and are tried in this priority order:
 
 1. OpenRouter GLM free route
 2. Z.AI GLM Flash
@@ -42,6 +43,11 @@ curl http://litellm.localhost:4000/health/liveliness
 curl http://litellm.localhost:4000/v1/models
 ```
 
+LiteLLM retries a deployment twice before moving to the next priority, for up
+to three attempts total. It records failures for five minutes; the third
+ordinary failure in that window cools the deployment down for five minutes and
+subsequent requests skip it. A `429` rate-limit or quota response is cooled
+down immediately, since retrying a known exhausted quota is not useful.
+
 Quota exhaustion is detected reactively from provider errors. LiteLLM cannot
-query a standardized remaining-free-quota API. A deployment that fails is
-cooled down for five minutes before LiteLLM tries it again.
+query a standardized remaining-free-quota API.
