@@ -1,4 +1,8 @@
-{pkgs, ...}: let
+{
+  pkgs,
+  unstable,
+  ...
+}: let
   ds-beamng = pkgs.writeShellApplication {
     name = "ds-beamng";
     runtimeInputs = [pkgs.dualsensectl];
@@ -20,6 +24,6 @@ in {
     ds-beamng
     discordConfigured
     pkgs.heroic
-    pkgs.r2modman
+    unstable.gale
   ];
 }

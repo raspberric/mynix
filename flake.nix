@@ -83,6 +83,9 @@
   in {
     nixosConfigurations = {
       nixos = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit unstable;
+        };
         modules = [
           nixpkgsConfig
           ./machines/laptop/configuration.nix
