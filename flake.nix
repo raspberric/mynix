@@ -14,7 +14,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     opencodeFlake = {
-      url = "github:anomalyco/opencode?rev=f06b78751e08ca38dc50da7f7ca1c408e6ad6298";
+      url = "github:anomalyco/opencode?rev=aec0b9a6d8898f68f923aaf08b7306d931fd9d76";
     };
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     herdrFlake.url = "github:ogulcancelik/herdr/v0.7.1";
