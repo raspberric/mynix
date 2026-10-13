@@ -97,6 +97,7 @@
           ./software/modules/k3d.nix
           ./software/modules/optimize.nix
           ./software/modules/tailscale.nix
+          ./software/services/srb-id.nix
           ./machines/laptop/hardware.nix
           ./software/gaming.nix
           ./software/common/sessionVariables.nix

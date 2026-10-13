@@ -1,5 +1,5 @@
 {pkgs, ...}:
-# run register-srb-id-chrome after to register the smartcard module to nss db
+# The laptop's srb-id service registers this module at boot.
 pkgs.callPackage (
   {
     lib,
@@ -10,6 +10,7 @@ pkgs.callPackage (
     pkg-config,
     pcsclite,
     nssTools,
+    coreutils,
     makeWrapper,
   }:
     stdenv.mkDerivation (finalAttrs: {
@@ -72,20 +73,18 @@ pkgs.callPackage (
 
         echo "Setting up Serbian ID PKCS#11 module for Chrome/Chromium..."
 
-        if [ ! -d "$NSSDB" ]; then
-            echo "Creating NSS database directory at $NSSDB..."
-            mkdir -p "$NSSDB"
+        mkdir -p "$NSSDB"
+        if [ ! -f "$NSSDB/cert9.db" ]; then
+            echo "Creating NSS database at $NSSDB..."
             modutil -force -create -dbdir sql:"$NSSDB"
         fi
 
-        # Check if module already exists
-        if modutil -dbdir sql:"$NSSDB" -list | grep -q "$MODULE_NAME"; then
-            echo "Module '$MODULE_NAME' is already registered. Removing old entry..."
-            modutil -force -dbdir sql:"$NSSDB" -delete "$MODULE_NAME"
-        fi
-
+        # Unlike -add, -rawadd can persist the registration even if module
+        # initialization fails (pcscd denies access before a desktop login).
+        # It also replaces an existing entry with the same name.
         echo "Registering module..."
-        modutil -force -dbdir sql:"$NSSDB" -add "$MODULE_NAME" -libfile "$SO_PATH"
+        modutil -force -dbdir sql:"$NSSDB" \
+          -rawadd "name=\"$MODULE_NAME\" library=\"$SO_PATH\""
 
         echo "Success! The Serbian ID module has been registered."
         echo "Please completely restart Chrome/Chromium for the changes to take effect."
@@ -97,9 +96,9 @@ pkgs.callPackage (
 
         chmod +x $out/bin/register-srb-id-chrome
 
-        # Ensure modutil is available when the script runs
+        # Include runtime tools for non-interactive systemd execution.
         wrapProgram $out/bin/register-srb-id-chrome \
-          --prefix PATH : ${lib.makeBinPath [nssTools]}
+          --prefix PATH : ${lib.makeBinPath [nssTools coreutils]}
       '';
 
       meta = with lib; {
@@ -107,7 +106,6 @@ pkgs.callPackage (
         homepage = "https://github.com/ubavic/srb-id-pkcs11";
         license = licenses.unlicense;
         platforms = platforms.linux;
-        # you have to run this so the .so gets injected into nss db
         mainProgram = "register-srb-id-chrome";
       };
     })
