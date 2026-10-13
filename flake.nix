@@ -107,7 +107,7 @@
           })
           (import ./software/modules/virtualization.nix {inherit pkgs unstable;})
           {
-            environment.systemPackages = [tools dev gui pkgs.mvim pkgs.fedev pkgs.pydev (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;}) herdrConfigured];
+            environment.systemPackages = [tools dev gui (import ./software/gui/kdenlive.nix {inherit pkgs;}) pkgs.mvim pkgs.fedev pkgs.pydev (import ./software/common/srb-id-pkcs11-chrome.nix {inherit pkgs;}) herdrConfigured];
           }
         ];
       };
