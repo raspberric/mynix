@@ -26,6 +26,7 @@ in
       ])
       ++ pkgs.lib.optionals desktopTools (with pkgs; [
         xclip
+        wl-clipboard
         tuxedo
       ]);
   }
