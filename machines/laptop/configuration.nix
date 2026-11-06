@@ -13,6 +13,14 @@
   services.xserver.enable = true;
   services.displayManager.gdm.enable = true;
   services.desktopManager.gnome.enable = true;
+  environment.systemPackages = [pkgs.gnomeExtensions.draw-on-gnome];
+  programs.dconf.profiles.user.databases = [
+    {
+      settings."org/gnome/shell" = {
+        enabled-extensions = [pkgs.gnomeExtensions.draw-on-gnome.extensionUuid];
+      };
+    }
+  ];
   services.xserver.xkb = {
     layout = "us";
     variant = "";
