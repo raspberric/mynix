@@ -3,6 +3,14 @@
   claudeMemoryLimits ? null,
   ...
 }: let
+  # Pinned to Anthropic's stable channel; checksum from the release manifest.
+  claudeCode = pkgs.claude-code.overrideAttrs (finalAttrs: _prev: {
+    version = "2.1.311";
+    src = pkgs.fetchurl {
+      url = "https://downloads.claude.ai/claude-code-releases/${finalAttrs.version}/linux-x64/claude";
+      hash = "sha256-htwfzGlJgVnq8V9EZhPoRwEPkDa/u9/9TEk1C+hImto=";
+    };
+  });
   launchClaude =
     if claudeMemoryLimits == null
     then ''exec claude "$@"''
@@ -21,7 +29,7 @@
 in
 pkgs.writeShellApplication {
   name = "claude";
-  runtimeInputs = [pkgs.claude-code] ++ pkgs.lib.optional (claudeMemoryLimits != null) pkgs.systemd;
+  runtimeInputs = [claudeCode] ++ pkgs.lib.optional (claudeMemoryLimits != null) pkgs.systemd;
   text = ''
     # Create the config directory if it doesn't exist
     CONFIG_DIR="$HOME/.claude"
