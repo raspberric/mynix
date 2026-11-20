@@ -9,8 +9,24 @@
     rootless = {
       enable = true;
       setSocketVariable = true;
+      daemon.settings = {
+        builder.gc = {
+          enabled = true;
+          defaultReservedSpace = "5GB";
+          defaultMaxUsedSpace = "15GB";
+          defaultMinFreeSpace = "50GB";
+        };
+        "log-driver" = "local";
+        "log-opts" = {
+          "max-size" = "10m";
+          "max-file" = "3";
+        };
+      };
     };
   };
+  # enable ort opening on rootless docker
+  boot.kernel.sysctl."net.ipv4.ip_unprivileged_port_start" = 0;
+
   # keep systemctl services alive on logout
   users.users.xpo.linger = true;
 
