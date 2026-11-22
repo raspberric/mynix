@@ -71,7 +71,21 @@ function M.setup ()
 			sources = {
 				files = {
 					root = false,
-				}
+				},
+				explorer = {
+					actions = {
+						scroll_down_line = function(picker) picker.list:scroll(vim.v.count1) end,
+						scroll_up_line = function(picker) picker.list:scroll(-vim.v.count1) end,
+					},
+					win = {
+						list = {
+							keys = {
+								["<C-e>"] = { "scroll_down_line", desc = "Scroll down" },
+								["<C-y>"] = { "scroll_up_line", desc = "Scroll up" },
+							},
+						},
+					},
+				},
 			}
 		},
 		notifier = {
